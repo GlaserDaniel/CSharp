@@ -15,8 +15,9 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
+[Xx]64/
+[Xx]86/
+[Bb]uild/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -239,6 +240,10 @@ FakesAssemblies/
 **/*.Server/GeneratedArtifacts
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
+
+# LightSwitch generated files
+GeneratedArtifacts/
+ModelManifest.xml
 
 # Paket dependency manager
 .paket/paket.exe
