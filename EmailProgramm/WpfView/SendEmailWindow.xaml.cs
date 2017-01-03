@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Common;
 
 namespace WpfView
 {
@@ -28,6 +29,16 @@ namespace WpfView
         private void SendEmail_Click(object sender, RoutedEventArgs e)
         {
             // TODO Email senden
+            Email email = new Email();
+
+            email.sender = senderTextBox.Text;
+            email.receiver = receiverTextBox.Text;
+            email.subject = subjectTextBox.Text;
+            email.message = messageTextBox.Text;
+
+            EmailController emailController = new EmailController();
+            
+            emailController.sendEmail(email);
             Close();
         }
 

@@ -8,12 +8,15 @@ namespace Common
 {
     public class Email
     {
-        String sender;
-        String receiver;
-        String header;
-        String message;
-        String fileURI;
+        public String sender { get; set; }
+        public String receiver { get; set; }
+        public String subject { get; set; }
+        public String message { get; set; }
+        public String fileURI { get; set; }
 
+        public Email()
+        {
 
+        }
     }
 }
