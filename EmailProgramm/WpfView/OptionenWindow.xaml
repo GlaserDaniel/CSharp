@@ -1,0 +1,45 @@
+﻿<Window x:Class="WpfView.OptionenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfView"
+        mc:Ignorable="d"
+        
+        Title="OptionenWindow"
+        Height="291.596"
+        Width="429.412"
+        MinHeight="300"
+        MinWidth="400">
+    <Grid>
+        <DockPanel>
+            <DockPanel 
+                DockPanel.Dock="Bottom"
+                >
+                <Button x:Name="AppendSettings" DockPanel.Dock="Right" Width="100" Content="Übernehmen" Margin="10,10,10,10" Click="AppendSettings_Click"></Button>
+                <Button x:Name="AbortSettings" DockPanel.Dock="Right" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="AbortSettings_Click"></Button>
+                <Grid></Grid>
+            </DockPanel>
+            <TabControl x:Name="tabControl" Margin="10">
+                <TabItem Header="Config">
+                    <Grid Background="#FFE5E5E5">
+                        <Label x:Name="label" Content="Username" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="109"/>
+                        <TextBox x:Name="textBox" Height="23" Margin="124,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Benutzername oder die Email-Adresse des Kontos"/>
+                        <Label x:Name="label1" Content="Password" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="109"/>
+                        <PasswordBox x:Name="passwordBox" Height="23" Margin="124,44,10,0" VerticalAlignment="Top"/>
+                        <Label x:Name="label2" Content="SMTP-Server" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="109" Height="26"/>
+                        <TextBox x:Name="textBox2" Height="23" Margin="124,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Adresse des SMTP-Servers"/>
+                        <Label x:Name="label3" Content="Port" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Width="109" Height="26"/>
+                        <TextBox x:Name="textBox4" Height="23" Margin="124,106,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Port des SMTP-Servers"/>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Mehr">
+                    <Grid Background="#FFE5E5E5">
+
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>

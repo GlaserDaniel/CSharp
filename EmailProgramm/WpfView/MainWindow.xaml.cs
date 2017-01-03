@@ -30,5 +30,11 @@ namespace WpfView
             Console.WriteLine("SendEmail_Click");
             new SendEmailWindow();
         }
+
+        private void Optionen_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Optionen_Click");
+            new OptionenWindow();
+        }
     }
 }

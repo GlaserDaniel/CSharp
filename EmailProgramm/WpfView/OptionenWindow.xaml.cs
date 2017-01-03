@@ -15,23 +15,23 @@ using System.Windows.Shapes;
 namespace WpfView
 {
     /// <summary>
-    /// Interaction logic for SendEmailWindow.xaml
+    /// Interaction logic for OptionenWindow.xaml
     /// </summary>
-    public partial class SendEmailWindow : Window
+    public partial class OptionenWindow : Window
     {
-        public SendEmailWindow()
+        public OptionenWindow()
         {
             InitializeComponent();
             Show();
         }
 
-        private void SendEmail_Click(object sender, RoutedEventArgs e)
+        private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
-            // TODO Email senden
+            // TODO Einstellungen übernehmen
             Close();
         }
 
-        private void AbortSendEmail_Click(object sender, RoutedEventArgs e)
+        private void AbortSettings_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
