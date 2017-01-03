@@ -12,7 +12,7 @@
     <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="19" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
         <Menu x:Name="menu1" HorizontalAlignment="Left" Height="19" Margin="115,10,0,0" VerticalAlignment="Top" Width="100"/>
-        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Left" Height="10" Margin="10,34,0,0" VerticalAlignment="Top" Width="696"/>
+        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Height="10" Margin="10,34,10,0" VerticalAlignment="Top"/>
         <Button x:Name="SendEmail" Content="Email schreiben" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="75" Click="SendEmail_Click"/>
 
     </Grid>
