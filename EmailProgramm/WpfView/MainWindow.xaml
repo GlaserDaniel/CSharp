@@ -10,10 +10,33 @@
         WindowStartupLocation="CenterOwner"
         WindowState="Maximized">
     <Grid>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="19" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
-        <Menu x:Name="menu1" HorizontalAlignment="Left" Height="19" Margin="115,10,0,0" VerticalAlignment="Top" Width="100"/>
-        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Height="10" Margin="10,34,10,0" VerticalAlignment="Top"/>
-        <Button x:Name="SendEmail" Content="Email schreiben" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="75" Click="SendEmail_Click"/>
+        <DockPanel>
+            <StackPanel 
+                DockPanel.Dock="Top"
+                Margin="0,0,0,10">
+                <StackPanel
+                    Orientation="Horizontal">
+                    <Menu x:Name="menu" HorizontalAlignment="Left" Height="19" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Menu x:Name="menu1" HorizontalAlignment="Left" Height="19" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
+                </StackPanel>
+                <GridSplitter DockPanel.Dock="Top" x:Name="gridSplitter" HorizontalAlignment="Stretch" Height="10" Margin="10,10,10,0" VerticalAlignment="Top"/>
+                <Button DockPanel.Dock="Top" x:Name="SendEmail" Content="Email schreiben" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="SendEmail_Click" Height="50"/>
+            </StackPanel>
 
+            <StackPanel 
+                DockPanel.Dock="Left"
+                Margin="10,10,10,10">
+                <Button x:Name="Posteingang" Content="Posteingang"/>
+            </StackPanel>
+            <StackPanel
+                Margin="10,10,10,10">
+                <StackPanel>
+                    
+                </StackPanel>
+                <StackPanel>
+                    
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>
