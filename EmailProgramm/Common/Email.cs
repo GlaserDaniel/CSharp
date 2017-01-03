@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class Class1
+    public class Email
     {
+        String sender;
+        String receiver;
+        String header;
+        String message;
+        String fileURI;
+
+
     }
 }

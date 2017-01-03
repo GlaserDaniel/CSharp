@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfView"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="528.775" Width="724.019">
     <Grid>
-        
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="19" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
+        <Menu x:Name="menu1" HorizontalAlignment="Left" Height="19" Margin="115,10,0,0" VerticalAlignment="Top" Width="100"/>
+
     </Grid>
 </Window>
