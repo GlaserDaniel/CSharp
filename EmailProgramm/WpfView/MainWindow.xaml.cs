@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CSharp_Studienarbeit
+namespace WpfView
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

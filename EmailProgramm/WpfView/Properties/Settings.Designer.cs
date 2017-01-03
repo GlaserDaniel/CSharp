@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CSharp_Studienarbeit.Properties
+namespace WpfView.Properties
 {
 
 
