@@ -24,5 +24,11 @@ namespace WpfView
         {
             InitializeComponent();
         }
+
+        private void SendEmail_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("SendEmail_Click");
+            new SendEmailWindow();
+        }
     }
 }
