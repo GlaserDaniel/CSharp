@@ -8,7 +8,9 @@
         
         Title="MainWindow"
         WindowStartupLocation="CenterOwner"
-        WindowState="Maximized">
+        WindowState="Maximized"
+        MinHeight="400"
+        MinWidth="600">
     <Grid>
         <DockPanel>
             <StackPanel 
