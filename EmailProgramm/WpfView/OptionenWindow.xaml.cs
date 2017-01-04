@@ -39,7 +39,7 @@ namespace WpfView
         private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
             // TODO Einstellungen übernehmen
-            settingsController.setAccount(userTextBox.Text, emailTextBox.Text, passwordBox.Password, serverTextBox.Text, int.Parse(portTextBox.Text));
+            settingsController.addAccount(userTextBox.Text, emailTextBox.Text, passwordBox.Password, serverTextBox.Text, int.Parse(portTextBox.Text));
             Close();
         }
 

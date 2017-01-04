@@ -11,10 +11,9 @@ namespace Common
     {
         Account account;
 
-        public EmailController()
+        public EmailController(Account account)
         {
-            SettingsController settingsController = new SettingsController();
-            this.account = settingsController.account;
+            this.account = account;
         }
 
         // Snippet von www.code-bude.net
@@ -37,6 +36,9 @@ namespace Common
 
             //Ausgangsserver initialisieren
             SmtpClient MailClient = new SmtpClient(account.server, account.port);
+
+            // SSL aktivieren
+            // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
             MailClient.EnableSsl = true;
 
             if (account.user.Length > 0 && account.user != string.Empty)
@@ -50,9 +52,10 @@ namespace Common
 
             //Email absenden
             try {
-                MailClient.Send(mailMessage); // TODO SendMailAsync
+                MailClient.SendMailAsync(mailMessage); // TODO SendMailAsync
             } catch (SmtpException e)
             {
+                // TODO Benachrichtigung das es nicht funktioniert hat!
                 Console.WriteLine("SMTP Exception: " + e);
             }
         }

@@ -15,7 +15,8 @@
         <DockPanel>
             <Grid DockPanel.Dock="Top">
                 <Label x:Name="senderLabel" Content="Sender" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="senderTextBox" Text="{Binding account.email}" Height="23" Margin="94,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <ComboBox x:Name="senderComboBox" Text="{Binding accounts[0].email}" Margin="94,10,10,0" VerticalAlignment="Top"/>
+                <!--<TextBox x:Name="senderTextBox" Text="{Binding account.email}" Height="23" Margin="94,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>-->
                 <Label x:Name="receiverLabel" Content="Empfänger" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="receiverTextBox" Text="danielglaser9@gmail.com" Height="23" Margin="94,38,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
                 <Label x:Name="subjectLabel" Content="Betreff" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>

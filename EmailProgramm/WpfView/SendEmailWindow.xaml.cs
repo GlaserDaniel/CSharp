@@ -33,6 +33,8 @@ namespace WpfView
         {
             settingsController = new SettingsController();
 
+            senderComboBox.Items.Add(((Account) settingsController.accounts[0]).email);
+
             DataContext = settingsController;
         }
 
@@ -41,12 +43,12 @@ namespace WpfView
             // TODO Email senden
             Email email = new Email();
 
-            email.sender = senderTextBox.Text;
+            email.sender = senderComboBox.Text;
             email.receiver = receiverTextBox.Text;
             email.subject = subjectTextBox.Text;
             email.message = messageTextBox.Text;
 
-            EmailController emailController = new EmailController();
+            EmailController emailController = new EmailController((Account) settingsController.accounts[0]);
             
             emailController.sendEmail(email);
             Close();
