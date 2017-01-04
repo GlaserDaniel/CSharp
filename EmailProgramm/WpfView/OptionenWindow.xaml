@@ -23,14 +23,27 @@
             <TabControl x:Name="tabControl" Margin="10">
                 <TabItem Header="Config">
                     <Grid Background="#FFE5E5E5">
-                        <Label x:Name="label" Content="Username" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="109"/>
-                        <TextBox x:Name="textBox" Height="23" Margin="124,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Benutzername oder die Email-Adresse des Kontos"/>
-                        <Label x:Name="label1" Content="Password" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="109"/>
-                        <PasswordBox x:Name="passwordBox" Height="23" Margin="124,44,10,0" VerticalAlignment="Top"/>
-                        <Label x:Name="label2" Content="SMTP-Server" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="109" Height="26"/>
-                        <TextBox x:Name="textBox2" Height="23" Margin="124,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Adresse des SMTP-Servers"/>
-                        <Label x:Name="label3" Content="Port" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Width="109" Height="26"/>
-                        <TextBox x:Name="textBox4" Height="23" Margin="124,106,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Port des SMTP-Servers"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" x:Name="userLabel" Content="Username" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Top" Width="109"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="userTextBox" Text="{Binding account.user}" Height="23" Margin="5,7,5,5" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Benutzername oder die Email-Adresse des Kontos"/>
+                        <Label Grid.Row="1" Grid.Column="0" x:Name="emailLabel" Content="Email" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Top" Width="109"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="emailTextBox" Text="{Binding account.email}" Height="23" Margin="5,7,5,5" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Email-Adresse des Kontos"/>
+                        <Label Grid.Row="2" Grid.Column="0" x:Name="passwordLabel" Content="Password" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Top" Width="109"/>
+                        <PasswordBox Grid.Row="2" Grid.Column="1" x:Name="passwordBox" Height="23" Margin="5,7,5,5" VerticalAlignment="Top"/>
+                        <Label Grid.Row="3" Grid.Column="0" x:Name="serverLabel" Content="SMTP-Server" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Top" Width="109" Height="26"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" x:Name="serverTextBox" Text="{Binding account.server}" Height="23" Margin="5,7,5,5" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Adresse des SMTP-Servers"/>
+                        <Label Grid.Row="4" Grid.Column="0" x:Name="portLabel" Content="Port" HorizontalAlignment="Left" Margin="5,5,5,5" VerticalAlignment="Top" Width="109" Height="26"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" x:Name="portTextBox" Text="{Binding account.port}" Height="23" Margin="5,7,5,5" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Port des SMTP-Servers"/>
 
                     </Grid>
                 </TabItem>

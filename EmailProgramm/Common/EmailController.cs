@@ -13,8 +13,8 @@ namespace Common
 
         public EmailController()
         {
-            // TODO Account auslesen
-            this.account = new Account("danielglaser9@gmail.com", "vgnFZ11s$", "smtp.googlemail.com", 465);
+            SettingsController settingsController = new SettingsController();
+            this.account = settingsController.account;
         }
 
         // Snippet von www.code-bude.net
@@ -27,7 +27,7 @@ namespace Common
             mailMessage.From = new MailAddress(email.sender);
             
             //Empfänger konfigurieren
-            mailMessage.To.Add(email.receiver);
+            mailMessage.To.Add(new MailAddress(email.receiver.Trim()));
 
             //Betreff einrichten
             mailMessage.Subject = email.subject;
@@ -37,16 +37,20 @@ namespace Common
 
             //Ausgangsserver initialisieren
             SmtpClient MailClient = new SmtpClient(account.server, account.port);
+            MailClient.EnableSsl = true;
 
             if (account.user.Length > 0 && account.user != string.Empty)
             {
                 //Login konfigurieren
                 MailClient.Credentials = new System.Net.NetworkCredential(account.user, account.password);
+                Console.WriteLine("Password: " + account.password);
             }
+
+            Console.WriteLine(mailMessage.To);
 
             //Email absenden
             try {
-                MailClient.Send(mailMessage);
+                MailClient.Send(mailMessage); // TODO SendMailAsync
             } catch (SmtpException e)
             {
                 Console.WriteLine("SMTP Exception: " + e);

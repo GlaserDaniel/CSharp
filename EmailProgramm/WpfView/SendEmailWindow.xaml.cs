@@ -20,10 +20,20 @@ namespace WpfView
     /// </summary>
     public partial class SendEmailWindow : Window
     {
+        SettingsController settingsController { get; set; }
+
         public SendEmailWindow()
         {
             InitializeComponent();
+            LoadData();
             Show();
+        }
+
+        private void LoadData()
+        {
+            settingsController = new SettingsController();
+
+            DataContext = settingsController;
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)

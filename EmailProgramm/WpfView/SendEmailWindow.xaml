@@ -14,13 +14,13 @@
     <Grid>
         <DockPanel>
             <Grid DockPanel.Dock="Top">
-                <Label x:Name="label" Content="Sender" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="senderTextBox"  Height="23" Margin="94,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <Label x:Name="label1" Content="Empfänger" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="receiverTextBox" Height="23" Margin="94,38,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <Label x:Name="label2" Content="Betreff" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="subjectTextBox" Height="23" Margin="94,72,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <Label x:Name="label3" Content="Nachricht" Margin="10,103,10,0"/>
+                <Label x:Name="senderLabel" Content="Sender" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="senderTextBox" Text="{Binding account.email}" Height="23" Margin="94,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Label x:Name="receiverLabel" Content="Empfänger" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="receiverTextBox" Text="danielglaser9@gmail.com" Height="23" Margin="94,38,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Label x:Name="subjectLabel" Content="Betreff" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="subjectTextBox" Text="Testmail" Height="23" Margin="94,72,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Label x:Name="messageLabel" Content="Nachricht" Margin="10,103,10,0"/>
             </Grid>
             <DockPanel 
                 DockPanel.Dock="Bottom"
