@@ -54,15 +54,90 @@ namespace WpfView
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedAccountToRemove != null)
+            bool userResult = true;
+            bool emailResult = true;
+            bool passwordResult = true;
+            bool imapPop3ServerResult = true;
+            bool imapPop3PortResult = true;
+            bool smtpServerResult = true;
+            bool smtpPortResult = true;
+
+            string user = userTextBox.Text;
+            string email = emailTextBox.Text;
+            string password = passwordBox.Password;
+            bool useImap = (bool)useImapCheckBox.IsChecked;
+            string imapPop3Server = imapPop3ServerTextBox.Text;
+            string smtpServer = smtpServerTextBox.Text;
+
+            int imapPop3Port = 0;
+            if (String.IsNullOrEmpty(imapPop3PortTextBox.Text))
             {
-                settingsController.removeAccount(selectedAccountToRemove);
+                imapPop3PortResult = false;
+            } else {
+                imapPop3Port = int.Parse(imapPop3PortTextBox.Text);
             }
-            // TODO
-            // string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort
-            settingsController.addAccount(userTextBox.Text, emailTextBox.Text, passwordBox.Password, (bool)useImapCheckBox.IsChecked, imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text), smtpServerTextBox.Text, int.Parse(smtpPortTextBox.Text));
-            
-            Close();
+
+            int smtpPort = 0;
+            if (String.IsNullOrEmpty(smtpPortTextBox.Text))
+            {
+                smtpPortResult = false;
+            }
+            else
+            {
+                smtpPort = int.Parse(smtpPortTextBox.Text);
+            }
+
+
+            if (String.IsNullOrEmpty(user))
+            {
+                MessageBox.Show("Der User ist leer!", "User fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                userResult = false;
+            }
+            if (String.IsNullOrEmpty(email) && userResult)
+            {
+                MessageBox.Show("Die Email ist leer!", "Email fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                emailResult = false;
+            }
+            if (String.IsNullOrEmpty(password) && userResult && emailResult)
+            {
+                MessageBox.Show("Das Passwort ist leer!", "Passwort fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                passwordResult = false;
+            }
+            if (String.IsNullOrEmpty(imapPop3Server) && userResult && emailResult && passwordResult)
+            {
+                MessageBox.Show("Der IMAP/POP3-Server ist leer!", "IMAP/POP3-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                imapPop3ServerResult = false;
+            }
+            if (String.IsNullOrEmpty(smtpServer) && userResult && emailResult && passwordResult && imapPop3ServerResult)
+            {
+                MessageBox.Show("Der SMTP-Server ist leer!", "SMTP-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                smtpServerResult = false;
+            }
+
+            if (!imapPop3PortResult && userResult && emailResult && passwordResult && imapPop3ServerResult && smtpServerResult)
+            {
+                MessageBox.Show("Der IMAP/POP3-Port  ist leer!", "IMAP/POP3-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            if (!smtpPortResult && userResult && emailResult && passwordResult && imapPop3ServerResult && smtpServerResult && imapPop3PortResult)
+            {
+                MessageBox.Show("Der SMTP-Port ist leer!", "SMTP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+
+            if (userResult && emailResult && passwordResult && imapPop3ServerResult && imapPop3PortResult && smtpServerResult && smtpPortResult)
+            {
+                // falls ein Account gesetzt wurde diesen zuerst löschen
+                if (selectedAccountToRemove != null)
+                {
+                    //alten Account löschen
+                    settingsController.removeAccount(selectedAccountToRemove);
+                }
+                
+                //Account hinzufügen
+                settingsController.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
+
+                Close();
+            }
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)

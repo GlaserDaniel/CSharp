@@ -7,6 +7,7 @@
         mc:Ignorable="d"
 
         Title="Account"
+        WindowStartupLocation="CenterScreen"
         Height="360"
         Width="300"
         MinHeight="360"

@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         
         Title="Optionen"
+        WindowStartupLocation="CenterScreen"
         MinHeight="300"
         MinWidth="400"
-        WindowStartupLocation="CenterOwner"
         Height="400"
         Width="500">
     <Grid>

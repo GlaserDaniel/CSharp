@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         
         Title="Email schreiben"
-        Height="300"
-        Width="300"
+        WindowStartupLocation="CenterScreen"
         MinHeight="300"
-        MinWidth="400">
+        MinWidth="400"
+        Height="300"
+        Width="400">
     <Grid>
         <DockPanel>
             <Grid DockPanel.Dock="Top">

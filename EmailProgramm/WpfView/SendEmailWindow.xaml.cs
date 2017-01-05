@@ -52,14 +52,14 @@ namespace WpfView
             MessageBoxResult subjectResult = MessageBoxResult.Yes;
             MessageBoxResult messageResult = MessageBoxResult.Yes;
 
-            if (receiver == "")
+            if (String.IsNullOrEmpty(receiver))
             {
                 MessageBox.Show("Der Empfänger ist leer!", "Empfänger fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 receiverResult = false;
-            } if (subject == "")
+            } if (String.IsNullOrEmpty(subject) && receiverResult)
             {
                 subjectResult = MessageBox.Show("Der Betreff ist leer! Trotzdem senden?", "Betreff fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            } if (message == "")
+            } if (String.IsNullOrEmpty(message) && receiverResult && subjectResult == MessageBoxResult.Yes)
             {
                 messageResult = MessageBox.Show("Die Nachricht ist leer! Trotzdem senden?", "Betreff fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
             }
