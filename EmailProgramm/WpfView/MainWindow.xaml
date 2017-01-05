@@ -28,9 +28,12 @@
                     </Menu>
                 </StackPanel>
                 <GridSplitter DockPanel.Dock="Top" x:Name="gridSplitter" HorizontalAlignment="Stretch" Height="10" Margin="10,10,10,0" VerticalAlignment="Top"/>
-                <Button DockPanel.Dock="Top" x:Name="SendEmail" Content="Email schreiben" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="SendEmail_Click" Height="50"/>
+                <StackPanel 
+                    Orientation="Horizontal">
+                    <Button DockPanel.Dock="Top" x:Name="SendEmail" Content="Email schreiben" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="SendEmail_Click" Height="50"/>
+                    <Button DockPanel.Dock="Top" x:Name="ReceiveEmails" Content="Emails abholen" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="ReceiveEmails_Click" Height="50"/>
+                </StackPanel>
             </StackPanel>
-
             <StackPanel 
                 DockPanel.Dock="Left"
                 Margin="10,10,10,10">
@@ -38,12 +41,9 @@
             </StackPanel>
             <StackPanel
                 Margin="10,10,10,10">
-                <StackPanel>
-                    
-                </StackPanel>
-                <StackPanel>
-                    
-                </StackPanel>
+                <ListView>
+                    <ListItem></ListItem>
+                </ListView>
             </StackPanel>
         </DockPanel>
     </Grid>

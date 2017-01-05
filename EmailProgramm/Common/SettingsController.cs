@@ -35,9 +35,9 @@ namespace Common
             load();
         }
 
-        public void addAccount(String user, String email, String password, String server, int port)
+        public void addAccount(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
         {
-            Account account = new Account(user, email, password, server, port);
+            Account account = new Account(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
 
             accounts.Add(account);
 

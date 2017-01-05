@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using MailKit.Net.Imap;
+using MailKit;
+using MailKit.Search;
+using System.IO;
+using MailKit.Net.Pop3;
 
 namespace Common
 {
@@ -35,16 +40,16 @@ namespace Common
             mailMessage.Body = email.message;
 
             //Ausgangsserver initialisieren
-            SmtpClient MailClient = new SmtpClient(account.server, account.port);
+            SmtpClient smtpClient = new SmtpClient(account.smtpServer, account.smtpPort);
 
             // SSL aktivieren
             // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
-            MailClient.EnableSsl = true;
+            smtpClient.EnableSsl = true;
 
             if (account.user.Length > 0 && account.user != string.Empty)
             {
                 //Login konfigurieren
-                MailClient.Credentials = new System.Net.NetworkCredential(account.user, account.password);
+                smtpClient.Credentials = new System.Net.NetworkCredential(account.user, account.password);
                 Console.WriteLine("Password: " + account.password);
             }
 
@@ -52,7 +57,7 @@ namespace Common
 
             //Email absenden
             try {
-                MailClient.SendMailAsync(mailMessage); // TODO SendMailAsync
+                smtpClient.SendMailAsync(mailMessage); // TODO SendMailAsync
             } catch (SmtpException e)
             {
                 // TODO Benachrichtigung das es nicht funktioniert hat!
@@ -60,9 +65,71 @@ namespace Common
             }
         }
 
-        public void receiveEmail()
+        public void receiveEmails()
         {
+            if (account.useImap)
+            {
+                try
+                {
+                    using (ImapClient imapClient = new ImapClient())
+                    {
+                        imapClient.Connect(account.smtpServer, account.smtpPort, true);
 
+                        imapClient.Authenticate(account.user, account.password);
+
+                        imapClient.Inbox.Open(FolderAccess.ReadOnly);
+
+                        var uids = imapClient.Inbox.Search(SearchQuery.New);
+
+                        foreach (var uid in uids)
+                        {
+                            var message = imapClient.Inbox.GetMessage(uid);
+
+                            // write the message to a file
+                            //message.WriteTo(string.Format("{0}.msg", uid));
+
+                            Console.WriteLine("Message " + uid + ": " + message.Subject);
+                        }
+
+                        imapClient.Disconnect(true);
+                    }
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("IOException: " + e);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var client = new Pop3Client())
+                    {
+                        client.Connect(account.imapPop3Server, account.imapPop3Port, true);
+
+                        client.Authenticate(account.user, account.password);
+
+                        for (int i = 0; i < client.Count; i++)
+                        {
+                            var message = client.GetMessage(i);
+
+                            // write the message to a file
+                            //message.WriteTo(string.Format("{0}.msg", i));
+
+                            Console.WriteLine("Message " + i + ": " + message.Subject);
+
+                            // mark the message for deletion
+                            //client.DeleteMessage(i);
+                        }
+
+                        client.Disconnect(true);
+                    }
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("IOException: " + e);
+                }
+            }
         }
     }
 }

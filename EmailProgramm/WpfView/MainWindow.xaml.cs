@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,11 @@ namespace WpfView
         {
             Console.WriteLine("Optionen_Click");
             new SettingsWindow();
+        }
+
+        private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
+        {
+            new EmailController(new SettingsController().selectedAccount).receiveEmails();
         }
 
         // TODO onClose Application.Current.Shutdown();

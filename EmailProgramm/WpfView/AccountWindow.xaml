@@ -7,21 +7,28 @@
         mc:Ignorable="d"
 
         Title="Account"
-        Height="300"
-        Width="300">
+        Height="352.101"
+        Width="303.361">
     <DockPanel>
         <Grid
-            DockPanel.Dock="Top">
+            DockPanel.Dock="Top" Height="277">
             <Label x:Name="userLabel" Content="Username" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="99"/>
             <TextBox x:Name="userTextBox" Text="{Binding user}" Height="23" Margin="114,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Benutzername oder die Email-Adresse des Kontos"/>
             <Label x:Name="emailLabel" Content="Email" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="99"/>
             <TextBox x:Name="emailTextBox" Text="{Binding email}" Height="23" Margin="114,41,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Email-Adresse des Kontos"/>
             <Label x:Name="passwordLabel" Content="Password" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="99"/>
             <PasswordBox x:Name="passwordBox" Height="23" Margin="114,72,10,0" VerticalAlignment="Top"/>
-            <Label x:Name="serverLabel" Content="SMTP-Server" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
-            <TextBox x:Name="serverTextBox" Text="{Binding server}" Height="23" Margin="114,103,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Adresse des SMTP-Servers"/>
-            <Label x:Name="portLabel" Content="Port" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
-            <TextBox x:Name="portTextBox" Text="{Binding port}" Height="23" Margin="114,134,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Port des SMTP-Servers"/>
+            <Label x:Name="imapPop3ServerLabel" Content="IMAP/POP3-Server" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="99"/>
+            <TextBox x:Name="imapPop3ServerTextBox" Text="{Binding imapPop3Server}" Height="23" Margin="114,103,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der IMAP oder POP3-Server"/>
+            <Label x:Name="imapPop3PortLabel" Content="IMAP/POP3-Port" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="99"/>
+            <TextBox x:Name="imapPop3PortTextBox" Text="{Binding imapPop3Port}" Height="23" Margin="114,131,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der IMAP oder POP3-Port"/>
+            <Label x:Name="useImapLabel" Content="use IMAP?" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" Width="99"/>
+            <CheckBox x:Name="useImapCheckBox" Content="IMAP" IsChecked="{Binding useImap}" HorizontalAlignment="Left" Margin="114,168,0,0" VerticalAlignment="Top"/>
+            
+            <Label x:Name="smtpServerLabel" Content="SMTP-Server" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
+            <TextBox x:Name="smtpServerTextBox" Text="{Binding smtpServer}" Height="23" Margin="114,212,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Adresse des SMTP-Servers"/>
+            <Label x:Name="smtpPortLabel" Content="Port" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
+            <TextBox x:Name="smtpPortTextBox" Text="{Binding smtpPort}" Height="23" Margin="114,243,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Port des SMTP-Servers"/>
         </Grid>
         <DockPanel
             DockPanel.Dock="Bottom"

@@ -58,7 +58,9 @@ namespace WpfView
             {
                 settingsController.removeAccount(selectedAccountToRemove);
             }
-            settingsController.addAccount(userTextBox.Text, emailTextBox.Text, passwordBox.Password, serverTextBox.Text, int.Parse(portTextBox.Text));
+            // TODO
+            // string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort
+            settingsController.addAccount(userTextBox.Text, emailTextBox.Text, passwordBox.Password, (bool)useImapCheckBox.IsChecked, imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text), smtpServerTextBox.Text, int.Parse(smtpPortTextBox.Text));
             
             Close();
         }
