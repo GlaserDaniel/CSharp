@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         
         Title="Optionen"
-        Height="291.596"
-        Width="429.412"
         MinHeight="300"
-        MinWidth="400">
+        MinWidth="400"
+        WindowStartupLocation="CenterOwner"
+        Height="400"
+        Width="500">
     <Grid>
         <DockPanel>
             <DockPanel 
@@ -26,9 +27,10 @@
                         Background="#FFE5E5E5">
                         <DockPanel
                             DockPanel.Dock="Top">
-                            <ComboBox x:Name="AccountsComboBox" MinWidth="150" Height="20" Margin="10,10,10,10"></ComboBox>
-                            <Button DockPanel.Dock="Right" x:Name="EditAccount" Width="100" Content="Bearbeiten" Margin="10,10,0,10" Click="EditAccount_Click"></Button>
-                            <Button DockPanel.Dock="Right" x:Name="RemoveAccount" Width="100" Content="Löschen" Margin="10,10,0,10" Click="RemoveAccount_Click"></Button>
+                            <Label DockPanel.Dock="Top" Content="(Der ausgewählte Account ist der Standard Account)"></Label>
+                            <Button DockPanel.Dock="Right" x:Name="EditAccount" Width="100" Content="Bearbeiten" Margin="5,10,10,10" Click="EditAccount_Click"></Button>
+                            <Button DockPanel.Dock="Right" x:Name="RemoveAccount" Width="100" Content="Löschen" Margin="5,10,5,10" Click="RemoveAccount_Click"></Button>
+                            <ComboBox x:Name="AccountsComboBox" ItemsSource="{Binding accounts}" SelectedItem="{Binding selectedAccount, Mode=TwoWay}" MinWidth="110" Height="20" Margin="10,10,5,10"></ComboBox>
                         </DockPanel>
                         <DockPanel 
                             DockPanel.Dock="Bottom"

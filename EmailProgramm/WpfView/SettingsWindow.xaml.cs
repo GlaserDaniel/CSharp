@@ -20,25 +20,17 @@ namespace WpfView
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        SettingsController settingsController { get; set; }
-
         public SettingsWindow()
         {
             InitializeComponent();
-            this.settingsController = new SettingsController();
             LoadData();
             Show();
+            //Console.WriteLine("selectedAccount: " + ((SettingsController)DataContext).selectedAccount.email);
         }
 
         private void LoadData()
         {
-            foreach (Account account in settingsController.accounts) {
-                AccountsComboBox.Items.Add(account);
-            }
-
-            AccountsComboBox.SelectedItem = settingsController.accounts[0];
-
-            DataContext = settingsController;
+            DataContext = new SettingsController();
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -49,7 +41,7 @@ namespace WpfView
 
         private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
-            // TODO Einstellungen übernehmen
+            ((SettingsController)DataContext).appendSettings();
             Close();
         }
 
@@ -60,12 +52,12 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow(settingsController);
+            new AccountWindow((SettingsController)DataContext);
         }
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow(settingsController, (Account)AccountsComboBox.SelectedItem);
+            new AccountWindow((SettingsController)DataContext, (Account)AccountsComboBox.SelectedItem);
         }
 
         private void RemoveAccount_Click(object sender, RoutedEventArgs e)
@@ -73,8 +65,9 @@ namespace WpfView
             MessageBoxResult result = MessageBox.Show("Willst du den Account " + ((Account)AccountsComboBox.SelectedItem).email + " wirklich löschen?", "Account Löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                settingsController.removeAccount((Account)AccountsComboBox.SelectedItem);
-                AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
+                ((SettingsController)DataContext).removeAccount((Account)AccountsComboBox.SelectedItem);
+                //AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
+
                 if (AccountsComboBox.Items.Count > 0)
                 {
                     AccountsComboBox.SelectedItem = AccountsComboBox.Items.GetItemAt(0);

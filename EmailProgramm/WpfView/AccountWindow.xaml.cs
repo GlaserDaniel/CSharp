@@ -21,12 +21,12 @@ namespace WpfView
     public partial class AccountWindow : Window
     {
         private SettingsController settingsController;
-        private Account selectedAccount;
+        private Account selectedAccountToRemove;
 
         public AccountWindow()
         {
             InitializeComponent();
-            this.selectedAccount = null;
+            this.selectedAccountToRemove = null;
             Console.WriteLine("Constr");
             Show();
         }
@@ -40,23 +40,23 @@ namespace WpfView
             Show();
         }
 
-        public AccountWindow(SettingsController settingsController, Account selectedAccount) : this()
+        public AccountWindow(SettingsController settingsController, Account selectedAccountToRemove) : this()
         {
             Console.WriteLine("Constr mit Account");
             this.settingsController = settingsController;
-            this.selectedAccount = selectedAccount;
+            this.selectedAccountToRemove = selectedAccountToRemove;
             Title = "Account bearbeiten";
 
-            DataContext = this.selectedAccount;
+            DataContext = this.selectedAccountToRemove;
 
             Show();
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedAccount != null)
+            if (selectedAccountToRemove != null)
             {
-                settingsController.removeAccount(selectedAccount);
+                settingsController.removeAccount(selectedAccountToRemove);
             }
             settingsController.addAccount(userTextBox.Text, emailTextBox.Text, passwordBox.Password, serverTextBox.Text, int.Parse(portTextBox.Text));
             
