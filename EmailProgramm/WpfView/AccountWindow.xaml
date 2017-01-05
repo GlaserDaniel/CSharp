@@ -7,8 +7,10 @@
         mc:Ignorable="d"
 
         Title="Account"
-        Height="352.101"
-        Width="303.361">
+        Height="360"
+        Width="300"
+        MinHeight="360"
+        MinWidth="300">
     <DockPanel>
         <Grid
             DockPanel.Dock="Top" Height="277">

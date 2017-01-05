@@ -23,21 +23,21 @@ namespace Common
 
         // Snippet von www.code-bude.net
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
-        public void sendEmail(Email email)
+        public void sendEmail(string sender, string receiver, string subject, string message)
         {
             MailMessage mailMessage = new MailMessage();
 
             //Absender konfigurieren
-            mailMessage.From = new MailAddress(email.sender);
+            mailMessage.From = new MailAddress(sender);
             
             //Empfänger konfigurieren
-            mailMessage.To.Add(new MailAddress(email.receiver.Trim()));
+            mailMessage.To.Add(new MailAddress(receiver.Trim()));
 
             //Betreff einrichten
-            mailMessage.Subject = email.subject;
+            mailMessage.Subject = subject;
 
             //Hinzufügen der eigentlichen Nachricht
-            mailMessage.Body = email.message;
+            mailMessage.Body = message;
 
             //Ausgangsserver initialisieren
             SmtpClient smtpClient = new SmtpClient(account.smtpServer, account.smtpPort);
@@ -112,7 +112,7 @@ namespace Common
                         for (int i = 0; i < client.Count; i++)
                         {
                             var message = client.GetMessage(i);
-
+                            
                             // write the message to a file
                             //message.WriteTo(string.Format("{0}.msg", i));
 

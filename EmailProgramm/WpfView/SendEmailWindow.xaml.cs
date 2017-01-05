@@ -41,20 +41,36 @@ namespace WpfView
             DataContext = settingsController;
         }
 
-        private void SendEmail_Click(object sender, RoutedEventArgs e)
+        private void SendEmail_Click(object senderObject, RoutedEventArgs e)
         {
-            // TODO Email senden
-            Email email = new Email();
+            string sender = senderComboBox.Text;
+            string receiver = receiverTextBox.Text;
+            string subject = subjectTextBox.Text;
+            string message = messageTextBox.Text;
 
-            email.sender = senderComboBox.Text;
-            email.receiver = receiverTextBox.Text;
-            email.subject = subjectTextBox.Text;
-            email.message = messageTextBox.Text;
+            bool receiverResult = true;
+            MessageBoxResult subjectResult = MessageBoxResult.Yes;
+            MessageBoxResult messageResult = MessageBoxResult.Yes;
 
-            EmailController emailController = new EmailController((Account) settingsController.accounts[0]);
-            
-            emailController.sendEmail(email);
-            Close();
+            if (receiver == "")
+            {
+                MessageBox.Show("Der Empfänger ist leer!", "Empfänger fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                receiverResult = false;
+            } if (subject == "")
+            {
+                subjectResult = MessageBox.Show("Der Betreff ist leer! Trotzdem senden?", "Betreff fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            } if (message == "")
+            {
+                messageResult = MessageBox.Show("Die Nachricht ist leer! Trotzdem senden?", "Betreff fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            }
+
+            if (receiverResult && subjectResult == MessageBoxResult.Yes && messageResult == MessageBoxResult.Yes)
+            {
+                EmailController emailController = new EmailController(settingsController.selectedAccount);
+
+                emailController.sendEmail(sender, receiver, subject, message);
+                Close();
+            }
         }
 
         private void AbortSendEmail_Click(object sender, RoutedEventArgs e)
