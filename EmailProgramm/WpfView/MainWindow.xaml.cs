@@ -24,6 +24,12 @@ namespace WpfView
         public MainWindow()
         {
             InitializeComponent();
+            loadData();
+        }
+
+        private void loadData()
+        {
+            DataContext = new SettingsController().selectedAccount;
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)

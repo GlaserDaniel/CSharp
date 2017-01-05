@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Common
         public int imapPop3Port { get; set; }
         public string smtpServer { get; set; }
         public int smtpPort { get; set; }
+        public ArrayList emails { get; set; }
 
         public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
         {
@@ -28,6 +30,7 @@ namespace Common
             this.imapPop3Port = imapPop3Port;
             this.smtpServer = smtpServer;
             this.smtpPort = smtpPort;
+            this.emails = new ArrayList();
         }
 
         public override string ToString()

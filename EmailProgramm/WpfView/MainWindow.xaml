@@ -41,8 +41,8 @@
             </StackPanel>
             <StackPanel
                 Margin="10,10,10,10">
-                <ListView>
-                    <ListItem></ListItem>
+                <ListView ItemsSource="{Binding emails}">
+                    
                 </ListView>
             </StackPanel>
         </DockPanel>

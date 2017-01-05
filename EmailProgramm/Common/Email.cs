@@ -18,5 +18,10 @@ namespace Common
         {
 
         }
+
+        public override string ToString()
+        {
+            return "sender: " + sender + ", receiver: " + receiver + ", subject: " + subject + ", message: " + message + ", fileURI: " + fileURI;
+        }
     }
 }

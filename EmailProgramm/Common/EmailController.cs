@@ -9,6 +9,7 @@ using MailKit;
 using MailKit.Search;
 using System.IO;
 using MailKit.Net.Pop3;
+using System.Net.Sockets;
 
 namespace Common
 {
@@ -97,6 +98,9 @@ namespace Common
                 catch (IOException e)
                 {
                     Console.WriteLine("IOException: " + e);
+                } catch (SocketException se)
+                {
+                    Console.WriteLine("SocketException: " + se);
                 }
             }
             else
@@ -109,7 +113,13 @@ namespace Common
 
                         client.Authenticate(account.user, account.password);
 
-                        for (int i = 0; i < client.Count; i++)
+                        int count = client.Count;
+                        if (client.Count > 10)
+                        {
+                            count = 10;
+                        }
+
+                        for (int i = 0; i < count; i++)
                         {
                             var message = client.GetMessage(i);
                             
@@ -117,6 +127,17 @@ namespace Common
                             //message.WriteTo(string.Format("{0}.msg", i));
 
                             Console.WriteLine("Message " + i + ": " + message.Subject);
+
+                            Email email = new Email();
+
+                            email.sender = message.From.ToString();
+                            email.receiver = message.To.ToString();
+                            email.subject = message.Subject.ToString();
+                            email.message = message.Body.ToString();
+
+                            //Console.WriteLine("Email: " + email.ToString());
+
+                            account.emails.Add(email);
 
                             // mark the message for deletion
                             //client.DeleteMessage(i);
@@ -128,6 +149,10 @@ namespace Common
                 catch (IOException e)
                 {
                     Console.WriteLine("IOException: " + e);
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("SocketException: " + se);
                 }
             }
         }
