@@ -18,6 +18,37 @@ namespace Common
         {
             accounts = new ArrayList();
 
+            loadAccounts();
+        }
+
+        public void addAccount(String user, String email, String password, String server, int port)
+        {
+            Account account = new Account(user, email, password, server, port);
+
+            accounts.Add(account);
+
+            saveAccounts();
+        }
+
+        public void removeAccount(Account account)
+        {
+            accounts.Remove(account);
+
+            saveAccounts();
+        }
+
+        private void saveAccounts()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("accounts.bin",
+                                     FileMode.Create,
+                                     FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, this.accounts);
+            stream.Close();
+        }
+
+        private void loadAccounts()
+        {
             IFormatter formatter = new BinaryFormatter();
             try
             {
@@ -27,30 +58,12 @@ namespace Common
                                           FileShare.Read);
                 this.accounts = (ArrayList)formatter.Deserialize(stream);
                 stream.Close();
-            } catch (FileNotFoundException e)
+            }
+            catch (FileNotFoundException e)
             {
                 // TODO Fehlermeldung
                 Console.WriteLine("FileNotFoundException: " + e);
             }
-        }
-
-        public void addAccount(String user, String email, String password, String server, int port)
-        {
-            Account account = new Account(user, email, password, server, port);
-
-            accounts.Add(account);
-
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("accounts.bin",
-                                     FileMode.Create,
-                                     FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, accounts);
-            stream.Close();
-        }
-
-        public void removeAccount(Account account)
-        {
-            accounts.Remove(account);
         }
     }
 }

@@ -23,5 +23,10 @@ namespace Common
             this.server = server;
             this.port = port;
         }
+
+        public override string ToString()
+        {
+            return email.ToString();
+        }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfView"
         mc:Ignorable="d"
         
-        Title="MainWindow"
+        Title="Email Programm"
         WindowStartupLocation="CenterOwner"
         WindowState="Maximized"
         MinHeight="400"

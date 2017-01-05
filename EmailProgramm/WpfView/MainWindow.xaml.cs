@@ -34,7 +34,9 @@ namespace WpfView
         private void Optionen_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Optionen_Click");
-            new OptionenWindow();
+            new SettingsWindow();
         }
+
+        // TODO onClose Application.Current.Shutdown();
     }
 }
