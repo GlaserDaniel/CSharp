@@ -12,26 +12,28 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class SettingsController : INotifyPropertyChanged
+    public class SettingsController //: INotifyPropertyChanged
     {
-        private Account _selectedAccount;
+        //private Account _selectedAccount;
 
         public ArrayList accounts { get; set; }
-        public Account selectedAccount {
-            get { return this._selectedAccount; }
-            set { this._selectedAccount = value; OnPropertyChanged(); }
-        }
+        public int selectedAccountIndex { get; set; }
+        public Account selectedAccount { get; set; }
+        //    get { return this._selectedAccount; }
+        //    set { this._selectedAccount = value; OnPropertyChanged(); }
+        //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
 
 
         public SettingsController()
         {
-            this.accounts = new ArrayList();
+            accounts = new ArrayList();
+            selectedAccountIndex = -1;
             load();
         }
 
@@ -41,23 +43,39 @@ namespace Common
 
             accounts.Add(account);
 
-            Console.WriteLine("selectedAccount: " + selectedAccount);
+            Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
 
-            if (selectedAccount == null)
+            if (selectedAccount == null || selectedAccountIndex == -1)
             {
-                selectedAccount = account;
-                Console.WriteLine("selectedAccount: " + selectedAccount.email);
+                selectedAccountIndex = accounts.IndexOf(account);
+                selectedAccount = (Account)accounts[accounts.Count-1];
+                Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
             }
 
-            Console.WriteLine("selectedAccount: " + selectedAccount.email);
+            Console.WriteLine("nach adden selectedAccount: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
 
             save();
         }
 
-        public void removeAccount(Account account)
+        public void removeAccount(Account accountToRemove)
         {
-            accounts.Remove(account);
-
+            Console.WriteLine("Vor löschen Accounts: ");
+            foreach (Account account in this.accounts)
+            {
+                Console.WriteLine("Account: " + account.ToString());
+            }
+            Console.WriteLine("Zu löschender Account: " + accountToRemove.ToString());
+            accounts.Remove(accountToRemove);
+            Console.WriteLine("Gelöschter Account: " + accountToRemove.ToString());
+            Console.WriteLine("Nach löschen Accounts: ");
+            foreach (Account account in this.accounts)
+            {
+                Console.WriteLine("Account: " + account.ToString());
+            }
+            if (accounts.Count == 0)
+            {
+                selectedAccountIndex = -1;
+            }
             save();
         }
 
@@ -72,15 +90,28 @@ namespace Common
             Stream accountsStream = new FileStream("accounts.bin",
                                      FileMode.Create,
                                      FileAccess.Write, FileShare.None);
-            formatter.Serialize(accountsStream, this.accounts);
+            formatter.Serialize(accountsStream, accounts);
+            Console.WriteLine("Saved Accounts: ");
+            foreach (Account account in accounts)
+            {
+                Console.WriteLine("Account: " + account.ToString());
+            }
             accountsStream.Close();
-
-            Stream selectedAccountStream = new FileStream("selectedAccount.bin",
-                                     FileMode.Create,
-                                     FileAccess.Write, FileShare.None);
-            formatter.Serialize(selectedAccountStream, this.selectedAccount);
-            Console.WriteLine("Saved Selected Account: " + this.selectedAccount.email);
-            selectedAccountStream.Close();
+            if (selectedAccount != null)
+            {
+                Stream selectedAccountStream = new FileStream("selectedAccount.bin",
+                                         FileMode.Create,
+                                         FileAccess.Write, FileShare.None);
+                formatter.Serialize(selectedAccountStream, selectedAccount);
+                Console.WriteLine("Saved Selected Account: " + selectedAccount.email);
+                selectedAccountStream.Close();
+            }
+            Stream selectedAccountIndexStream = new FileStream("selectedAccountIndex.bin",
+                                         FileMode.Create,
+                                         FileAccess.Write, FileShare.None);
+            formatter.Serialize(selectedAccountIndexStream, selectedAccountIndex);
+            Console.WriteLine("Saved Selected Account Index: " + selectedAccountIndex);
+            selectedAccountIndexStream.Close();
         }
 
         private void load()
@@ -92,8 +123,12 @@ namespace Common
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.Read);
-                this.accounts = (ArrayList)formatter.Deserialize(accountsStream);
-
+                accounts = (ArrayList)formatter.Deserialize(accountsStream);
+                Console.WriteLine("Loaded Accounts: ");
+                foreach (Account account in accounts)
+                {
+                    Console.WriteLine("Account: " + account.ToString());
+                }
                 accountsStream.Close();
 
             }
@@ -109,16 +144,42 @@ namespace Common
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.Read);
-                this.selectedAccount = (Account)formatter.Deserialize(selectedAccountStream);
-
-                Console.WriteLine("Loaded Selected Account: " + this.selectedAccount.email);
-
+                selectedAccount = (Account)formatter.Deserialize(selectedAccountStream);
+                Console.WriteLine("Loaded Selected Account: " + selectedAccount.email);
                 selectedAccountStream.Close();
             }
             catch (FileNotFoundException e)
             {
                 // TODO Fehlermeldung
                 Console.WriteLine("FileNotFoundException: " + e);
+                selectedAccount = null;
+            }
+            catch (SerializationException se)
+            {
+                // TODO Fehlermeldung
+                Console.WriteLine("SerializationException: " + se);
+                selectedAccount = null;
+            }
+
+            try
+            {
+                Stream selectedAccountIndexStream = new FileStream("selectedAccountIndex.bin",
+                                          FileMode.Open,
+                                          FileAccess.Read,
+                                          FileShare.Read);
+                selectedAccountIndex = (int)formatter.Deserialize(selectedAccountIndexStream);
+                Console.WriteLine("Loaded Selected Account Index: " + selectedAccountIndex);
+                selectedAccountIndexStream.Close();
+            }
+            catch (FileNotFoundException e)
+            {
+                // TODO Fehlermeldung
+                Console.WriteLine("FileNotFoundException: " + e);
+            }
+            catch (SerializationException se)
+            {
+                // TODO Fehlermeldung
+                Console.WriteLine("SerializationException: " + se);
             }
         }
     }
