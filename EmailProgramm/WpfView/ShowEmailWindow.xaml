@@ -30,6 +30,6 @@
             </StackPanel>
         </DockPanel>
         
-        <RichTextBox x:Name="messageRichTextBox"  Margin="10"/>
+        <TextBox x:Name="messageTextBox" Text="{Binding message}" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
     </DockPanel>
 </Window>

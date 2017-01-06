@@ -46,7 +46,27 @@ namespace WpfView
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
-            new EmailController(new SettingsController().selectedAccount).receiveEmails();
+            SettingsController settingsController = new SettingsController();
+
+            // wenn ein Account als Standard definiert/ausgewählt wurde
+            if (settingsController.selectedAccount != null)
+            {
+                new EmailController(settingsController.selectedAccount).receiveEmails();
+
+                // speichern
+                settingsController.appendSettings();
+
+                Console.WriteLine("Emails ausgeben: ");
+                foreach (Account account in settingsController.accounts)
+                {
+                    Console.WriteLine("Account: " + account);
+                    foreach (Email email in account.emails)
+                    {
+                        Console.WriteLine("Email: " + email);
+                        new ShowEmailWindow(email);
+                    }
+                }
+            } // TODO else Fehlermeldung
         }
 
         // TODO onClose Application.Current.Shutdown();

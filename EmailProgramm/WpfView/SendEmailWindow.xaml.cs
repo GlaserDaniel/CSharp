@@ -46,7 +46,7 @@ namespace WpfView
             string sender = senderComboBox.Text;
             string receiver = receiverTextBox.Text;
             string subject = subjectTextBox.Text;
-            string message = messageRichTextBox.Document.ToString();
+            string message = messageTextBox.Text;
 
             bool receiverResult = true;
             MessageBoxResult subjectResult = MessageBoxResult.Yes;

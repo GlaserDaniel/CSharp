@@ -27,7 +27,7 @@ namespace WpfView
 
         public ShowEmailWindow(Email email) : this()
         {
-            
+            DataContext = email;
         }
     }
 }
