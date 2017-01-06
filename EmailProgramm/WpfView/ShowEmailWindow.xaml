@@ -1,0 +1,35 @@
+﻿<Window x:Class="WpfView.ShowEmailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfView"
+        mc:Ignorable="d"
+        
+        Title="Email"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="300"
+        MinWidth="400"
+        Height="300"
+        Width="400">
+    <DockPanel>
+        <DockPanel 
+            DockPanel.Dock="Top">
+            <StackPanel 
+                DockPanel.Dock="Left">
+                <Label x:Name="senderLabel" Content="Sender" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="receiverLabel" Content="Empfänger" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="subjectLabel" Content="Betreff" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="messageLabel" Content="Nachricht" Margin="10,5,10,0"/>
+            </StackPanel>
+            <StackPanel
+                DockPanel.Dock="Right">
+                <TextBox x:Name="senderTextBox" Text="{Binding sender}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBox x:Name="receiverTextBox" Text="{Binding receiver}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBox x:Name="subjectTextBox" Text="{Binding subject}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            </StackPanel>
+        </DockPanel>
+        
+        <RichTextBox x:Name="messageRichTextBox"  Margin="10"/>
+    </DockPanel>
+</Window>

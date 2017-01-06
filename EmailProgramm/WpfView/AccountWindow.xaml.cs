@@ -36,20 +36,16 @@ namespace WpfView
             Console.WriteLine("Constr mit Con");
             this.settingsController = settingsController;
             Title = "Account hinzufügen";
-
-            Show();
         }
 
-        public AccountWindow(SettingsController settingsController, Account selectedAccountToRemove) : this()
+        public AccountWindow(SettingsController settingsController, Account selectedAccountToEdit) : this()
         {
             Console.WriteLine("Constr mit Account");
             this.settingsController = settingsController;
-            this.selectedAccountToRemove = selectedAccountToRemove;
+            selectedAccountToRemove = selectedAccountToEdit;
             Title = "Account bearbeiten";
 
             DataContext = this.selectedAccountToRemove;
-
-            Show();
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)

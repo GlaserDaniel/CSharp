@@ -214,6 +214,9 @@
     <Compile Include="SendEmailWindow.xaml.cs">
       <DependentUpon>SendEmailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ShowEmailWindow.xaml.cs">
+      <DependentUpon>ShowEmailWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AccountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SendEmailWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowEmailWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
