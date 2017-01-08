@@ -10,8 +10,8 @@
         WindowStartupLocation="CenterScreen"
         MinHeight="300"
         MinWidth="400"
-        Height="300"
-        Width="400">
+        Height="400"
+        Width="600">
     <DockPanel>
         <DockPanel 
             DockPanel.Dock="Top">
@@ -29,7 +29,7 @@
                 <TextBox x:Name="subjectTextBox" Text="{Binding subject}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </StackPanel>
         </DockPanel>
-        
+
         <TextBox x:Name="messageTextBox" Text="{Binding message}" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
     </DockPanel>
 </Window>

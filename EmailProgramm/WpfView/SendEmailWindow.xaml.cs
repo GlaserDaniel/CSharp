@@ -66,7 +66,7 @@ namespace WpfView
 
             if (receiverResult && subjectResult == MessageBoxResult.Yes && messageResult == MessageBoxResult.Yes)
             {
-                EmailController emailController = new EmailController(settingsController.selectedAccount);
+                EmailController emailController = new EmailController();
 
                 emailController.sendEmail(sender, receiver, subject, message);
                 Close();

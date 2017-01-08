@@ -40,7 +40,7 @@
         </StackPanel>
         <StackPanel
                 Margin="10">
-            <ListView ItemsSource="{Binding emails}" VerticalAlignment="Top" VerticalContentAlignment="Top">
+            <ListView x:Name="EmailsListView" ItemsSource="{Binding emails}" MouseDoubleClick="EmailsListView_MouseDoubleClick" VerticalAlignment="Top" VerticalContentAlignment="Top">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
