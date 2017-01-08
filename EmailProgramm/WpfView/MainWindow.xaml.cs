@@ -57,7 +57,7 @@ namespace WpfView
                 settingsController.appendSettings();
 
                 Console.WriteLine("Emails ausgeben: ");
-                foreach (Account account in settingsController.accounts)
+                foreach (Account account in settingsController.Accounts)
                 {
                     Console.WriteLine("Account: " + account);
                     foreach (Email email in account.emails)

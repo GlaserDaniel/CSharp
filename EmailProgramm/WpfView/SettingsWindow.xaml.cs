@@ -31,15 +31,15 @@ namespace WpfView
         private void LoadData()
         {
             DataContext = new SettingsController();
-            AccountsComboBox.Items.Clear();
-            foreach (Account account in ((SettingsController)DataContext).accounts)
-            {
-                AccountsComboBox.Items.Add(account);
-            }
-            if (((SettingsController)DataContext).selectedAccountIndex >= 0)
-            {
-                AccountsComboBox.SelectedItem = ((SettingsController)DataContext).accounts[((SettingsController)DataContext).selectedAccountIndex];
-            }
+            //AccountsComboBox.Items.Clear();
+            //foreach (Account account in ((SettingsController)DataContext).Accounts)
+            //{
+            //    AccountsComboBox.Items.Add(account);
+            //}
+            //if (((SettingsController)DataContext).selectedAccountIndex >= 0)
+            //{
+            //    AccountsComboBox.SelectedItem = ((SettingsController)DataContext).Accounts[((SettingsController)DataContext).selectedAccountIndex];
+            //}
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace WpfView
 
                 ((SettingsController)DataContext).removeAccount(accountToRemove);
 
-                AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
+                //AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
 
                 if (AccountsComboBox.Items.Count > 0)
                 {

@@ -33,7 +33,7 @@ namespace WpfView
         {
             settingsController = new SettingsController();
 
-            foreach (Account account in settingsController.accounts)
+            foreach (Account account in settingsController.Accounts)
             {
                 senderComboBox.Items.Add(((Account) account).email);
             }

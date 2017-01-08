@@ -12,27 +12,36 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class SettingsController //: INotifyPropertyChanged
+    public class SettingsController : INotifyPropertyChanged
     {
-        //private Account _selectedAccount;
+        private ArrayList accounts;
 
-        public ArrayList accounts { get; set; }
+        public ArrayList Accounts
+        {
+            get { return accounts; }
+            set {
+                if (accounts == value) return;
+                accounts = value;
+                Console.WriteLine("Set Accounts");
+                OnPropertyChanged("Accounts");
+            }
+        }
+
+
         public int selectedAccountIndex { get; set; }
         public Account selectedAccount { get; set; }
-        //    get { return this._selectedAccount; }
-        //    set { this._selectedAccount = value; OnPropertyChanged(); }
-        //}
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
-
+        // protected virtual 
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public SettingsController()
         {
-            accounts = new ArrayList();
+            Accounts = new ArrayList();
             selectedAccountIndex = -1;
             load();
         }
@@ -41,14 +50,15 @@ namespace Common
         {
             Account account = new Account(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
 
-            accounts.Add(account);
+            Accounts.Add(account);
+            OnPropertyChanged("Accounts");
 
             Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
 
             if (selectedAccount == null || selectedAccountIndex == -1)
             {
-                selectedAccountIndex = accounts.IndexOf(account);
-                selectedAccount = (Account)accounts[accounts.Count-1];
+                selectedAccountIndex = Accounts.IndexOf(account);
+                selectedAccount = (Account)Accounts[Accounts.Count-1];
                 Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
             }
 
@@ -60,19 +70,22 @@ namespace Common
         public void removeAccount(Account accountToRemove)
         {
             Console.WriteLine("Vor löschen Accounts: ");
-            foreach (Account account in this.accounts)
+            foreach (Account account in this.Accounts)
             {
                 Console.WriteLine("Account: " + account.ToString());
             }
             Console.WriteLine("Zu löschender Account: " + accountToRemove.ToString());
-            accounts.Remove(accountToRemove);
+
+            Accounts.Remove(accountToRemove);
+            OnPropertyChanged("Accounts");
+
             Console.WriteLine("Gelöschter Account: " + accountToRemove.ToString());
             Console.WriteLine("Nach löschen Accounts: ");
-            foreach (Account account in this.accounts)
+            foreach (Account account in this.Accounts)
             {
                 Console.WriteLine("Account: " + account.ToString());
             }
-            if (accounts.Count == 0)
+            if (Accounts.Count == 0)
             {
                 selectedAccountIndex = -1;
             }
@@ -90,9 +103,9 @@ namespace Common
             Stream accountsStream = new FileStream("accounts.bin",
                                      FileMode.Create,
                                      FileAccess.Write, FileShare.None);
-            formatter.Serialize(accountsStream, accounts);
+            formatter.Serialize(accountsStream, Accounts);
             Console.WriteLine("Saved Accounts: ");
-            foreach (Account account in accounts)
+            foreach (Account account in Accounts)
             {
                 Console.WriteLine("Account: " + account.ToString());
             }
@@ -123,9 +136,9 @@ namespace Common
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.Read);
-                accounts = (ArrayList)formatter.Deserialize(accountsStream);
+                Accounts = (ArrayList)formatter.Deserialize(accountsStream);
                 Console.WriteLine("Loaded Accounts: ");
-                foreach (Account account in accounts)
+                foreach (Account account in Accounts)
                 {
                     Console.WriteLine("Account: " + account.ToString());
                 }
