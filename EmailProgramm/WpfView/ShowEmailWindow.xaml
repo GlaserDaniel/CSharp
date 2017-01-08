@@ -12,8 +12,10 @@
         MinWidth="400"
         Height="400"
         Width="600">
-    <DockPanel>
+    <DockPanel 
+        x:Name="MainDockPanel">
         <DockPanel 
+            x:Name="TopDockPanel"
             DockPanel.Dock="Top">
             <StackPanel 
                 DockPanel.Dock="Left">

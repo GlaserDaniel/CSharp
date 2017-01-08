@@ -38,7 +38,7 @@ namespace WpfView
             Title = "Account hinzufügen";
 
             // TODO nur zu Testzwecken
-            Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s", true, "pop.gmx.net", 995, "mail.gmx.net", 587);
+            Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s", false, "pop.gmx.net", 995, "mail.gmx.net", 587);
             DataContext = testAccount;
             passwordBox.Password = "VGNFZ11s";
         }
@@ -51,6 +51,12 @@ namespace WpfView
             Title = "Account bearbeiten";
 
             DataContext = selectedAccountToRemove;
+        }
+
+        // Testen 
+        private void testServer()
+        {
+
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)

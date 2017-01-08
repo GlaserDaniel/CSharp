@@ -29,6 +29,37 @@ namespace WpfView
         public ShowEmailWindow(Email email) : this()
         {
             DataContext = email;
+
+            // TODO wenn HTML
+            //// xaml Code: <TextBox x:Name="messageTextBox" Text="{Binding message}" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+            //TextBox messageTextBox = new TextBox();
+            ////messageTextBox.Text = "{Binding message}";
+            //messageTextBox.Set = DataContext;
+            //messageTextBox.Margin = new System.Windows.Thickness(10);
+            //messageTextBox.AcceptsReturn = true;
+            //messageTextBox.TextWrapping = TextWrapping.Wrap;
+            //messageTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            //messageTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+            //MainDockPanel.Children.Add(messageTextBox);
+
+            // oder so 
+            //MainDockPanel.Children.Remove(messageTextBox);
+
+            /*
+            < Grid >
+              < WebBrowser Name = "wb1" />
+ 
+              </ Grid >
+             </ Window >
+             Der CodeBehind dazu:
+
+            Class MainWindow
+
+             Private Sub MainWindow_Loaded(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs) Handles Me.Loaded
+              Me.wb1.NavigateToString("<html>Die <i>Erde</i> ist <b>rund</b></html>")
+             End Sub
+             */
         }
     }
 }

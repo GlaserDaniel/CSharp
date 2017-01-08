@@ -22,6 +22,21 @@ namespace Common
             
         }
 
+        public bool TestServer()
+        {
+            try
+            {
+                using (ImapClient imapClient = new ImapClient())
+                {
+                    imapClient.Connect(account.smtpServer, account.smtpPort, true);
+                }
+            } catch (IOException)
+            {
+                return false;
+            }
+            return true;
+        }
+
         // Snippet von www.code-bude.net
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
         public void sendEmail(string sender, string receiver, string subject, string message)
@@ -83,7 +98,7 @@ namespace Common
             // wenn ein Account als Standard definiert/ausgewählt wurde
             if (settingsController.selectedAccountIndex != -1)
             {
-                account = (Account)settingsController.Accounts[settingsController.selectedAccountIndex];
+                account = settingsController.Accounts[settingsController.selectedAccountIndex];
 
                 if (account.useImap)
                 {
@@ -133,9 +148,9 @@ namespace Common
 
                             // TODO Erstmal nur 10 Emails abholen
                             int count = client.Count;
-                            if (client.Count > 10)
+                            if (client.Count > 3)
                             {
-                                count = 10;
+                                count = 3;
                             }
 
                             for (int i = 0; i < count; i++)
@@ -145,17 +160,28 @@ namespace Common
                                 // write the message to a file
                                 //message.WriteTo(string.Format("{0}.msg", i));
 
-                                Console.WriteLine("Message " + i + ": " + message.Subject);
+                                //Console.WriteLine("Message " + i + ": " + message.Subject);
 
                                 Email email = new Email();
 
                                 email.sender = message.From.ToString();
-                                email.receiver = message.To.ToString();
-                                email.subject = message.Subject.ToString();
-                                email.message = message.Body.ToString();
-                                email.dateTime = message.Date.Date;
 
-                                //Console.WriteLine("Email: " + email.ToString());
+                                foreach (MimeKit.InternetAddress inetAdress in message.To)
+                                {
+                                    email.receiver.Add(inetAdress.ToString());
+                                }
+
+                                email.subject = message.Subject.ToString();
+
+                                if (!string.IsNullOrEmpty(message.HtmlBody))
+                                {
+                                    email.message = message.HtmlBody.ToString();
+                                } else
+                                {
+                                    email.message = message.Body.ToString();
+                                }
+                                
+                                email.dateTime = message.Date.Date;
 
                                 account.emails.Add(email);
 
@@ -178,15 +204,15 @@ namespace Common
                 settingsController.appendSettings();
 
                 // TODO Testausgabe
-                //Console.WriteLine("Emails ausgeben: ");
-                //foreach (Account account in settingsController.Accounts)
-                //{
-                //    Console.WriteLine("Account: " + account);
-                //    foreach (Email email in account.emails)
-                //    {
-                //        Console.WriteLine("Email: " + email);
-                //    }
-                //}
+                Console.WriteLine("Emails ausgeben: ");
+                foreach (Account account in settingsController.Accounts)
+                {
+                    Console.WriteLine("Account: " + account);
+                    foreach (Email email in account.emails)
+                    {
+                        Console.WriteLine(email);
+                    }
+                }
             }
         }
     }

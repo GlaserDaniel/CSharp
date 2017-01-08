@@ -29,7 +29,8 @@ namespace WpfView
 
         private void loadData()
         {
-            DataContext = new SettingsController().selectedAccount;
+            SettingsController settingsController = new SettingsController();
+            DataContext = settingsController.Accounts[settingsController.selectedAccountIndex];
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)

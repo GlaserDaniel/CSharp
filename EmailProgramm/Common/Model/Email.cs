@@ -10,7 +10,7 @@ namespace Common
     public class Email
     {
         public string sender { get; set; }
-        public string receiver { get; set; }
+        public IList<string> receiver { get; set; }
         public string subject { get; set; }
         public string message { get; set; }
         public DateTime dateTime { get; set; }
@@ -19,12 +19,20 @@ namespace Common
 
         public Email()
         {
-
+            receiver = new List<string>();
         }
 
         public override string ToString()
         {
-            return "sender: " + sender + ", receiver: " + receiver + ", subject: " + subject + ", message: " + message + ", fileURI: " + fileURI;
+            return "Email:" +
+                ",\n sender: " + sender + 
+                ",\n receiver: " + receiver.ToString() + 
+                ",\n subject: " + subject +
+                ",\n dateTime: " + dateTime.ToString() +
+                ",\n isRead: " + isRead +
+                ",\n fileURI: " + fileURI +
+                //",\n message: " + message +
+                "";
         }
     }
 }

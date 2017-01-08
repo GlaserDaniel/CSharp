@@ -14,9 +14,9 @@ namespace Common
 {
     public class SettingsController : INotifyPropertyChanged
     {
-        private ArrayList accounts;
+        private IList<Account> accounts;
 
-        public ArrayList Accounts
+        public IList<Account> Accounts
         {
             get { return accounts; }
             set {
@@ -41,7 +41,7 @@ namespace Common
 
         public SettingsController()
         {
-            Accounts = new ArrayList();
+            Accounts = new List<Account>();
             selectedAccountIndex = -1;
             load();
         }
@@ -136,7 +136,7 @@ namespace Common
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.Read);
-                Accounts = (ArrayList)formatter.Deserialize(accountsStream);
+                Accounts = (List<Account>)formatter.Deserialize(accountsStream);
                 Console.WriteLine("Loaded Accounts: ");
                 foreach (Account account in Accounts)
                 {
