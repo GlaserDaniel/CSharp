@@ -38,14 +38,9 @@ namespace WpfView
             Title = "Account hinzufügen";
 
             // TODO nur zu Testzwecken
-            userTextBox.Text = "danielglaser@gmx.de";
-            emailTextBox.Text = "danielglaser@gmx.de";
+            Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s", true, "pop.gmx.net", 995, "mail.gmx.net", 587);
+            DataContext = testAccount;
             passwordBox.Password = "VGNFZ11s";
-            useImapCheckBox.IsChecked = true;
-            imapPop3ServerTextBox.Text = "pop.gmx.net";
-            smtpServerTextBox.Text = "995";
-            imapPop3PortTextBox.Text = "mail.gmx.net";
-            smtpPortTextBox.Text = "587";
         }
 
         public AccountWindow(SettingsController settingsController, Account selectedAccountToEdit) : this()
@@ -55,7 +50,7 @@ namespace WpfView
             selectedAccountToRemove = selectedAccountToEdit;
             Title = "Account bearbeiten";
 
-            DataContext = this.selectedAccountToRemove;
+            DataContext = selectedAccountToRemove;
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)
