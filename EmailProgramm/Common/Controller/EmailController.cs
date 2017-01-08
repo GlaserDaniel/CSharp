@@ -134,6 +134,7 @@ namespace Common
                             email.receiver = message.To.ToString();
                             email.subject = message.Subject.ToString();
                             email.message = message.Body.ToString();
+                            email.dateTime = message.Date.Date;
 
                             //Console.WriteLine("Email: " + email.ToString());
 

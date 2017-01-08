@@ -23,6 +23,7 @@ namespace WpfView
         public ShowEmailWindow()
         {
             InitializeComponent();
+            Show();
         }
 
         public ShowEmailWindow(Email email) : this()

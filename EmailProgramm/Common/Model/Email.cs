@@ -9,11 +9,13 @@ namespace Common
     [Serializable]
     public class Email
     {
-        public String sender { get; set; }
-        public String receiver { get; set; }
-        public String subject { get; set; }
-        public String message { get; set; }
-        public String fileURI { get; set; }
+        public string sender { get; set; }
+        public string receiver { get; set; }
+        public string subject { get; set; }
+        public string message { get; set; }
+        public DateTime dateTime { get; set; }
+        public bool isRead { get; set; }
+        public string fileURI { get; set; }
 
         public Email()
         {
