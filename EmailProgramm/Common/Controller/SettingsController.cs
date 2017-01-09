@@ -23,11 +23,9 @@ namespace Common
             set {
                 if (accounts == value) return;
                 accounts = value;
-                Console.WriteLine("Set Accounts");
                 OnPropertyChanged("Accounts");
             }
         }
-
 
         public int selectedAccountIndex { get; set; }
         public Account selectedAccount { get; set; }
@@ -137,7 +135,7 @@ namespace Common
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.Read);
-                Accounts = (List<Account>)formatter.Deserialize(accountsStream);
+                Accounts = (ObservableCollection<Account>)formatter.Deserialize(accountsStream);
                 Console.WriteLine("Loaded Accounts: ");
                 foreach (Account account in Accounts)
                 {

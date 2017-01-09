@@ -23,7 +23,7 @@ namespace WpfView
     {
         private SettingsController settingsController;
         private Account selectedAccountToRemove;
-        private SettingsWindow settingsWindow;
+        //private SettingsWindow settingsWindow;
 
         public AccountWindow()
         {
@@ -33,11 +33,11 @@ namespace WpfView
             Show();
         }
         
-        public AccountWindow(SettingsController settingsController, SettingsWindow settingsWindow) : this()
+        public AccountWindow(SettingsController settingsController) : this()
         {
             Console.WriteLine("Account hinzufügen (Constr mit SettingsController)");
             this.settingsController = settingsController;
-            this.settingsWindow = settingsWindow;
+            //this.settingsWindow = settingsWindow;
             Title = "Account hinzufügen";
 
             // TODO nur zu Testzwecken
@@ -140,7 +140,7 @@ namespace WpfView
                 //Account hinzufügen
                 settingsController.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
 
-                settingsWindow.Refresh();
+                //settingsWindow.Refresh();
 
                 Close();
             }
@@ -167,7 +167,9 @@ namespace WpfView
         {
             // EmailController.testServer();
             if ((bool)useImapCheckBox.IsChecked)
-            //new EmailController().TestImapServer(imapPop3ServerTextBox.Text, int imapPop3PortTextBox.Text)
+            {
+                //new EmailController().TestImapServer(imapPop3ServerTextBox.Text, int imapPop3PortTextBox.Text)
+            }
         }
 
         private void testSmtpServerButton_Click(object sender, RoutedEventArgs e)

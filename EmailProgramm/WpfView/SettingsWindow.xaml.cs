@@ -73,7 +73,7 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((SettingsController)DataContext, this);
+            new AccountWindow((SettingsController)DataContext);
         }
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
