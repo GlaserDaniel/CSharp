@@ -8,16 +8,16 @@
 
         Title="Account"
         WindowStartupLocation="CenterScreen"
-        Height="360"
-        Width="300"
-        MinHeight="360"
-        MinWidth="300">
+        Height="365"
+        Width="320"
+        MinHeight="365"
+        MinWidth="320">
     <DockPanel>
         <DockPanel
             DockPanel.Dock="Top">
             <StackPanel 
             DockPanel.Dock="Left">
-                <Label x:Name="userLabel" Content="Username" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" Width="99"/>
+                <Label x:Name="userLabel" Content="Username" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="99"/>
                 <Label x:Name="emailLabel" Content="Email" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="99"/>
                 <Label x:Name="passwordLabel" Content="Password" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="99"/>
                 <Label x:Name="imapPop3ServerLabel" Content="IMAP/POP3-Server" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="113"/>
@@ -25,25 +25,29 @@
                 <Label x:Name="useImapLabel" Content="use IMAP?" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="99"/>
                 <Label x:Name="smtpServerLabel" Content="SMTP-Server" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
                 <Label x:Name="smtpPortLabel" Content="Port" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
-                <Button x:Name="testImapPop3ServerButton" Content="Test IMAP/POP3-Server" Click="testImapPop3ServerButton_Click" Margin="10"></Button>
+                <Button x:Name="testImapPop3ServerButton" Content="Test IMAP/POP3-Server" Click="testImapPop3ServerButton_Click" Height="23" Margin="10" Padding="5,0,5,0"></Button>
             </StackPanel>
             <StackPanel DockPanel.Dock="Right">
-                <TextBox x:Name="userTextBox" Text="{Binding user}" Height="23" Margin="10,12,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Benutzername oder die Email-Adresse des Kontos"/>
+                <TextBox x:Name="userTextBox" Text="{Binding user}" Height="23" Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Benutzername oder die Email-Adresse des Kontos"/>
                 <TextBox x:Name="emailTextBox" Text="{Binding email}" Height="23" Margin="10,8,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Email-Adresse des Kontos"/>
                 <PasswordBox x:Name="passwordBox" Height="23" Margin="10,6,10,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="imapPop3ServerTextBox" Text="{Binding imapPop3Server}" Height="23" Margin="10,5,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der IMAP oder POP3-Server"/>
                 <TextBox x:Name="imapPop3PortTextBox" Text="{Binding imapPop3Port}" PreviewTextInput="imapPop3PortTextBox_PreviewTextInput" Height="23" Margin="10,8,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der IMAP oder POP3-Port"/>
                 <CheckBox x:Name="useImapCheckBox" Content="IMAP" IsChecked="{Binding useImap}" HorizontalAlignment="Left" Margin="10,12,0,3" VerticalAlignment="Top"/>
+                <StackPanel
+                    Orientation="Horizontal">
+                    <RadioButton x:Name="imapRadioButton" GroupName="ImapOrPop3" Content="IMAP" Margin="10"/>
+                    <RadioButton x:Name="pop3RadioButton" GroupName="ImapOrPop3" Content="POP3" Margin="10" IsChecked="True"/>
+                </StackPanel>
                 <TextBox x:Name="smtpServerTextBox" Text="{Binding smtpServer}" Height="23" Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Die Adresse des SMTP-Servers"/>
                 <TextBox x:Name="smtpPortTextBox" Text="{Binding smtpPort}" PreviewTextInput="smtpPortTextBox_PreviewTextInput" Height="23" Margin="10,8,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Der Port des SMTP-Servers"/>
-                <Button x:Name="testSmtpServerButton" Content="Test SMTP-Server" Click="testSmtpServerButton_Click" Margin="10"></Button>
+                <Button x:Name="testSmtpServerButton" Content="Test SMTP-Server" Click="testSmtpServerButton_Click" Height="23" Margin="10"></Button>
             </StackPanel>
         </DockPanel>
         <DockPanel
-            DockPanel.Dock="Bottom"
-            >
-            <Button x:Name="SaveAccount" DockPanel.Dock="Right" Width="100" Content="Speichern" Margin="10,10,10,10" Click="SaveAccount_Click"></Button>
-            <Button x:Name="Abort" DockPanel.Dock="Right" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="Abort_Click"></Button>
+            DockPanel.Dock="Bottom">
+            <Button x:Name="SaveAccount" DockPanel.Dock="Right" Height="23" Width="100" Content="Speichern" Margin="10,10,10,10" Click="SaveAccount_Click"></Button>
+            <Button x:Name="Abort" DockPanel.Dock="Right" Height="23" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="Abort_Click"></Button>
             <Grid></Grid>
         </DockPanel>
         <Grid></Grid>

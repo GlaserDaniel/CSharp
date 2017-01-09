@@ -24,17 +24,16 @@
             </StackPanel>
             <StackPanel
                 DockPanel.Dock="Right">
-                <ComboBox x:Name="senderComboBox" Text="{Binding selectedAccount.email}" KeyboardNavigation.TabIndex="1" Margin="10,10,10,5" VerticalAlignment="Top"/>
+                <ComboBox x:Name="senderComboBox" Text="{Binding selectedAccount.email}" KeyboardNavigation.TabIndex="1" Height="23" Margin="10,10,10,5" VerticalAlignment="Top"/>
                 <TextBox x:Name="receiverTextBox" Text="danielglaser9@gmail.com" KeyboardNavigation.TabIndex="2" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
                 <TextBox x:Name="subjectTextBox" Text="Testmail" KeyboardNavigation.TabIndex="3" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </StackPanel>
         </DockPanel>
 
         <DockPanel 
-            DockPanel.Dock="Bottom"
-            Height="40">
-            <Button x:Name="SendEmail" DockPanel.Dock="Right" Width="100" Height="20" Content="Senden" Margin="10,10,10,10" Click="SendEmail_Click"></Button>
-            <Button x:Name="AbortSendEmail" DockPanel.Dock="Right" Width="100" Height="20" Content="Abbrechen" Margin="10,10,0,10" Click="AbortSendEmail_Click"></Button>
+            DockPanel.Dock="Bottom">
+            <Button x:Name="SendEmail" DockPanel.Dock="Right" Height="23" Width="100" Content="Senden" Margin="10,10,10,10" Click="SendEmail_Click"></Button>
+            <Button x:Name="AbortSendEmail" DockPanel.Dock="Right" Height="23" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="AbortSendEmail_Click"></Button>
             <Grid></Grid>
         </DockPanel>
         <TextBox x:Name="messageTextBox" Text="Testmail Text" KeyboardNavigation.TabIndex="4" Margin="10" AcceptsReturn="True" MinLines="5" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />

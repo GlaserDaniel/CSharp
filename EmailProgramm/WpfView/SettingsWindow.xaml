@@ -18,8 +18,8 @@
             <DockPanel 
                 DockPanel.Dock="Bottom"
                 >
-                <Button x:Name="AppendSettings" DockPanel.Dock="Right" Width="100" Content="Übernehmen" Margin="10,10,10,10" Click="AppendSettings_Click"></Button>
-                <Button x:Name="AbortSettings" DockPanel.Dock="Right" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="AbortSettings_Click"></Button>
+                <Button x:Name="AppendSettings" DockPanel.Dock="Right" Height="23" Width="100" Content="Übernehmen" Margin="10,10,10,10" Click="AppendSettings_Click"></Button>
+                <Button x:Name="AbortSettings" DockPanel.Dock="Right" Height="23" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="AbortSettings_Click"></Button>
                 <Grid></Grid>
             </DockPanel>
             <TabControl x:Name="tabControl" Margin="10">
@@ -29,14 +29,14 @@
                         <DockPanel
                             DockPanel.Dock="Top">
                             <Label DockPanel.Dock="Top" Content="(Der ausgewählte Account ist der Standard Account)"></Label>
-                            <Button DockPanel.Dock="Right" x:Name="EditAccount" Width="100" Height="20" Content="Bearbeiten" Margin="5,10,10,10" Click="EditAccount_Click"></Button>
-                            <Button DockPanel.Dock="Right" x:Name="RemoveAccount" Width="100" Height="20" Content="Löschen" Margin="5,10,5,10" Click="RemoveAccount_Click"></Button>
-                            <ComboBox x:Name="AccountsComboBox" ItemsSource="{Binding Accounts}" MinWidth="110" Margin="10,10,5,10"></ComboBox>
+                            <Button DockPanel.Dock="Right" x:Name="EditAccount" Height="23" Width="100" Content="Bearbeiten" Margin="5,10,10,10" Click="EditAccount_Click"></Button>
+                            <Button DockPanel.Dock="Right" x:Name="RemoveAccount" Height="23" Width="100" Content="Löschen" Margin="5,10,5,10" Click="RemoveAccount_Click"></Button>
+                            <ComboBox x:Name="AccountsComboBox" ItemsSource="{Binding Accounts}" Height="23" MinWidth="110" Margin="10,10,5,10"></ComboBox>
                         </DockPanel>
                         <DockPanel 
                             DockPanel.Dock="Bottom"
                             >
-                            <Button x:Name="AddAccount" DockPanel.Dock="Right" Width="100" Content="Hinzufügen" Margin="10,10,10,10" Click="AddAccount_Click"></Button>
+                            <Button x:Name="AddAccount" DockPanel.Dock="Right" Height="23" Width="100" Content="Hinzufügen" Margin="10,10,10,10" Click="AddAccount_Click"></Button>
                             <Grid></Grid>
                         </DockPanel>
                         <Grid></Grid>
