@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class SettingsController : INotifyPropertyChanged
+    public class SettingsViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<Account> accounts;
 
@@ -38,7 +38,7 @@ namespace Common
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public SettingsController()
+        public SettingsViewModel()
         {
             Accounts = new ObservableCollection<Account>();
             selectedAccountIndex = -1;

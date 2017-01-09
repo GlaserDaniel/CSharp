@@ -29,7 +29,7 @@ namespace WpfView
 
         private void loadData()
         {
-            SettingsController settingsController = new SettingsController();
+            SettingsViewModel settingsController = new SettingsViewModel();
             if (settingsController.selectedAccountIndex >= 0)
             {
                 DataContext = settingsController.Accounts[settingsController.selectedAccountIndex];
@@ -50,7 +50,7 @@ namespace WpfView
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
-            new EmailController().receiveEmails();
+            new EmailViewModel().receiveEmails();
             loadData();
         }
 

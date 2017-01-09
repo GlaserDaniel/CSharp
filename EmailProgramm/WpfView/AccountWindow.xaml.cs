@@ -21,7 +21,7 @@ namespace WpfView
     /// </summary>
     public partial class AccountWindow : Window
     {
-        private SettingsController settingsController;
+        private SettingsViewModel settingsController;
         private Account selectedAccountToRemove;
         //private SettingsWindow settingsWindow;
 
@@ -33,7 +33,7 @@ namespace WpfView
             Show();
         }
         
-        public AccountWindow(SettingsController settingsController) : this()
+        public AccountWindow(SettingsViewModel settingsController) : this()
         {
             Console.WriteLine("Account hinzufügen (Constr mit SettingsController)");
             this.settingsController = settingsController;
@@ -46,7 +46,7 @@ namespace WpfView
             passwordBox.Password = "VGNFZ11s";
         }
 
-        public AccountWindow(SettingsController settingsController, Account selectedAccountToEdit) : this()
+        public AccountWindow(SettingsViewModel settingsController, Account selectedAccountToEdit) : this()
         {
             Console.WriteLine("Account bearbeiten (Constr mit Account)");
             this.settingsController = settingsController;

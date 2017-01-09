@@ -13,16 +13,16 @@ using System.Net.Sockets;
 
 namespace Common
 {
-    public class EmailController
+    public class EmailViewModel
     {
         Account account;
 
-        public EmailController()
+        public EmailViewModel()
         {
             
         }
 
-        public EmailController(Account account)
+        public EmailViewModel(Account account)
         {
             this.account = account;
         }
@@ -78,7 +78,7 @@ namespace Common
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
         public void sendEmail(string sender, string receiver, string subject, string message)
         {
-            SettingsController settingsController = new SettingsController();
+            SettingsViewModel settingsController = new SettingsViewModel();
 
             // wenn ein Account als Standard definiert/ausgewählt wurde
             if (settingsController.selectedAccountIndex != -1)
@@ -131,7 +131,7 @@ namespace Common
 
         public void receiveEmails()
         {
-            SettingsController settingsController = new SettingsController();
+            SettingsViewModel settingsController = new SettingsViewModel();
 
             if (account == null)
             {
@@ -224,7 +224,7 @@ namespace Common
                                 
                             email.dateTime = message.Date.Date;
 
-                            account.emails.Add(email);
+                            account.Emails.Add(email);
 
                             // mark the message for deletion
                             //client.DeleteMessage(i);
@@ -249,7 +249,7 @@ namespace Common
             foreach (Account account in settingsController.Accounts)
             {
                 Console.WriteLine("Account: " + account);
-                foreach (Email email in account.emails)
+                foreach (Email email in account.Emails)
                 {
                     Console.WriteLine(email);
                 }

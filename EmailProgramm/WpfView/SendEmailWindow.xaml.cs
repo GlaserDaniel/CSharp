@@ -20,7 +20,7 @@ namespace WpfView
     /// </summary>
     public partial class SendEmailWindow : Window
     {
-        SettingsController settingsController { get; set; }
+        SettingsViewModel settingsController { get; set; }
 
         public SendEmailWindow()
         {
@@ -31,7 +31,7 @@ namespace WpfView
 
         private void LoadData()
         {
-            settingsController = new SettingsController();
+            settingsController = new SettingsViewModel();
 
             foreach (Account account in settingsController.Accounts)
             {
@@ -66,7 +66,7 @@ namespace WpfView
 
             if (receiverResult && subjectResult == MessageBoxResult.Yes && messageResult == MessageBoxResult.Yes)
             {
-                EmailController emailController = new EmailController();
+                EmailViewModel emailController = new EmailViewModel();
 
                 emailController.sendEmail(sender, receiver, subject, message);
 

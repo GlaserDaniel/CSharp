@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Common
 {
     [Serializable]
-    public class Account
+    public class Account : INotifyPropertyChanged
     {
         public string user { get; set; }
         public string email { get; set; }
@@ -18,7 +21,18 @@ namespace Common
         public int imapPop3Port { get; set; }
         public string smtpServer { get; set; }
         public int smtpPort { get; set; }
-        public ArrayList emails { get; set; }
+        private ObservableCollection<Email> emails;
+
+        public ObservableCollection<Email> Emails
+        {
+            get { return emails; }
+            set
+            {
+                if (emails == value) return;
+                emails = value;
+                OnPropertyChanged("Emails");
+            }
+        }
 
         public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
         {
@@ -30,7 +44,14 @@ namespace Common
             this.imapPop3Port = imapPop3Port;
             this.smtpServer = smtpServer;
             this.smtpPort = smtpPort;
-            this.emails = new ArrayList();
+            Emails = new ObservableCollection<Email>();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public override string ToString()

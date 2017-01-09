@@ -30,15 +30,15 @@ namespace WpfView
 
         private void LoadData()
         {
-            DataContext = new SettingsController();
+            DataContext = new SettingsViewModel();
             //AccountsComboBox.Items.Clear();
             //foreach (Account account in ((SettingsController)DataContext).Accounts)
             //{
             //    AccountsComboBox.Items.Add(account);
             //}
-            if (((SettingsController)DataContext).selectedAccountIndex >= 0)
+            if (((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
             {
-                AccountsComboBox.SelectedItem = ((SettingsController)DataContext).Accounts[((SettingsController)DataContext).selectedAccountIndex];
+                AccountsComboBox.SelectedItem = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex];
             }
         }
 
@@ -61,8 +61,8 @@ namespace WpfView
 
         private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
-            ((SettingsController)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
-            ((SettingsController)DataContext).appendSettings();
+            ((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
+            ((SettingsViewModel)DataContext).appendSettings();
             Close();
         }
 
@@ -73,12 +73,12 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((SettingsController)DataContext);
+            new AccountWindow((SettingsViewModel)DataContext);
         }
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((SettingsController)DataContext, (Account)AccountsComboBox.SelectedItem);
+            new AccountWindow((SettingsViewModel)DataContext, (Account)AccountsComboBox.SelectedItem);
         }
 
         private void RemoveAccount_Click(object sender, RoutedEventArgs e)
@@ -90,7 +90,7 @@ namespace WpfView
             {
                 Console.WriteLine("Ausgewählter Account: " + accountToRemove.ToString());
 
-                ((SettingsController)DataContext).removeAccount(accountToRemove);
+                ((SettingsViewModel)DataContext).removeAccount(accountToRemove);
 
                 //LoadData();
 
