@@ -50,8 +50,24 @@ namespace WpfView
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
-            new EmailViewModel().receiveEmails();
-            loadData();
+            if (DataContext != null)
+            {
+                Account account = (Account)DataContext;
+                
+                var progressHandler = new Progress<double>(value =>
+                {
+                    ProgressBar.Value = value;
+                });
+
+                Task t = Task.Run(() => new EmailViewModel().receiveEmails(account, progressHandler));
+
+                Console.WriteLine("Task Status: " + t.Status.ToString());
+                //loadData();
+            } else
+            {
+                MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)

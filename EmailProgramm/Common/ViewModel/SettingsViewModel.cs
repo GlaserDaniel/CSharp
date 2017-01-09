@@ -50,40 +50,40 @@ namespace Common
             Account account = new Account(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
 
             Accounts.Add(account);
-            OnPropertyChanged("Accounts");
+            //OnPropertyChanged("Accounts");
 
-            Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
+            //Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
 
             if (selectedAccount == null || selectedAccountIndex == -1)
             {
                 selectedAccountIndex = Accounts.IndexOf(account);
                 selectedAccount = (Account)Accounts[Accounts.Count-1];
-                Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
+                //Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
             }
 
-            Console.WriteLine("nach adden selectedAccount: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
+            //Console.WriteLine("nach adden selectedAccount: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
 
             save();
         }
 
         public void removeAccount(Account accountToRemove)
         {
-            Console.WriteLine("Vor löschen Accounts: ");
-            foreach (Account account in this.Accounts)
-            {
-                Console.WriteLine("Account: " + account.ToString());
-            }
-            Console.WriteLine("Zu löschender Account: " + accountToRemove.ToString());
+            //Console.WriteLine("Vor löschen Accounts: ");
+            //foreach (Account account in this.Accounts)
+            //{
+            //    Console.WriteLine("Account: " + account.ToString());
+            //}
+            //Console.WriteLine("Zu löschender Account: " + accountToRemove.ToString());
 
             Accounts.Remove(accountToRemove);
-            OnPropertyChanged("Accounts");
+            //OnPropertyChanged("Accounts");
 
-            Console.WriteLine("Gelöschter Account: " + accountToRemove.ToString());
-            Console.WriteLine("Nach löschen Accounts: ");
-            foreach (Account account in this.Accounts)
-            {
-                Console.WriteLine("Account: " + account.ToString());
-            }
+            //Console.WriteLine("Gelöschter Account: " + accountToRemove.ToString());
+            //Console.WriteLine("Nach löschen Accounts: ");
+            //foreach (Account account in this.Accounts)
+            //{
+            //    Console.WriteLine("Account: " + account.ToString());
+            //}
             if (Accounts.Count == 0)
             {
                 selectedAccountIndex = -1;
@@ -103,11 +103,11 @@ namespace Common
                                      FileMode.Create,
                                      FileAccess.Write, FileShare.None);
             formatter.Serialize(accountsStream, Accounts);
-            Console.WriteLine("Saved Accounts: ");
-            foreach (Account account in Accounts)
-            {
-                Console.WriteLine("Account: " + account.ToString());
-            }
+            //Console.WriteLine("Saved Accounts: ");
+            //foreach (Account account in Accounts)
+            //{
+            //    Console.WriteLine("Account: " + account.ToString());
+            //}
             accountsStream.Close();
             if (selectedAccount != null)
             {
@@ -115,7 +115,7 @@ namespace Common
                                          FileMode.Create,
                                          FileAccess.Write, FileShare.None);
                 formatter.Serialize(selectedAccountStream, selectedAccount);
-                Console.WriteLine("Saved Selected Account: " + selectedAccount.email);
+                //Console.WriteLine("Saved Selected Account: " + selectedAccount.email);
                 selectedAccountStream.Close();
             }
             Stream selectedAccountIndexStream = new FileStream("selectedAccountIndex.bin",
@@ -136,11 +136,11 @@ namespace Common
                                           FileAccess.Read,
                                           FileShare.Read);
                 Accounts = (ObservableCollection<Account>)formatter.Deserialize(accountsStream);
-                Console.WriteLine("Loaded Accounts: ");
-                foreach (Account account in Accounts)
-                {
-                    Console.WriteLine("Account: " + account.ToString());
-                }
+                //Console.WriteLine("Loaded Accounts: ");
+                //foreach (Account account in Accounts)
+                //{
+                //    Console.WriteLine("Account: " + account.ToString());
+                //}
                 accountsStream.Close();
 
             }
@@ -157,7 +157,7 @@ namespace Common
                                           FileAccess.Read,
                                           FileShare.Read);
                 selectedAccount = (Account)formatter.Deserialize(selectedAccountStream);
-                Console.WriteLine("Loaded Selected Account: " + selectedAccount.email);
+                //Console.WriteLine("Loaded Selected Account: " + selectedAccount.email);
                 selectedAccountStream.Close();
             }
             catch (FileNotFoundException e)
@@ -180,7 +180,7 @@ namespace Common
                                           FileAccess.Read,
                                           FileShare.Read);
                 selectedAccountIndex = (int)formatter.Deserialize(selectedAccountIndexStream);
-                Console.WriteLine("Loaded Selected Account Index: " + selectedAccountIndex);
+                //Console.WriteLine("Loaded Selected Account Index: " + selectedAccountIndex);
                 selectedAccountIndexStream.Close();
             }
             catch (FileNotFoundException e)

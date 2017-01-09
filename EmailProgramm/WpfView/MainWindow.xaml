@@ -39,21 +39,23 @@
             <Button x:Name="Posteingang" Content="Posteingang"/>
         </StackPanel>
         <StackPanel
-                Margin="10">
-            <ListView x:Name="EmailsListView" ItemsSource="{Binding Emails}" MouseDoubleClick="EmailsListView_MouseDoubleClick" VerticalAlignment="Top" VerticalContentAlignment="Top">
-                <ListView.View>
-                    <GridView>
-                        <GridView.Columns>
-                            <GridViewColumn 
+            DockPanel.Dock="Bottom"
+            Orientation="Horizontal">
+            <ProgressBar x:Name="ProgressBar" Margin="400,5,5,10" Height="10" Width="100"/>
+        </StackPanel>
+        <ListView x:Name="EmailsListView" ItemsSource="{Binding Emails}" MouseDoubleClick="EmailsListView_MouseDoubleClick" Margin="10,10,10,5" VerticalContentAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn 
                                     Header="Sender"
                                     DisplayMemberBinding="{Binding sender}"/>
-                            <GridViewColumn 
+                        <GridViewColumn 
                                     Header="Betreff"
                                     DisplayMemberBinding="{Binding subject}"/>
-                        </GridView.Columns>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </DockPanel>
 </Window>
