@@ -30,7 +30,10 @@ namespace WpfView
         private void loadData()
         {
             SettingsController settingsController = new SettingsController();
-            DataContext = settingsController.Accounts[settingsController.selectedAccountIndex];
+            if (settingsController.selectedAccountIndex >= 0)
+            {
+                DataContext = settingsController.Accounts[settingsController.selectedAccountIndex];
+            }
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)
