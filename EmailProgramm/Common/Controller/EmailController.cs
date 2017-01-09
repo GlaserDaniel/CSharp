@@ -22,15 +22,52 @@ namespace Common
             
         }
 
-        public bool TestServer()
+        public EmailController(Account account)
+        {
+            this.account = account;
+        }
+
+        public bool TestImapServer(String imapServer, int imapPort)
         {
             try
             {
                 using (ImapClient imapClient = new ImapClient())
                 {
-                    imapClient.Connect(account.smtpServer, account.smtpPort, true);
+                    imapClient.Connect(imapServer, imapPort, true);
                 }
             } catch (IOException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool TestPop3Server(String pop3Server, int pop3Port)
+        {
+            try
+            {
+                using (Pop3Client pop3Client = new Pop3Client())
+                {
+                    pop3Client.Connect(pop3Server, pop3Port, true);
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool TestSmtpServer(String smtpServer, int smtpPort)
+        {
+            try
+            {
+                using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
+                {
+                    //smtpClient.(smtpServer, smtpPort, true);
+                }
+            }
+            catch (IOException)
             {
                 return false;
             }
@@ -46,6 +83,7 @@ namespace Common
             // wenn ein Account als Standard definiert/ausgewählt wurde
             if (settingsController.selectedAccountIndex != -1)
             {
+                // TODO anhand der ausgewähten EMail Adresse Account nutzen
                 account = (Account)settingsController.Accounts[settingsController.selectedAccountIndex];
 
                 MailMessage mailMessage = new MailMessage();
@@ -95,123 +133,125 @@ namespace Common
         {
             SettingsController settingsController = new SettingsController();
 
-            // wenn ein Account als Standard definiert/ausgewählt wurde
-            if (settingsController.selectedAccountIndex != -1)
+            if (account == null)
             {
-                account = settingsController.Accounts[settingsController.selectedAccountIndex];
-
-                if (account.useImap)
+                // wenn ein Account als Standard definiert/ausgewählt wurde
+                if (settingsController.selectedAccountIndex != -1)
                 {
-                    try
+                    account = settingsController.Accounts[settingsController.selectedAccountIndex];
+                }
+            }
+            if (account.useImap)
+            {
+                try
+                {
+                    using (ImapClient imapClient = new ImapClient())
                     {
-                        using (ImapClient imapClient = new ImapClient())
+                        imapClient.Connect(account.smtpServer, account.smtpPort, true);
+
+                        imapClient.Authenticate(account.user, account.password);
+
+                        imapClient.Inbox.Open(FolderAccess.ReadOnly);
+
+                        var uids = imapClient.Inbox.Search(SearchQuery.New);
+
+                        foreach (var uid in uids)
                         {
-                            imapClient.Connect(account.smtpServer, account.smtpPort, true);
+                            var message = imapClient.Inbox.GetMessage(uid);
 
-                            imapClient.Authenticate(account.user, account.password);
+                            // write the message to a file
+                            //message.WriteTo(string.Format("{0}.msg", uid));
 
-                            imapClient.Inbox.Open(FolderAccess.ReadOnly);
-
-                            var uids = imapClient.Inbox.Search(SearchQuery.New);
-
-                            foreach (var uid in uids)
-                            {
-                                var message = imapClient.Inbox.GetMessage(uid);
-
-                                // write the message to a file
-                                //message.WriteTo(string.Format("{0}.msg", uid));
-
-                                Console.WriteLine("Message " + uid + ": " + message.Subject);
-                            }
-
-                            imapClient.Disconnect(true);
+                            Console.WriteLine("Message " + uid + ": " + message.Subject);
                         }
-                    }
-                    catch (IOException e)
-                    {
-                        Console.WriteLine("IOException: " + e);
-                    }
-                    catch (SocketException se)
-                    {
-                        Console.WriteLine("SocketException: " + se);
+
+                        imapClient.Disconnect(true);
                     }
                 }
-                else
+                catch (IOException e)
                 {
-                    try
+                    Console.WriteLine("IOException: " + e);
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("SocketException: " + se);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var client = new Pop3Client())
                     {
-                        using (var client = new Pop3Client())
+                        client.Connect(account.imapPop3Server, account.imapPop3Port, true);
+
+                        client.Authenticate(account.user, account.password);
+
+                        // TODO Erstmal nur 10 Emails abholen
+                        int count = client.Count;
+                        if (client.Count > 3)
                         {
-                            client.Connect(account.imapPop3Server, account.imapPop3Port, true);
+                            count = 3;
+                        }
 
-                            client.Authenticate(account.user, account.password);
+                        for (int i = 0; i < count; i++)
+                        {
+                            var message = client.GetMessage(i);
 
-                            // TODO Erstmal nur 10 Emails abholen
-                            int count = client.Count;
-                            if (client.Count > 3)
+                            // write the message to a file
+                            //message.WriteTo(string.Format("{0}.msg", i));
+
+                            //Console.WriteLine("Message " + i + ": " + message.Subject);
+
+                            Email email = new Email();
+
+                            email.sender = message.From.ToString();
+
+                            foreach (MimeKit.InternetAddress inetAdress in message.To)
                             {
-                                count = 3;
+                                email.receiver.Add(inetAdress.ToString());
                             }
 
-                            for (int i = 0; i < count; i++)
+                            email.subject = message.Subject.ToString();
+
+                            if (!string.IsNullOrEmpty(message.HtmlBody))
                             {
-                                var message = client.GetMessage(i);
-
-                                // write the message to a file
-                                //message.WriteTo(string.Format("{0}.msg", i));
-
-                                //Console.WriteLine("Message " + i + ": " + message.Subject);
-
-                                Email email = new Email();
-
-                                email.sender = message.From.ToString();
-
-                                foreach (MimeKit.InternetAddress inetAdress in message.To)
-                                {
-                                    email.receiver.Add(inetAdress.ToString());
-                                }
-
-                                email.subject = message.Subject.ToString();
-
-                                if (!string.IsNullOrEmpty(message.HtmlBody))
-                                {
-                                    email.message = message.HtmlBody.ToString();
-                                } else
-                                {
-                                    email.message = message.Body.ToString();
-                                }
+                                email.message = message.HtmlBody.ToString();
+                            } else
+                            {
+                                email.message = message.Body.ToString();
+                            }
                                 
-                                email.dateTime = message.Date.Date;
+                            email.dateTime = message.Date.Date;
 
-                                account.emails.Add(email);
+                            account.emails.Add(email);
 
-                                // mark the message for deletion
-                                //client.DeleteMessage(i);
-                            }
-
-                            client.Disconnect(true);
+                            // mark the message for deletion
+                            //client.DeleteMessage(i);
                         }
-                    }
-                    catch (IOException e)
-                    {
-                        Console.WriteLine("IOException: " + e);
-                    }
-                    catch (SocketException se)
-                    {
-                        Console.WriteLine("SocketException: " + se);
+
+                        client.Disconnect(true);
                     }
                 }
-                settingsController.appendSettings();
-
-                // TODO Testausgabe
-                Console.WriteLine("Emails ausgeben: ");
-                foreach (Account account in settingsController.Accounts)
+                catch (IOException e)
                 {
-                    Console.WriteLine("Account: " + account);
-                    foreach (Email email in account.emails)
-                    {
-                        Console.WriteLine(email);
-                    }
+                    Console.WriteLine("IOException: " + e);
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("SocketException: " + se);
+                }
+            }
+            settingsController.appendSettings();
+
+            // TODO Testausgabe
+            Console.WriteLine("Emails ausgeben: ");
+            foreach (Account account in settingsController.Accounts)
+            {
+                Console.WriteLine("Account: " + account);
+                foreach (Email email in account.emails)
+                {
+                    Console.WriteLine(email);
                 }
             }
         }

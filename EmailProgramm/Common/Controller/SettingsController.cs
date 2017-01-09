@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace Common
 {
     public class SettingsController : INotifyPropertyChanged
     {
-        private IList<Account> accounts;
+        private ObservableCollection<Account> accounts;
 
-        public IList<Account> Accounts
+        public ObservableCollection<Account> Accounts
         {
             get { return accounts; }
             set {
@@ -41,7 +42,7 @@ namespace Common
 
         public SettingsController()
         {
-            Accounts = new List<Account>();
+            Accounts = new ObservableCollection<Account>();
             selectedAccountIndex = -1;
             load();
         }

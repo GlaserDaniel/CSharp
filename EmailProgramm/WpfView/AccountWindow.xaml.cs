@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Common;
+using System.Text.RegularExpressions;
 
 namespace WpfView
 {
@@ -22,6 +23,7 @@ namespace WpfView
     {
         private SettingsController settingsController;
         private Account selectedAccountToRemove;
+        private SettingsWindow settingsWindow;
 
         public AccountWindow()
         {
@@ -31,10 +33,11 @@ namespace WpfView
             Show();
         }
         
-        public AccountWindow(SettingsController settingsController) : this()
+        public AccountWindow(SettingsController settingsController, SettingsWindow settingsWindow) : this()
         {
             Console.WriteLine("Account hinzufügen (Constr mit SettingsController)");
             this.settingsController = settingsController;
+            this.settingsWindow = settingsWindow;
             Title = "Account hinzufügen";
 
             // TODO nur zu Testzwecken
@@ -51,12 +54,6 @@ namespace WpfView
             Title = "Account bearbeiten";
 
             DataContext = selectedAccountToRemove;
-        }
-
-        // Testen 
-        private void testServer()
-        {
-
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)
@@ -143,6 +140,8 @@ namespace WpfView
                 //Account hinzufügen
                 settingsController.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
 
+                settingsWindow.Refresh();
+
                 Close();
             }
         }
@@ -150,6 +149,30 @@ namespace WpfView
         private void Abort_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void imapPop3PortTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void smtpPortTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void testImapPop3ServerButton_Click(object sender, RoutedEventArgs e)
+        {
+            // EmailController.testServer();
+            if ((bool)useImapCheckBox.IsChecked)
+            //new EmailController().TestImapServer(imapPop3ServerTextBox.Text, int imapPop3PortTextBox.Text)
+        }
+
+        private void testSmtpServerButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

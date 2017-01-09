@@ -36,10 +36,15 @@ namespace WpfView
             //{
             //    AccountsComboBox.Items.Add(account);
             //}
-            //if (((SettingsController)DataContext).selectedAccountIndex >= 0)
-            //{
-            //    AccountsComboBox.SelectedItem = ((SettingsController)DataContext).Accounts[((SettingsController)DataContext).selectedAccountIndex];
-            //}
+            if (((SettingsController)DataContext).selectedAccountIndex >= 0)
+            {
+                AccountsComboBox.SelectedItem = ((SettingsController)DataContext).Accounts[((SettingsController)DataContext).selectedAccountIndex];
+            }
+        }
+
+        public void Refresh()
+        {
+            LoadData();
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -68,7 +73,7 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((SettingsController)DataContext);
+            new AccountWindow((SettingsController)DataContext, this);
         }
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
@@ -87,11 +92,16 @@ namespace WpfView
 
                 ((SettingsController)DataContext).removeAccount(accountToRemove);
 
+                //LoadData();
+
                 //AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
 
-                if (AccountsComboBox.Items.Count > 0)
+                if (AccountsComboBox.SelectedItem == null)
                 {
-                    AccountsComboBox.SelectedItem = AccountsComboBox.Items.GetItemAt(0);
+                    if (AccountsComboBox.Items.Count > 0)
+                    {
+                        AccountsComboBox.SelectedItem = AccountsComboBox.Items.GetItemAt(0);
+                    }
                 }
             }
         }

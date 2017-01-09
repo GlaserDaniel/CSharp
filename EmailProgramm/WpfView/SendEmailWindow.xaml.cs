@@ -69,6 +69,7 @@ namespace WpfView
                 EmailController emailController = new EmailController();
 
                 emailController.sendEmail(sender, receiver, subject, message);
+
                 Close();
             }
         }

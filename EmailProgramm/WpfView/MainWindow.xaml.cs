@@ -51,6 +51,7 @@ namespace WpfView
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
             new EmailController().receiveEmails();
+            loadData();
         }
 
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)

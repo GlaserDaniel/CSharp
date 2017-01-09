@@ -29,9 +29,9 @@
                         <DockPanel
                             DockPanel.Dock="Top">
                             <Label DockPanel.Dock="Top" Content="(Der ausgewählte Account ist der Standard Account)"></Label>
-                            <Button DockPanel.Dock="Right" x:Name="EditAccount" Width="100" Content="Bearbeiten" Margin="5,10,10,10" Click="EditAccount_Click"></Button>
-                            <Button DockPanel.Dock="Right" x:Name="RemoveAccount" Width="100" Content="Löschen" Margin="5,10,5,10" Click="RemoveAccount_Click"></Button>
-                            <ComboBox x:Name="AccountsComboBox" ItemsSource="{Binding Accounts, Mode=OneWay}" MinWidth="110" Height="20" Margin="10,10,5,10"></ComboBox>
+                            <Button DockPanel.Dock="Right" x:Name="EditAccount" Width="100" Height="20" Content="Bearbeiten" Margin="5,10,10,10" Click="EditAccount_Click"></Button>
+                            <Button DockPanel.Dock="Right" x:Name="RemoveAccount" Width="100" Height="20" Content="Löschen" Margin="5,10,5,10" Click="RemoveAccount_Click"></Button>
+                            <ComboBox x:Name="AccountsComboBox" ItemsSource="{Binding Accounts}" MinWidth="110" Margin="10,10,5,10"></ComboBox>
                         </DockPanel>
                         <DockPanel 
                             DockPanel.Dock="Bottom"
