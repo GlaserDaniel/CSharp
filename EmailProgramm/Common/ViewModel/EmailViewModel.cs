@@ -230,7 +230,10 @@ namespace Common
 
                                 email.dateTime = message.Date.Date;
 
-                                account.Emails.Add(email);
+                                Dispatcher.BeginInvoke((Action)(() =>
+                                {
+                                    account.Emails.Add(email);
+                                }));
 
                                 // mark the message for deletion
                                 //client.DeleteMessage(i);
