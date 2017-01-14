@@ -15,19 +15,14 @@ using System.Threading;
 
 namespace Common
 {
+    /// <summary>
+    /// Klasse um alles mit Emails machen zu können.
+    /// </summary>
     public class EmailViewModel
     {
-        // TODO entfernen
-        Account account;
-
         public EmailViewModel()
         {
-            
-        }
 
-        public EmailViewModel(Account account)
-        {
-            this.account = account;
         }
 
         public Task<bool> TestImapServer(String imapServer, int imapPort)
@@ -102,68 +97,71 @@ namespace Common
             });
         }
 
+        /// <summary>
+        /// Email senden
+        /// </summary>
+        /// <param name="senderAccount"></param>
+        /// <param name="receiver"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
         // Snippet von www.code-bude.net
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
-        public void sendEmail(string sender, string receiver, string subject, string message)
+        public void sendEmail(Account senderAccount, string receiver, string subject, string message)
         {
-            SettingsViewModel settingsController = new SettingsViewModel();
+            MailMessage mailMessage = new MailMessage();
 
-            // wenn ein Account als Standard definiert/ausgewählt wurde
-            if (settingsController.selectedAccountIndex != -1)
+            //Absender konfigurieren
+            mailMessage.From = new MailAddress(senderAccount.email);
+
+            //Empfänger konfigurieren
+            mailMessage.To.Add(new MailAddress(receiver.Trim()));
+
+            //Betreff einrichten
+            mailMessage.Subject = subject;
+
+            //Hinzufügen der eigentlichen Nachricht
+            mailMessage.Body = message;
+
+            //Ausgangsserver initialisieren
+            SmtpClient smtpClient = new SmtpClient(senderAccount.smtpServer, senderAccount.smtpPort);
+
+            // SSL aktivieren
+            // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
+            smtpClient.EnableSsl = true;
+
+            if (senderAccount.user.Length > 0 && senderAccount.user != string.Empty)
             {
-                // TODO anhand der ausgewähten EMail Adresse Account nutzen
-                account = (Account)settingsController.Accounts[settingsController.selectedAccountIndex];
+                //Login konfigurieren
+                smtpClient.Credentials = new System.Net.NetworkCredential(senderAccount.user, senderAccount.password);
+                Console.WriteLine("Password: " + senderAccount.password);
+            }
 
-                MailMessage mailMessage = new MailMessage();
+            Console.WriteLine(mailMessage.To);
 
-                //Absender konfigurieren
-                mailMessage.From = new MailAddress(sender);
-
-                //Empfänger konfigurieren
-                mailMessage.To.Add(new MailAddress(receiver.Trim()));
-
-                //Betreff einrichten
-                mailMessage.Subject = subject;
-
-                //Hinzufügen der eigentlichen Nachricht
-                mailMessage.Body = message;
-
-                //Ausgangsserver initialisieren
-                SmtpClient smtpClient = new SmtpClient(account.smtpServer, account.smtpPort);
-
-                // SSL aktivieren
-                // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
-                smtpClient.EnableSsl = true;
-
-                if (account.user.Length > 0 && account.user != string.Empty)
-                {
-                    //Login konfigurieren
-                    smtpClient.Credentials = new System.Net.NetworkCredential(account.user, account.password);
-                    Console.WriteLine("Password: " + account.password);
-                }
-
-                Console.WriteLine(mailMessage.To);
-
-                //Email absenden
-                try
-                {
-                    smtpClient.SendMailAsync(mailMessage); // TODO SendMailAsync
-                }
-                catch (SmtpException e)
-                {
-                    // TODO Benachrichtigung das es nicht funktioniert hat!
-                    Console.WriteLine("SMTP Exception: " + e);
-                }
+            //Email absenden
+            try
+            {
+                smtpClient.SendMailAsync(mailMessage); // TODO SendMailAsync
+            }
+            catch (SmtpException e)
+            {
+                // TODO Benachrichtigung das es nicht funktioniert hat!
+                Console.WriteLine("SMTP Exception: " + e);
             }
         }
 
+        /// <summary>
+        /// Emails abholen
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="progressHandler"></param>
+        /// <param name="dispatcher"></param>
+        /// <returns></returns>
         public Task receiveEmails(Account account, Progress<double> progressHandler, Dispatcher dispatcher)
         {
-            return Task.Run(() => {
-                this.account = account;
+            return Task.Run(() =>
+            {
                 var progress = progressHandler as IProgress<double>;
-
-                SettingsViewModel settingsController = new SettingsViewModel();
 
                 if (account != null)
                 {
@@ -264,7 +262,6 @@ namespace Common
                                     dispatcher.BeginInvoke((Action)(() =>
                                     {
                                         currentAccount.Emails.Add(currentEmail);
-                                        Console.WriteLine("Im Dispatcher");
                                     }));
 
                                     // mark the message for deletion
@@ -283,7 +280,6 @@ namespace Common
                             Console.WriteLine("SocketException: " + se);
                         }
                     }
-                    settingsController.appendSettings();
 
                     if (progress != null)
                     {

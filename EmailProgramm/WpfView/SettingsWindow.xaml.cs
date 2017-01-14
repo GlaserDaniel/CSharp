@@ -61,7 +61,8 @@ namespace WpfView
 
         private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
-            ((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
+            //((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
+            ((SettingsViewModel)DataContext).selectedAccountIndex = AccountsComboBox.SelectedIndex;
             ((SettingsViewModel)DataContext).appendSettings();
             Close();
         }

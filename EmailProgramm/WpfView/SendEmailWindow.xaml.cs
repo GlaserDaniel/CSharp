@@ -20,7 +20,7 @@ namespace WpfView
     /// </summary>
     public partial class SendEmailWindow : Window
     {
-        SettingsViewModel settingsController { get; set; }
+        SettingsViewModel settingsViewModel { get; set; }
 
         public SendEmailWindow()
         {
@@ -31,19 +31,25 @@ namespace WpfView
 
         private void LoadData()
         {
-            settingsController = new SettingsViewModel();
+            settingsViewModel = new SettingsViewModel();
 
-            foreach (Account account in settingsController.Accounts)
+            //foreach (Account account in settingsViewModel.Accounts)
+            //{
+            //    senderComboBox.Items.Add(((Account) account).email);
+            //}
+
+            DataContext = settingsViewModel;
+
+            if (((SettingsViewModel)DataContext).selectedAccountIndex != -1)
             {
-                senderComboBox.Items.Add(((Account) account).email);
+                senderComboBox.SelectedIndex = ((SettingsViewModel)DataContext).selectedAccountIndex;
             }
-
-            DataContext = settingsController;
         }
 
         private void SendEmail_Click(object senderObject, RoutedEventArgs e)
         {
-            string sender = senderComboBox.Text;
+            //string sender = senderComboBox.Text;
+            Account senderAccount = (Account)senderComboBox.SelectedItem;
             string receiver = receiverTextBox.Text;
             string subject = subjectTextBox.Text;
             string message = messageTextBox.Text;
@@ -56,10 +62,12 @@ namespace WpfView
             {
                 MessageBox.Show("Der Empfänger ist leer!", "Empfänger fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 receiverResult = false;
-            } if (String.IsNullOrEmpty(subject) && receiverResult)
+            }
+            if (String.IsNullOrEmpty(subject) && receiverResult)
             {
                 subjectResult = MessageBox.Show("Der Betreff ist leer! Trotzdem senden?", "Betreff fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            } if (String.IsNullOrEmpty(message) && receiverResult && subjectResult == MessageBoxResult.Yes)
+            }
+            if (String.IsNullOrEmpty(message) && receiverResult && subjectResult == MessageBoxResult.Yes)
             {
                 messageResult = MessageBox.Show("Die Nachricht ist leer! Trotzdem senden?", "Betreff fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
             }
@@ -68,7 +76,7 @@ namespace WpfView
             {
                 EmailViewModel emailController = new EmailViewModel();
 
-                emailController.sendEmail(sender, receiver, subject, message);
+                emailController.sendEmail(senderAccount, receiver, subject, message);
 
                 Close();
             }

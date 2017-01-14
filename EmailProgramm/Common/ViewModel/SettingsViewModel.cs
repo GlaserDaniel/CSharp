@@ -13,22 +13,32 @@ using System.Threading.Tasks;
 
 namespace Common
 {
+    /// <summary>
+    /// Klasse für die Einstllungen.
+    /// </summary>
     public class SettingsViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<Account> accounts;
 
+        /// <summary>
+        /// Eine Liste aller Accounts.
+        /// </summary>
         public ObservableCollection<Account> Accounts
         {
             get { return accounts; }
-            set {
+            set
+            {
                 if (accounts == value) return;
                 accounts = value;
                 OnPropertyChanged("Accounts");
             }
         }
 
+        /// <summary>
+        /// Der Index des ausgewählten Accounts. Falls keine ausgewählt ist, ist er -1.
+        /// </summary>
         public int selectedAccountIndex { get; set; }
-        public Account selectedAccount { get; set; }
+        //public Account selectedAccount { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -54,10 +64,10 @@ namespace Common
 
             //Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
 
-            if (selectedAccount == null || selectedAccountIndex == -1)
+            if (selectedAccountIndex == -1) //selectedAccount == null || 
             {
                 selectedAccountIndex = Accounts.IndexOf(account);
-                selectedAccount = (Account)Accounts[Accounts.Count-1];
+                //selectedAccount = (Account)Accounts[Accounts.Count - 1];
                 //Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
             }
 
@@ -109,15 +119,17 @@ namespace Common
             //    Console.WriteLine("Account: " + account.ToString());
             //}
             accountsStream.Close();
-            if (selectedAccount != null)
-            {
-                Stream selectedAccountStream = new FileStream("selectedAccount.bin",
-                                         FileMode.Create,
-                                         FileAccess.Write, FileShare.None);
-                formatter.Serialize(selectedAccountStream, selectedAccount);
-                //Console.WriteLine("Saved Selected Account: " + selectedAccount.email);
-                selectedAccountStream.Close();
-            }
+
+            //if (selectedAccount != null)
+            //{
+            //    Stream selectedAccountStream = new FileStream("selectedAccount.bin",
+            //                             FileMode.Create,
+            //                             FileAccess.Write, FileShare.None);
+            //    formatter.Serialize(selectedAccountStream, selectedAccount);
+            //    //Console.WriteLine("Saved Selected Account: " + selectedAccount.email);
+            //    selectedAccountStream.Close();
+            //}
+
             Stream selectedAccountIndexStream = new FileStream("selectedAccountIndex.bin",
                                          FileMode.Create,
                                          FileAccess.Write, FileShare.None);
@@ -156,29 +168,29 @@ namespace Common
                 Accounts = new ObservableCollection<Account>();
             }
 
-            try
-            {
-                Stream selectedAccountStream = new FileStream("selectedAccount.bin",
-                                          FileMode.Open,
-                                          FileAccess.Read,
-                                          FileShare.Read);
-                selectedAccount = (Account)formatter.Deserialize(selectedAccountStream);
-                //Console.WriteLine("Loaded Selected Account: " + selectedAccount.email);
-                selectedAccountStream.Close();
-            }
-            catch (FileNotFoundException e)
-            {
-                // TODO Fehlermeldung
-                Console.WriteLine("FileNotFoundException: " + e);
-                selectedAccount = null;
-            }
-            catch (SerializationException se)
-            {
-                // TODO Fehlermeldung
-                // Datei leer
-                Console.WriteLine("SerializationException: " + se);
-                selectedAccount = null;
-            }
+            //try
+            //{
+            //    Stream selectedAccountStream = new FileStream("selectedAccount.bin",
+            //                              FileMode.Open,
+            //                              FileAccess.Read,
+            //                              FileShare.Read);
+            //    selectedAccount = (Account)formatter.Deserialize(selectedAccountStream);
+            //    //Console.WriteLine("Loaded Selected Account: " + selectedAccount.email);
+            //    selectedAccountStream.Close();
+            //}
+            //catch (FileNotFoundException e)
+            //{
+            //    // TODO Fehlermeldung
+            //    Console.WriteLine("FileNotFoundException: " + e);
+            //    selectedAccount = null;
+            //}
+            //catch (SerializationException se)
+            //{
+            //    // TODO Fehlermeldung
+            //    // Datei leer
+            //    Console.WriteLine("SerializationException: " + se);
+            //    selectedAccount = null;
+            //}
 
             try
             {

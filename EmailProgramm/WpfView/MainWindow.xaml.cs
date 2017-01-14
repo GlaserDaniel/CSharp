@@ -30,10 +30,12 @@ namespace WpfView
         private void loadData()
         {
             SettingsViewModel settingsController = new SettingsViewModel();
-            if (settingsController.selectedAccountIndex >= 0)
-            {
-                DataContext = settingsController.Accounts[settingsController.selectedAccountIndex];
-            }
+
+            DataContext = settingsController;
+
+            // Da es im XAML Code so nicht mehr funktioniert
+            //ItemsSource = "{Binding Accounts[selectedAccountIndex].Emails}"
+            EmailsListView.ItemsSource = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)
@@ -50,10 +52,13 @@ namespace WpfView
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
-            loadData();
-            if (DataContext != null)
+            if (DataContext == null)
             {
-                Account account = (Account)DataContext;
+                loadData();
+            }
+            if (DataContext != null && ((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
+            {
+                Account account = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex];
                 
                 var progressHandler = new Progress<double>(value =>
                 {

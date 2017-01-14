@@ -44,8 +44,8 @@
                     Height="23"
                     Margin="10,10,10,5"
                     VerticalAlignment="Top"
-                    KeyboardNavigation.TabIndex="1"
-                    Text="{Binding selectedAccount.email}" />
+                    ItemsSource="{Binding Accounts}"
+                    KeyboardNavigation.TabIndex="1" />
                 <TextBox
                     x:Name="receiverTextBox"
                     Height="23"
@@ -90,7 +90,7 @@
             AcceptsReturn="True"
             HorizontalScrollBarVisibility="Auto"
             KeyboardNavigation.TabIndex="4"
-            MinLines="5"
+            MinLines="1"
             Text="Testmail Text"
             TextWrapping="Wrap"
             VerticalScrollBarVisibility="Auto" />
