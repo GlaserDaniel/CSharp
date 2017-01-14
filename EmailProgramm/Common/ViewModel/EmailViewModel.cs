@@ -171,22 +171,62 @@ namespace Common
                         {
                             using (ImapClient imapClient = new ImapClient())
                             {
-                                imapClient.Connect(account.smtpServer, account.smtpPort, true);
+                                imapClient.Connect(account.imapPop3Server, account.imapPop3Port, true);
 
                                 imapClient.Authenticate(account.user, account.password);
 
                                 imapClient.Inbox.Open(FolderAccess.ReadOnly);
 
-                                var uids = imapClient.Inbox.Search(SearchQuery.New);
+                                var uids = imapClient.Inbox.Search(SearchQuery.All); // vorher New
+
+                                // TODO entfernen
+                                Console.WriteLine("Emails IMAP Anzahl: " + uids.Count);
 
                                 foreach (var uid in uids)
                                 {
+                                    if (progress != null)
+                                    {
+                                        progress.Report((uids.IndexOf(uid) * 100) / uids.Count);
+                                    }
+
                                     var message = imapClient.Inbox.GetMessage(uid);
 
                                     // write the message to a file
                                     //message.WriteTo(string.Format("{0}.msg", uid));
 
                                     Console.WriteLine("Message " + uid + ": " + message.Subject);
+
+                                    Email email = new Email();
+
+                                    email.sender = message.From.ToString();
+
+                                    foreach (MimeKit.InternetAddress inetAdress in message.To)
+                                    {
+                                        email.receiver.Add(inetAdress.ToString());
+                                    }
+
+                                    email.subject = message.Subject.ToString();
+
+                                    if (!string.IsNullOrEmpty(message.HtmlBody))
+                                    {
+                                        email.message = message.HtmlBody.ToString();
+                                        // TODO HTML to true setzen
+                                    }
+                                    else
+                                    {
+                                        email.message = message.Body.ToString();
+                                        // TODO HTML to false setzen
+                                    }
+
+                                    email.dateTime = message.Date.Date;
+
+                                    var currentAccount = account;
+                                    var currentEmail = email;
+
+                                    dispatcher.BeginInvoke((Action)(() =>
+                                    {
+                                        currentAccount.Emails.Add(currentEmail);
+                                    }));
                                 }
 
                                 imapClient.Disconnect(true);
@@ -286,8 +326,10 @@ namespace Common
                         progress.Report(100);
                     }
 
+                    // Warte 5 Sekunden
                     Thread.Sleep(5000);
 
+                    // Und setze die ProgressBar wieder auf 0
                     if (progress != null)
                     {
                         progress.Report(0);

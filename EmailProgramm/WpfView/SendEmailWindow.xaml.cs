@@ -29,6 +29,13 @@ namespace WpfView
             Show();
         }
 
+        public SendEmailWindow(Email email) : this()
+        {
+            receiverTextBox.Text = email.sender;
+            subjectTextBox.Text = "[Antwort] " + email.subject; // TODO könnte auch Re:
+            messageTextBox.Text = "\n\nAlte Email: \n{\n" + email.message + "\n}"; // TODO Mehr Informationen
+        }
+
         private void LoadData()
         {
             settingsViewModel = new SettingsViewModel();

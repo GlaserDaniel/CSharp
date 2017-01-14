@@ -63,6 +63,12 @@
                     IsReadOnly="True"
                     Text="{Binding subject}"
                     TextWrapping="Wrap" />
+                <Button
+                    x:Name="replyButton"
+                    Width="70"
+                    Height="23"
+                    Click="replyButton_Click"
+                    Content="Antworten" />
             </StackPanel>
         </DockPanel>
 

@@ -61,5 +61,10 @@ namespace WpfView
              End Sub
              */
         }
+
+        private void replyButton_Click(object sender, RoutedEventArgs e)
+        {
+            new SendEmailWindow();
+        }
     }
 }

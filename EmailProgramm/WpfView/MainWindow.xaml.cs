@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +36,17 @@ namespace WpfView
 
             // Da es im XAML Code so nicht mehr funktioniert
             //ItemsSource = "{Binding Accounts[selectedAccountIndex].Emails}"
-            EmailsListView.ItemsSource = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
+            if (((SettingsViewModel)DataContext).selectedAccountIndex != -1)
+            {
+                EmailsListView.ItemsSource = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
+            }
+        }
+
+        // TODO anderst lösen!
+        void window_Activated(object sender, EventArgs e)
+        {
+            Console.WriteLine("OptionWindow activated");
+            loadData();
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)
@@ -67,9 +78,18 @@ namespace WpfView
 
                 Task t = new EmailViewModel().receiveEmails(account, progressHandler, Dispatcher);
 
+                Task.Run(() =>
+                {
+                    t.Wait();
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        ((SettingsViewModel)DataContext).appendSettings();
+                    }));
+                });
+
                 //Console.WriteLine("Task Status: " + t.Status.ToString());
                 //loadData();
-            } else
+                } else
             {
                 MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -78,6 +98,18 @@ namespace WpfView
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             new ShowEmailWindow((Email)((FrameworkElement)e.OriginalSource).DataContext);
+        }
+
+        private void DeleteEmails_Click(object sender, RoutedEventArgs e)
+        {
+            IList<Email> emailsToDelete = (IList<Email>)EmailsListView.SelectedItems;
+
+            ObservableCollection<Email> emails = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
+
+            foreach (Email email in emailsToDelete)
+            {
+                emails.Remove(email);
+            }
         }
 
         // TODO onClose Application.Current.Shutdown();

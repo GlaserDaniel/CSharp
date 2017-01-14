@@ -39,15 +39,17 @@ namespace WpfView
             Title = "Account hinzufügen";
 
             // TODO nur zu Testzwecken
-            //userTextBox.Text = "danielglaser@gmx.de";
-            //emailTextBox.Text = "danielglaser@gmx.de";
-            //passwordBox.Password = "VGNFZ11s";
+            //userTextBox.Text = "danielglasertest@gmail.com";
+            //emailTextBox.Text = "danielglasertest@gmail.com";
+            //passwordBox.Password = "EmailTestKonto";
             //imapRadioButton.IsChecked = false;
-            //imapPop3ServerTextBox.Text = "pop.gmx.net";
-            //imapPop3PortTextBox.Text = "995";
-            //smtpServerTextBox.Text = "mail.gmx.net";
-            //smtpPortTextBox.Text = "587";
-            //Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s", false, "pop.gmx.net", 995, "mail.gmx.net", 587);
+            //imapPop3ServerTextBox.Text = "imap.gmail.com";
+            //imapPop3PortTextBox.Text = "993";
+            //smtpServerTextBox.Text = "smtp.gmail.com";
+            //smtpPortTextBox.Text = "465";
+
+            //Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s",
+            //false, "pop.gmx.net", 995, "mail.gmx.net", 587);
             //DataContext = testAccount;
             //passwordBox.Password = "VGNFZ11s";
         }

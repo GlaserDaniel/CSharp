@@ -60,7 +60,6 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     KeyboardNavigation.TabIndex="3"
-                    Text="Testmail"
                     TextWrapping="Wrap" />
             </StackPanel>
         </DockPanel>
@@ -91,7 +90,6 @@
             HorizontalScrollBarVisibility="Auto"
             KeyboardNavigation.TabIndex="4"
             MinLines="1"
-            Text="Testmail Text"
             TextWrapping="Wrap"
             VerticalScrollBarVisibility="Auto" />
     </DockPanel>
