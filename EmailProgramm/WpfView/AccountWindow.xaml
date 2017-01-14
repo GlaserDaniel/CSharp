@@ -7,9 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Account"
     Width="320"
-    Height="365"
+    Height="380"
     MinWidth="320"
-    MinHeight="365"
+    MinHeight="380"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <DockPanel>
@@ -93,7 +93,7 @@
                 <TextBox
                     x:Name="emailTextBox"
                     Height="23"
-                    Margin="10,8,10,0"
+                    Margin="10,10,10,0"
                     VerticalAlignment="Top"
                     Text="{Binding email}"
                     TextWrapping="Wrap"
@@ -101,12 +101,12 @@
                 <PasswordBox
                     x:Name="passwordBox"
                     Height="23"
-                    Margin="10,6,10,0"
+                    Margin="10,8,10,0"
                     VerticalAlignment="Top" />
                 <TextBox
                     x:Name="imapPop3ServerTextBox"
                     Height="23"
-                    Margin="10,5,10,0"
+                    Margin="10,8,10,0"
                     VerticalAlignment="Top"
                     Text="{Binding imapPop3Server}"
                     TextWrapping="Wrap"
@@ -120,19 +120,13 @@
                     Text="{Binding imapPop3Port}"
                     TextWrapping="Wrap"
                     ToolTip="Der IMAP oder POP3-Port" />
-                <CheckBox
-                    x:Name="useImapCheckBox"
-                    Margin="10,12,0,3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="IMAP"
-                    IsChecked="{Binding useImap}" />
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
                     <RadioButton
                         x:Name="imapRadioButton"
                         Margin="10"
                         Content="IMAP"
-                        GroupName="ImapOrPop3" />
+                        GroupName="ImapOrPop3"
+                        IsChecked="{Binding useImap}" />
                     <RadioButton
                         x:Name="pop3RadioButton"
                         Margin="10"
@@ -143,7 +137,7 @@
                 <TextBox
                     x:Name="smtpServerTextBox"
                     Height="23"
-                    Margin="10,10,10,0"
+                    Margin="10,2,10,0"
                     VerticalAlignment="Top"
                     Text="{Binding smtpServer}"
                     TextWrapping="Wrap"

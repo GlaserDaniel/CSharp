@@ -69,7 +69,7 @@ namespace WpfView
             string user = userTextBox.Text;
             string email = emailTextBox.Text;
             string password = passwordBox.Password;
-            bool useImap = (bool)useImapCheckBox.IsChecked;
+            bool useImap = (bool)imapRadioButton.IsChecked;
             string imapPop3Server = imapPop3ServerTextBox.Text;
             string smtpServer = smtpServerTextBox.Text;
 
@@ -165,16 +165,72 @@ namespace WpfView
 
         private void testImapPop3ServerButton_Click(object sender, RoutedEventArgs e)
         {
-            // EmailController.testServer();
-            if ((bool)useImapCheckBox.IsChecked)
+            if ((bool)imapRadioButton.IsChecked)
             {
-                //new EmailController().TestImapServer(imapPop3ServerTextBox.Text, int imapPop3PortTextBox.Text)
+                Task<bool> resultTask = new EmailViewModel().TestImapServer(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
+
+                Task.Run(() =>
+                {
+                    if (resultTask.Result)
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            testImapPop3ServerButton.Background = Brushes.Green;
+                        }));
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            testImapPop3ServerButton.Background = Brushes.Red;
+                        }));
+                    }
+                });
+            } else
+            {
+                Task<bool> resultTask = new EmailViewModel().TestPop3Server(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
+
+                Task.Run(() =>
+                {
+                    if (resultTask.Result)
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            testImapPop3ServerButton.Background = Brushes.Green;
+                        }));
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            testImapPop3ServerButton.Background = Brushes.Red;
+                        }));
+                    }
+                });
             }
         }
 
         private void testSmtpServerButton_Click(object sender, RoutedEventArgs e)
         {
+            Task<bool> resultTask = new EmailViewModel().TestSmtpServer(smtpServerTextBox.Text, int.Parse(smtpPortTextBox.Text));
 
+            Task.Run(() =>
+            {
+                if (resultTask.Result)
+                {
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        testSmtpServerButton.Background = Brushes.Green;
+                    }));
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        testSmtpServerButton.Background = Brushes.Red;
+                    }));
+                }
+            });
         }
     }
 }

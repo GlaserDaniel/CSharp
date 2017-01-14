@@ -30,51 +30,65 @@ namespace Common
             this.account = account;
         }
 
-        public bool TestImapServer(String imapServer, int imapPort)
+        public Task<bool> TestImapServer(String imapServer, int imapPort)
         {
-            try
+            return Task.Run(() =>
             {
-                using (ImapClient imapClient = new ImapClient())
+                try
                 {
-                    imapClient.Connect(imapServer, imapPort, true);
+                    using (ImapClient imapClient = new ImapClient())
+                    {
+                        imapClient.Connect(imapServer, imapPort, true);
+                    }
                 }
-            } catch (IOException)
-            {
-                return false;
-            }
-            return true;
+                catch (IOException)
+                {
+                    return false;
+                }
+                return true;
+            });
         }
 
-        public bool TestPop3Server(String pop3Server, int pop3Port)
+        public Task<bool> TestPop3Server(String pop3Server, int pop3Port)
         {
-            try
+            return Task.Run(() =>
             {
-                using (Pop3Client pop3Client = new Pop3Client())
+                try
                 {
-                    pop3Client.Connect(pop3Server, pop3Port, true);
+                    using (Pop3Client pop3Client = new Pop3Client())
+                    {
+                        pop3Client.Connect(pop3Server, pop3Port, true);
+                    }
                 }
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-            return true;
+                catch (IOException)
+                {
+                    return false;
+                }
+                catch (SocketException)
+                {
+                    return false;
+                }
+                return true;
+            });
         }
 
-        public bool TestSmtpServer(String smtpServer, int smtpPort)
+        public Task<bool> TestSmtpServer(String smtpServer, int smtpPort)
         {
-            try
+            return Task.Run(() =>
             {
-                using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
+                try
                 {
-                    //smtpClient.(smtpServer, smtpPort, true);
+                    using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
+                    {
+                        //smtpClient.(smtpServer, smtpPort, true);
+                    }
                 }
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-            return true;
+                catch (IOException)
+                {
+                    return false;
+                }
+                return true;
+            });
         }
 
         // Snippet von www.code-bude.net
