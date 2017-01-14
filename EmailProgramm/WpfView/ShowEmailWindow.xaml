@@ -74,11 +74,13 @@
 
         <TextBox
             x:Name="messageTextBox"
+            Width="250"
             Margin="10"
             AcceptsReturn="True"
             HorizontalScrollBarVisibility="Auto"
             Text="{Binding message}"
             TextWrapping="Wrap"
             VerticalScrollBarVisibility="Auto" />
+        <WebBrowser x:Name="messageWebBrowser" Width="250" />
     </DockPanel>
 </Window>

@@ -30,6 +30,8 @@ namespace WpfView
         {
             DataContext = email;
 
+            messageWebBrowser.NavigateToString(email.message);
+
             // TODO HTML Text richtig darstellen
 
             //Windows.Data.Html.HtmlUtilities.ConvertToText();
