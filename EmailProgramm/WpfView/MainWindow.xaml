@@ -88,6 +88,7 @@
             x:Name="EmailsListView"
             Margin="10,10,10,5"
             VerticalContentAlignment="Top"
+            KeyDown="EmailsListView_KeyDown"
             MouseDoubleClick="EmailsListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>

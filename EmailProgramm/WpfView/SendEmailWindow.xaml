@@ -52,7 +52,6 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     KeyboardNavigation.TabIndex="2"
-                    Text="danielglaser9@gmail.com"
                     TextWrapping="Wrap" />
                 <TextBox
                     x:Name="subjectTextBox"

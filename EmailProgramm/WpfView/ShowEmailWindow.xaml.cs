@@ -30,6 +30,10 @@ namespace WpfView
         {
             DataContext = email;
 
+            // TODO HTML Text richtig darstellen
+
+            //Windows.Data.Html.HtmlUtilities.ConvertToText();
+
             // TODO wenn HTML
             //// xaml Code: <TextBox x:Name="messageTextBox" Text="{Binding message}" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
             //TextBox messageTextBox = new TextBox();
@@ -64,7 +68,7 @@ namespace WpfView
 
         private void replyButton_Click(object sender, RoutedEventArgs e)
         {
-            new SendEmailWindow();
+            new SendEmailWindow((Email)DataContext);
         }
     }
 }

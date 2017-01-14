@@ -1,5 +1,6 @@
 ﻿using Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -70,7 +71,7 @@ namespace WpfView
             if (DataContext != null && ((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
             {
                 Account account = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex];
-                
+
                 var progressHandler = new Progress<double>(value =>
                 {
                     ProgressBar.Value = value;
@@ -89,7 +90,8 @@ namespace WpfView
 
                 //Console.WriteLine("Task Status: " + t.Status.ToString());
                 //loadData();
-                } else
+            }
+            else
             {
                 MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -102,16 +104,45 @@ namespace WpfView
 
         private void DeleteEmails_Click(object sender, RoutedEventArgs e)
         {
-            IList<Email> emailsToDelete = (IList<Email>)EmailsListView.SelectedItems;
+            IList emailsToDelete = (IList)EmailsListView.SelectedItems;
 
             ObservableCollection<Email> emails = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
 
-            foreach (Email email in emailsToDelete)
+            // TODO Funktioniert noch nicht richtig
+            //foreach (var email in emailsToDelete)
+            //{
+            //    emails.Remove((Email)email);
+            //}
+
+            ((SettingsViewModel)DataContext).appendSettings();
+        }
+
+        private void EmailsListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
             {
-                emails.Remove(email);
+                // TODO Funktioniert noch nicht richtig
+                //foreach (ListViewItem listViewItem in ((ListView)sender).SelectedItems)
+                //{
+                //    listViewItem.Remove();
+                //}
             }
         }
 
-        // TODO onClose Application.Current.Shutdown();
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult closingResult = MessageBox.Show("Möchten Sie das Programm wirklich beenden?", "SMTP-Server fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (closingResult == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+
+                base.OnClosing(e);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
