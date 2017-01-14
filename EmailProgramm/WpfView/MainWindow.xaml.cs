@@ -59,9 +59,9 @@ namespace WpfView
                     ProgressBar.Value = value;
                 });
 
-                Task t = Task.Run(() => new EmailViewModel().receiveEmails(account, progressHandler));
+                Task t = new EmailViewModel().receiveEmails(account, progressHandler, Dispatcher);
 
-                Console.WriteLine("Task Status: " + t.Status.ToString());
+                //Console.WriteLine("Task Status: " + t.Status.ToString());
                 //loadData();
             } else
             {
