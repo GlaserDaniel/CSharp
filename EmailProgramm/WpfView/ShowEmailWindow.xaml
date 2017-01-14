@@ -1,37 +1,78 @@
-﻿<Window x:Class="WpfView.ShowEmailWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfView"
-        mc:Ignorable="d"
-        
-        Title="Email"
-        WindowStartupLocation="CenterScreen"
-        MinHeight="300"
-        MinWidth="400"
-        Height="400"
-        Width="600">
-    <DockPanel 
-        x:Name="MainDockPanel">
-        <DockPanel 
-            x:Name="TopDockPanel"
-            DockPanel.Dock="Top">
-            <StackPanel 
-                DockPanel.Dock="Left">
-                <Label x:Name="senderLabel" Content="Sender" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="receiverLabel" Content="Empfänger" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="subjectLabel" Content="Betreff" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="messageLabel" Content="Nachricht" Margin="10,5,10,0"/>
+﻿<Window
+    x:Class="WpfView.ShowEmailWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfView"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Email"
+    Width="600"
+    Height="400"
+    MinWidth="400"
+    MinHeight="300"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <DockPanel x:Name="MainDockPanel">
+        <DockPanel x:Name="TopDockPanel" DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Left">
+                <Label
+                    x:Name="senderLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Sender" />
+                <Label
+                    x:Name="receiverLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Empfänger" />
+                <Label
+                    x:Name="subjectLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Betreff" />
+                <Label
+                    x:Name="messageLabel"
+                    Margin="10,5,10,0"
+                    Content="Nachricht" />
             </StackPanel>
-            <StackPanel
-                DockPanel.Dock="Right">
-                <TextBox x:Name="senderTextBox" Text="{Binding sender}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <TextBox x:Name="receiverTextBox" Text="{Binding receiver}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <TextBox x:Name="subjectTextBox" Text="{Binding subject}" IsReadOnly="True" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <StackPanel DockPanel.Dock="Right">
+                <TextBox
+                    x:Name="senderTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    IsReadOnly="True"
+                    Text="{Binding sender}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="receiverTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    IsReadOnly="True"
+                    Text="{Binding receiver}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="subjectTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    IsReadOnly="True"
+                    Text="{Binding subject}"
+                    TextWrapping="Wrap" />
             </StackPanel>
         </DockPanel>
 
-        <TextBox x:Name="messageTextBox" Text="{Binding message}" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+        <TextBox
+            x:Name="messageTextBox"
+            Margin="10"
+            AcceptsReturn="True"
+            HorizontalScrollBarVisibility="Auto"
+            Text="{Binding message}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
     </DockPanel>
 </Window>

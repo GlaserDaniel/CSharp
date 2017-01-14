@@ -1,41 +1,98 @@
-﻿<Window x:Class="WpfView.SendEmailWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfView"
-        mc:Ignorable="d"
-        
-        Title="Email schreiben"
-        WindowStartupLocation="CenterScreen"
-        MinHeight="300"
-        MinWidth="400"
-        Height="300"
-        Width="400">
+﻿<Window
+    x:Class="WpfView.SendEmailWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfView"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Email schreiben"
+    Width="400"
+    Height="300"
+    MinWidth="400"
+    MinHeight="300"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <DockPanel>
-        <DockPanel 
-            DockPanel.Dock="Top">
-            <StackPanel 
-                DockPanel.Dock="Left">
-                <Label x:Name="senderLabel" Content="Sender" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="receiverLabel" Content="Empfänger" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="subjectLabel" Content="Betreff" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="messageLabel" Content="Nachricht" Margin="10,5,10,0"/>
+        <DockPanel DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Left">
+                <Label
+                    x:Name="senderLabel"
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Sender" />
+                <Label
+                    x:Name="receiverLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Empfänger" />
+                <Label
+                    x:Name="subjectLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Betreff" />
+                <Label
+                    x:Name="messageLabel"
+                    Margin="10,5,10,0"
+                    Content="Nachricht" />
             </StackPanel>
-            <StackPanel
-                DockPanel.Dock="Right">
-                <ComboBox x:Name="senderComboBox" Text="{Binding selectedAccount.email}" KeyboardNavigation.TabIndex="1" Height="23" Margin="10,10,10,5" VerticalAlignment="Top"/>
-                <TextBox x:Name="receiverTextBox" Text="danielglaser9@gmail.com" KeyboardNavigation.TabIndex="2" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <TextBox x:Name="subjectTextBox" Text="Testmail" KeyboardNavigation.TabIndex="3" Height="23" Margin="10,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <StackPanel DockPanel.Dock="Right">
+                <ComboBox
+                    x:Name="senderComboBox"
+                    Height="23"
+                    Margin="10,10,10,5"
+                    VerticalAlignment="Top"
+                    KeyboardNavigation.TabIndex="1"
+                    Text="{Binding selectedAccount.email}" />
+                <TextBox
+                    x:Name="receiverTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    KeyboardNavigation.TabIndex="2"
+                    Text="danielglaser9@gmail.com"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="subjectTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    KeyboardNavigation.TabIndex="3"
+                    Text="Testmail"
+                    TextWrapping="Wrap" />
             </StackPanel>
         </DockPanel>
 
-        <DockPanel 
-            DockPanel.Dock="Bottom">
-            <Button x:Name="SendEmail" DockPanel.Dock="Right" Height="23" Width="100" Content="Senden" Margin="10,10,10,10" Click="SendEmail_Click"></Button>
-            <Button x:Name="AbortSendEmail" DockPanel.Dock="Right" Height="23" Width="100" Content="Abbrechen" Margin="10,10,0,10" Click="AbortSendEmail_Click"></Button>
-            <Grid></Grid>
+        <DockPanel DockPanel.Dock="Bottom">
+            <Button
+                x:Name="SendEmail"
+                Width="100"
+                Height="23"
+                Margin="10,10,10,10"
+                Click="SendEmail_Click"
+                Content="Senden"
+                DockPanel.Dock="Right" />
+            <Button
+                x:Name="AbortSendEmail"
+                Width="100"
+                Height="23"
+                Margin="10,10,0,10"
+                Click="AbortSendEmail_Click"
+                Content="Abbrechen"
+                DockPanel.Dock="Right" />
+            <Grid />
         </DockPanel>
-        <TextBox x:Name="messageTextBox" Text="Testmail Text" KeyboardNavigation.TabIndex="4" Margin="10" AcceptsReturn="True" MinLines="5" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+        <TextBox
+            x:Name="messageTextBox"
+            Margin="10"
+            AcceptsReturn="True"
+            HorizontalScrollBarVisibility="Auto"
+            KeyboardNavigation.TabIndex="4"
+            MinLines="5"
+            Text="Testmail Text"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
     </DockPanel>
 </Window>
