@@ -22,13 +22,11 @@ namespace WpfView
     public partial class AccountWindow : Window
     {
         private SettingsViewModel settingsController;
-        private Account selectedAccountToRemove;
         //private SettingsWindow settingsWindow;
 
         public AccountWindow()
         {
             InitializeComponent();
-            this.selectedAccountToRemove = null;
             Console.WriteLine("Constr");
             Show();
         }
@@ -41,19 +39,31 @@ namespace WpfView
             Title = "Account hinzufügen";
 
             // TODO nur zu Testzwecken
-            Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s", false, "pop.gmx.net", 995, "mail.gmx.net", 587);
-            DataContext = testAccount;
-            passwordBox.Password = "VGNFZ11s";
+            //userTextBox.Text = "danielglaser@gmx.de";
+            //emailTextBox.Text = "danielglaser@gmx.de";
+            //passwordBox.Password = "VGNFZ11s";
+            //imapRadioButton.IsChecked = false;
+            //imapPop3ServerTextBox.Text = "pop.gmx.net";
+            //imapPop3PortTextBox.Text = "995";
+            //smtpServerTextBox.Text = "mail.gmx.net";
+            //smtpPortTextBox.Text = "587";
+            //Account testAccount = new Account("danielglaser@gmx.de", "danielglaser@gmx.de", "VGNFZ11s", false, "pop.gmx.net", 995, "mail.gmx.net", 587);
+            //DataContext = testAccount;
+            //passwordBox.Password = "VGNFZ11s";
         }
 
         public AccountWindow(SettingsViewModel settingsController, Account selectedAccountToEdit) : this()
         {
             Console.WriteLine("Account bearbeiten (Constr mit Account)");
             this.settingsController = settingsController;
-            selectedAccountToRemove = selectedAccountToEdit;
             Title = "Account bearbeiten";
 
-            DataContext = selectedAccountToRemove;
+            // Account als DataContext setzen
+            DataContext = selectedAccountToEdit;
+            // Passwort aus dem Account holen
+            passwordBox.Password = selectedAccountToEdit.password;
+
+            BindingGroup.BeginEdit();
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)
@@ -130,24 +140,20 @@ namespace WpfView
 
             if (userResult && emailResult && passwordResult && imapPop3ServerResult && imapPop3PortResult && smtpServerResult && smtpPortResult)
             {
-                // falls ein Account gesetzt wurde diesen zuerst löschen
-                if (selectedAccountToRemove != null)
+                if (DataContext == null)
                 {
-                    //alten Account löschen
-                    settingsController.removeAccount(selectedAccountToRemove);
+                    //Account hinzufügen
+                    settingsController.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
                 }
-                
-                //Account hinzufügen
-                settingsController.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
 
-                //settingsWindow.Refresh();
-
+                BindingGroup.CommitEdit();
                 Close();
             }
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)
         {
+            BindingGroup.CancelEdit();
             Close();
         }
 
@@ -165,6 +171,20 @@ namespace WpfView
 
         private void testImapPop3ServerButton_Click(object sender, RoutedEventArgs e)
         {
+            testImapPop3ServerButton.Background = Brushes.White;
+
+            if (String.IsNullOrEmpty(imapPop3ServerTextBox.Text))
+            {
+                MessageBox.Show("Der IMAP/POP3-Server ist leer!", "IMAP/POP3-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (String.IsNullOrEmpty(imapPop3PortTextBox.Text))
+            {
+                MessageBox.Show("Der IMAP/POP3-Port ist leer!", "IMAP/POP3-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if ((bool)imapRadioButton.IsChecked)
             {
                 Task<bool> resultTask = new EmailViewModel().TestImapServer(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
@@ -212,6 +232,20 @@ namespace WpfView
 
         private void testSmtpServerButton_Click(object sender, RoutedEventArgs e)
         {
+            testSmtpServerButton.Background = Brushes.White;
+
+            if (String.IsNullOrEmpty(smtpServerTextBox.Text))
+            {
+                MessageBox.Show("Der SMTP-Server ist leer!", "SMTP-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (String.IsNullOrEmpty(smtpPortTextBox.Text))
+            {
+                MessageBox.Show("Der SMTP-Port ist leer!", "SMTP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             Task<bool> resultTask = new EmailViewModel().TestSmtpServer(smtpServerTextBox.Text, int.Parse(smtpPortTextBox.Text));
 
             Task.Run(() =>

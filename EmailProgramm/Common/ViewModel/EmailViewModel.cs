@@ -38,10 +38,15 @@ namespace Common
                 {
                     using (ImapClient imapClient = new ImapClient())
                     {
+                        imapClient.Timeout = 5000;
                         imapClient.Connect(imapServer, imapPort, true);
                     }
                 }
                 catch (IOException)
+                {
+                    return false;
+                }
+                catch (SocketException)
                 {
                     return false;
                 }
@@ -57,6 +62,7 @@ namespace Common
                 {
                     using (Pop3Client pop3Client = new Pop3Client())
                     {
+                        pop3Client.Timeout = 5000;
                         pop3Client.Connect(pop3Server, pop3Port, true);
                     }
                 }
@@ -78,12 +84,17 @@ namespace Common
             {
                 try
                 {
-                    using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
+                    using (TcpClient tcpClient = new TcpClient())
                     {
-                        //smtpClient.(smtpServer, smtpPort, true);
+                        tcpClient.ReceiveTimeout = 5000;
+                        tcpClient.Connect(smtpServer, smtpPort);
                     }
                 }
                 catch (IOException)
+                {
+                    return false;
+                }
+                catch (SocketException)
                 {
                     return false;
                 }

@@ -12,6 +12,9 @@
     MinHeight="380"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.BindingGroup>
+        <BindingGroup />
+    </Window.BindingGroup>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <StackPanel DockPanel.Dock="Left">
@@ -120,7 +123,7 @@
                     Text="{Binding imapPop3Port}"
                     TextWrapping="Wrap"
                     ToolTip="Der IMAP oder POP3-Port" />
-                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
                     <RadioButton
                         x:Name="imapRadioButton"
                         Margin="10"

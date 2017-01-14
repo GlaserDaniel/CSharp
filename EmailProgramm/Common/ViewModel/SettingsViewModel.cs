@@ -142,12 +142,18 @@ namespace Common
                 //    Console.WriteLine("Account: " + account.ToString());
                 //}
                 accountsStream.Close();
-
             }
             catch (FileNotFoundException e)
             {
                 // TODO Fehlermeldung
                 Console.WriteLine("FileNotFoundException: " + e);
+            }
+            catch (SerializationException se)
+            {
+                // TODO Fehlermeldung
+                // Datei leer
+                Console.WriteLine("SerializationException: " + se);
+                Accounts = new ObservableCollection<Account>();
             }
 
             try
@@ -169,6 +175,7 @@ namespace Common
             catch (SerializationException se)
             {
                 // TODO Fehlermeldung
+                // Datei leer
                 Console.WriteLine("SerializationException: " + se);
                 selectedAccount = null;
             }
@@ -191,7 +198,9 @@ namespace Common
             catch (SerializationException se)
             {
                 // TODO Fehlermeldung
+                // Datei leer
                 Console.WriteLine("SerializationException: " + se);
+                selectedAccountIndex = -1;
             }
         }
     }

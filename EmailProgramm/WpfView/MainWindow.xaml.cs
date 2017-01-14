@@ -50,6 +50,7 @@ namespace WpfView
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
+            loadData();
             if (DataContext != null)
             {
                 Account account = (Account)DataContext;
@@ -67,7 +68,6 @@ namespace WpfView
             {
                 MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
