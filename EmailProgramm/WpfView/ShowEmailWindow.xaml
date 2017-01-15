@@ -35,7 +35,7 @@
                     Content="Betreff" />
                 <Label
                     x:Name="messageLabel"
-                    Margin="10,5,10,0"
+                    Margin="10,15,10,0"
                     Content="Nachricht" />
             </StackPanel>
             <StackPanel DockPanel.Dock="Right">
@@ -63,24 +63,33 @@
                     IsReadOnly="True"
                     Text="{Binding subject}"
                     TextWrapping="Wrap" />
-                <Button
-                    x:Name="replyButton"
-                    Width="70"
-                    Height="23"
-                    Click="replyButton_Click"
-                    Content="Antworten" />
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        x:Name="replyButton"
+                        Width="70"
+                        Height="23"
+                        Margin="10"
+                        Click="replyButton_Click"
+                        Content="Antworten" />
+                    <Button
+                        x:Name="forwardButton"
+                        Width="70"
+                        Height="23"
+                        Margin="10"
+                        Click="forwardButton_Click"
+                        Content="Weiterleiten" />
+                </StackPanel>
+
             </StackPanel>
         </DockPanel>
 
-        <TextBox
-            x:Name="messageTextBox"
-            Width="250"
-            Margin="10"
-            AcceptsReturn="True"
-            HorizontalScrollBarVisibility="Auto"
-            Text="{Binding message}"
-            TextWrapping="Wrap"
-            VerticalScrollBarVisibility="Auto" />
-        <WebBrowser x:Name="messageWebBrowser" Width="250" />
+        <GridSplitter
+            x:Name="gridSplitter"
+            Height="10"
+            Margin="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            DockPanel.Dock="Top" />
+        <WebBrowser x:Name="messageWebBrowser" />
     </DockPanel>
 </Window>

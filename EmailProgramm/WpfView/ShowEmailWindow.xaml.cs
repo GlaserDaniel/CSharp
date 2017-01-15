@@ -30,7 +30,31 @@ namespace WpfView
         {
             DataContext = email;
 
-            messageWebBrowser.NavigateToString(email.message);
+            String message = email.message;
+
+            //message.Replace("ä", "&auml;");
+            //message.Replace("ü", "&uuml;");
+            //message.Replace("ö", "&ouml;");
+            //message.Replace("Ä", "&Auml;");
+            //message.Replace("Ü", "&Uuml;");
+            //message.Replace("Ö", "&Ouml;");
+            //message.Replace("ß", "&szlig;");
+
+            //message.Replace("€", "&euro;");
+            //message.Replace("&", "&amp;");
+            //message.Replace("<", "&lt");
+            //message.Replace(">", "&gt");
+            //message.Replace("„", "&quot;");
+            //message.Replace("©", "&copy;");
+            //message.Replace("•", "&bull;");
+            //message.Replace("™", "&trade;");
+            //message.Replace("®", "&reg;");
+            //message.Replace("§", "&sect;");
+
+            // Damit tut er Umlaute und Zeichen richtig darstellen, und für die wo es schon gesetzt ist stört es auch nicht.
+            message = "<!DOCTYPE html>\r\n<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
+
+            messageWebBrowser.NavigateToString(message);
 
             // TODO HTML Text richtig darstellen
 
@@ -71,6 +95,11 @@ namespace WpfView
         private void replyButton_Click(object sender, RoutedEventArgs e)
         {
             new SendEmailWindow((Email)DataContext);
+        }
+
+        private void forwardButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
