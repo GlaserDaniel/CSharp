@@ -13,14 +13,18 @@ using System.Net.Sockets;
 using System.Windows.Threading;
 using System.Threading;
 using MimeKit;
+using System.ComponentModel;
+using System.Collections;
 
 namespace Common
 {
     /// <summary>
     /// Klasse um alles mit Emails machen zu können.
     /// </summary>
-    public class EmailViewModel
+    public class EmailViewModel : INotifyDataErrorInfo
     {
+        private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
+
         public EmailViewModel()
         {
 
@@ -112,7 +116,7 @@ namespace Common
             MailMessage mailMessage = new MailMessage();
 
             //Absender konfigurieren
-            mailMessage.From = new MailAddress(senderAccount.email);
+            mailMessage.From = new MailAddress(senderAccount.Email);
 
             //Empfänger konfigurieren
             mailMessage.To.Add(new MailAddress(receiver.Trim()));
@@ -124,17 +128,17 @@ namespace Common
             mailMessage.Body = message;
 
             //Ausgangsserver initialisieren
-            SmtpClient smtpClient = new SmtpClient(senderAccount.smtpServer, senderAccount.smtpPort);
+            SmtpClient smtpClient = new SmtpClient(senderAccount.SmtpServer, senderAccount.SmtpPort);
 
             // SSL aktivieren
             // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
             smtpClient.EnableSsl = true;
 
-            if (senderAccount.user.Length > 0 && senderAccount.user != string.Empty)
+            if (senderAccount.User.Length > 0 && senderAccount.User != string.Empty)
             {
                 //Login konfigurieren
-                smtpClient.Credentials = new System.Net.NetworkCredential(senderAccount.user, senderAccount.password);
-                Console.WriteLine("Password: " + senderAccount.password);
+                smtpClient.Credentials = new System.Net.NetworkCredential(senderAccount.User, senderAccount.Password);
+                Console.WriteLine("Password: " + senderAccount.Password);
             }
 
             Console.WriteLine(mailMessage.To);
@@ -167,15 +171,15 @@ namespace Common
 
                 if (account != null)
                 {
-                    if (account.useImap)
+                    if (account.UseImap)
                     {
                         try
                         {
                             using (ImapClient imapClient = new ImapClient())
                             {
-                                imapClient.Connect(account.imapPop3Server, account.imapPop3Port, true);
+                                imapClient.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
 
-                                imapClient.Authenticate(account.user, account.password);
+                                imapClient.Authenticate(account.User, account.Password);
 
                                 imapClient.Inbox.Open(FolderAccess.ReadOnly);
 
@@ -247,6 +251,7 @@ namespace Common
                         catch (SocketException se)
                         {
                             Console.WriteLine("SocketException: " + se);
+                            
                         }
                     }
                     else
@@ -255,9 +260,9 @@ namespace Common
                         {
                             using (var client = new Pop3Client())
                             {
-                                client.Connect(account.imapPop3Server, account.imapPop3Port, true);
+                                client.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
 
-                                client.Authenticate(account.user, account.password);
+                                client.Authenticate(account.User, account.Password);
 
                                 //var uids = client.GetMessageUids();
 
@@ -365,7 +370,7 @@ namespace Common
 
                     // TODO Testausgabe
                     //Console.WriteLine("Emails ausgeben: ");
-                    //foreach (Account account in settingsController.Accounts)
+                    //foreach (Account account in settingsViewModel.Accounts)
                     //{
                     //    Console.WriteLine("Account: " + account);
                     //    foreach (Email email in account.Emails)
@@ -375,6 +380,52 @@ namespace Common
                     //}
                 }
             });
+        }
+
+        public bool HasErrors
+        {
+            get
+            {
+                return _errors.Count > 0;
+            }
+        }
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName) ||
+                !_errors.ContainsKey(propertyName)) return null;
+            return _errors[propertyName];
+        }
+
+        public void RaiseErrorsChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        public void AddError(string propertyName, string error, bool isWarning)
+        {
+            if (!_errors.ContainsKey(propertyName))
+                _errors[propertyName] = new List<string>();
+
+            if (!_errors[propertyName].Contains(error))
+            {
+                if (isWarning) _errors[propertyName].Add(error);
+                else _errors[propertyName].Insert(0, error);
+                RaiseErrorsChanged(propertyName);
+            }
+        }
+
+        public void RemoveError(string propertyName, string error)
+        {
+            if (_errors.ContainsKey(propertyName) &&
+                _errors[propertyName].Contains(error))
+            {
+                _errors[propertyName].Remove(error);
+                if (_errors[propertyName].Count == 0) _errors.Remove(propertyName);
+                RaiseErrorsChanged(propertyName);
+            }
         }
     }
 }

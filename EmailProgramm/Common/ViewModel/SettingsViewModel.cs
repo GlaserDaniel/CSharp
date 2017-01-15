@@ -18,18 +18,18 @@ namespace Common
     /// </summary>
     public class SettingsViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Account> accounts;
+        private ObservableCollection<Account> _accounts;
 
         /// <summary>
         /// Eine Liste aller Accounts.
         /// </summary>
         public ObservableCollection<Account> Accounts
         {
-            get { return accounts; }
+            get { return _accounts; }
             set
             {
-                if (accounts == value) return;
-                accounts = value;
+                if (_accounts == value) return;
+                _accounts = value;
                 OnPropertyChanged("Accounts");
             }
         }

@@ -13,14 +13,14 @@ namespace Common
     [Serializable]
     public class Account : INotifyPropertyChanged
     {
-        public string user { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public bool useImap { get; set; }
-        public string imapPop3Server { get; set; }
-        public int imapPop3Port { get; set; }
-        public string smtpServer { get; set; }
-        public int smtpPort { get; set; }
+        public string User { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public bool UseImap { get; set; }
+        public string ImapPop3Server { get; set; }
+        public int ImapPop3Port { get; set; }
+        public string SmtpServer { get; set; }
+        public int SmtpPort { get; set; }
         private ObservableCollection<Email> emails;
 
         public ObservableCollection<Email> Emails
@@ -34,16 +34,21 @@ namespace Common
             }
         }
 
+        public Account()
+        {
+
+        }
+
         public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
         {
-            this.user = user;
-            this.email = email;
-            this.password = password;
-            this.useImap = useImap;
-            this.imapPop3Server = imapPop3Server;
-            this.imapPop3Port = imapPop3Port;
-            this.smtpServer = smtpServer;
-            this.smtpPort = smtpPort;
+            this.User = user;
+            this.Email = email;
+            this.Password = password;
+            this.UseImap = useImap;
+            this.ImapPop3Server = imapPop3Server;
+            this.ImapPop3Port = imapPop3Port;
+            this.SmtpServer = smtpServer;
+            this.SmtpPort = smtpPort;
             Emails = new ObservableCollection<Email>();
         }
 
@@ -56,7 +61,7 @@ namespace Common
 
         public override string ToString()
         {
-            return email.ToString();
+            return Email.ToString();
         }
 
         public bool doEmailsContainsId(int id)

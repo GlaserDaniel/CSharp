@@ -21,7 +21,7 @@ namespace WpfView
     /// </summary>
     public partial class AccountWindow : Window
     {
-        private SettingsViewModel settingsController;
+        private SettingsViewModel settingsViewModel;
         //private SettingsWindow settingsWindow;
 
         public AccountWindow()
@@ -31,24 +31,24 @@ namespace WpfView
             Show();
         }
         
-        public AccountWindow(SettingsViewModel settingsController) : this()
+        public AccountWindow(SettingsViewModel settingsViewModel) : this()
         {
-            Console.WriteLine("Account hinzufügen (Constr mit SettingsController)");
-            this.settingsController = settingsController;
+            Console.WriteLine("Account hinzufügen (Constr mit SettingsViewModel)");
+            this.settingsViewModel = settingsViewModel;
             //this.settingsWindow = settingsWindow;
             Title = "Account hinzufügen";
         }
 
-        public AccountWindow(SettingsViewModel settingsController, Account selectedAccountToEdit) : this()
+        public AccountWindow(SettingsViewModel settingsViewModel, Account selectedAccountToEdit) : this()
         {
             Console.WriteLine("Account bearbeiten (Constr mit Account)");
-            this.settingsController = settingsController;
+            this.settingsViewModel = settingsViewModel;
             Title = "Account bearbeiten";
 
             // Account als DataContext setzen
             DataContext = selectedAccountToEdit;
             // Passwort aus dem Account holen
-            passwordBox.Password = selectedAccountToEdit.password;
+            passwordBox.Password = selectedAccountToEdit.Password;
 
             BindingGroup.BeginEdit();
         }
@@ -130,7 +130,7 @@ namespace WpfView
                 if (DataContext == null)
                 {
                     //Account hinzufügen
-                    settingsController.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
+                    settingsViewModel.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
                 }
 
                 BindingGroup.CommitEdit();

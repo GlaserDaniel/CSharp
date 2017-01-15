@@ -81,9 +81,9 @@ namespace WpfView
 
             if (receiverResult && subjectResult == MessageBoxResult.Yes && messageResult == MessageBoxResult.Yes)
             {
-                EmailViewModel emailController = new EmailViewModel();
+                EmailViewModel emailViewModel = new EmailViewModel();
 
-                emailController.sendEmail(senderAccount, receiver, subject, message);
+                emailViewModel.sendEmail(senderAccount, receiver, subject, message);
 
                 Close();
             }

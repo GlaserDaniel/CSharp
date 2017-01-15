@@ -13,6 +13,9 @@
     Activated="window_Activated"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.BindingGroup>
+        <BindingGroup />
+    </Window.BindingGroup>
     <Grid>
         <DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
@@ -60,7 +63,8 @@
                                 Height="23"
                                 MinWidth="110"
                                 Margin="10,10,5,10"
-                                ItemsSource="{Binding Accounts}" />
+                                ItemsSource="{Binding Accounts}"
+                                SelectedIndex="{Binding selectedAccountIndex}" />
                         </DockPanel>
                         <DockPanel DockPanel.Dock="Bottom">
                             <Button

@@ -32,9 +32,9 @@ namespace WpfView
 
         private void loadData()
         {
-            SettingsViewModel settingsController = new SettingsViewModel();
+            SettingsViewModel settingsViewModel = new SettingsViewModel();
 
-            DataContext = settingsController;
+            DataContext = settingsViewModel;
 
             // Da es im XAML Code so nicht mehr funktioniert
             //ItemsSource = "{Binding Accounts[selectedAccountIndex].Emails}"
@@ -54,7 +54,18 @@ namespace WpfView
         private void SendEmail_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("SendEmail_Click");
-            new SendEmailWindow();
+            if (DataContext == null)
+            {
+                loadData();
+            }
+            if (DataContext != null && ((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
+            {
+                new SendEmailWindow();
+            }
+            else
+            {
+                MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Optionen_Click(object sender, RoutedEventArgs e)
