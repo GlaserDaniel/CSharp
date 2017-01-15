@@ -112,7 +112,7 @@ namespace Common
             Stream accountsStream = new FileStream("accounts.bin",
                                      FileMode.Create,
                                      FileAccess.Write, FileShare.None);
-            formatter.Serialize(accountsStream, Accounts);
+            formatter.Serialize(accountsStream, Accounts); // TODO handle SerilazionException wegen PropertyChanged not serilizble
             //Console.WriteLine("Saved Accounts: ");
             //foreach (Account account in Accounts)
             //{

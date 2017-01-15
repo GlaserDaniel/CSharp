@@ -82,8 +82,8 @@ namespace Common
                 {
                     using (TcpClient tcpClient = new TcpClient())
                     {
-                        tcpClient.ReceiveTimeout = 5000;
-                        tcpClient.Connect(smtpServer, smtpPort);
+                        tcpClient.ReceiveTimeout = 5000; // TODO Timeout funktioniert nicht.
+                        tcpClient.Connect(smtpServer, smtpPort); // TODO Reicht nicht aus. Da wenn TLS/STARTTLS erwünscht ist der eine Port auch falsch sein kann.
                     }
                 }
                 catch (IOException)
@@ -142,7 +142,8 @@ namespace Common
             //Email absenden
             try
             {
-                smtpClient.SendMailAsync(mailMessage); // TODO SendMailAsync
+                smtpClient.Send(mailMessage); // TODO SendMailAsync
+                Console.WriteLine("Email gesendet!");
             }
             catch (SmtpException e)
             {
