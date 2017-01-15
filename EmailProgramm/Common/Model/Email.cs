@@ -9,7 +9,7 @@ namespace Common
     [Serializable]
     public class Email
     {
-        public int hashCode { get; set; }
+        public int id { get; set; }
         public string sender { get; set; }
         public IList<string> receiver { get; set; }
         public string subject { get; set; }

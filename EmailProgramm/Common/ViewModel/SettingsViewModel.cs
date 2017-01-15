@@ -166,6 +166,8 @@ namespace Common
                 // Datei leer
                 Console.WriteLine("SerializationException: " + se);
                 Accounts = new ObservableCollection<Account>();
+                selectedAccountIndex = -1;
+                return;
             }
 
             //try

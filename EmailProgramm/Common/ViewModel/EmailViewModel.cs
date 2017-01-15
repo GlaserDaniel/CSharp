@@ -12,6 +12,7 @@ using MailKit.Net.Pop3;
 using System.Net.Sockets;
 using System.Windows.Threading;
 using System.Threading;
+using MimeKit;
 
 namespace Common
 {
@@ -184,22 +185,17 @@ namespace Common
 
                                 foreach (var uid in uids)
                                 {
+                                    Console.WriteLine("uid: " + uid.Id);
                                     if (progress != null)
                                     {
                                         progress.Report((uids.IndexOf(uid) * 100) / uids.Count);
                                     }
 
-                                    // Nachricht holen
-                                    var message = imapClient.Inbox.GetMessage(uid);
-
-                                    // Von der Nachricht den HashCode nehmen
-                                    // Nur den HashCode nehmen dauert genauso lang wie die ganze Nachricht holen weil er
-                                    // die ganze Nachricht holt, und sonst die Nachricht nur noch mal geholt werden müsste falls
-                                    // sie noch nicht vorhanden sein sollte
-                                    int hashCode = message.GetHashCode();
-
-                                    if (!account.doEmailsContainsHashCode(hashCode))
+                                    if (!account.doEmailsContainsId((int)uid.Id))
                                     {
+                                        // Nachricht holen
+                                        var message = imapClient.Inbox.GetMessage(uid);
+
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", uid));
 
@@ -229,7 +225,7 @@ namespace Common
 
                                         email.dateTime = message.Date.Date;
 
-                                        email.hashCode = message.GetHashCode();
+                                        email.id = (int)uid.Id;
 
                                         var currentAccount = account;
                                         var currentEmail = email;
@@ -262,7 +258,14 @@ namespace Common
 
                                 client.Authenticate(account.user, account.password);
 
-                                // TODO Erstmal nur 10 Emails abholen
+                                //var uids = client.GetMessageUids();
+
+                                //foreach (var uid in uids)
+                                //{
+                                //    client.GetMessage(uid);
+                                //}
+
+                                // TODO Erstmal nur 50 Emails abholen
                                 int count = client.Count;
                                 if (client.Count > 50)
                                 {
@@ -276,17 +279,19 @@ namespace Common
                                         progress.Report((i * 100) / count);
                                     }
 
-                                    // Nachricht holen
-                                    var message = client.GetMessage(i);
+                                    HeaderList list = client.GetMessageHeaders(i);
 
-                                    // Von der Nachricht den HashCode nehmen
-                                    // Nur den HashCode nehmen dauert genauso lang wie die ganze Nachricht holen weil er
-                                    // die ganze Nachricht holt, und sonst die Nachricht nur noch mal geholt werden müsste falls
-                                    // sie noch nicht vorhanden sein sollte
-                                    int hashCode = message.GetHashCode();
-
-                                    if (!account.doEmailsContainsHashCode(hashCode))
+                                    foreach (var header in list)
                                     {
+                                        Console.WriteLine("headerID: " + header.Id);
+                                        Console.WriteLine("header Value: " + header.Value);
+                                    }
+
+                                    if (!account.doEmailsContainsId(i))
+                                    {
+                                        // Nachricht holen
+                                        var message = client.GetMessage(i);
+
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", i));
 
@@ -316,7 +321,7 @@ namespace Common
 
                                         email.dateTime = message.Date.Date;
 
-                                        email.hashCode = message.GetHashCode();
+                                        email.id = i;
 
                                         var currentAccount = account;
                                         var currentEmail = email;

@@ -59,12 +59,12 @@ namespace Common
             return email.ToString();
         }
 
-        public bool doEmailsContainsHashCode(int hashCode)
+        public bool doEmailsContainsId(int id)
         {
             bool result = false;
             foreach (Email email in Emails)
             {
-                if (email.hashCode == hashCode)
+                if (email.id == id)
                 {
                     result = true;
                 }
