@@ -58,5 +58,18 @@ namespace Common
         {
             return email.ToString();
         }
+
+        public bool doEmailsContainsHashCode(int hashCode)
+        {
+            bool result = false;
+            foreach (Email email in Emails)
+            {
+                if (email.hashCode == hashCode)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 }

@@ -189,46 +189,57 @@ namespace Common
                                         progress.Report((uids.IndexOf(uid) * 100) / uids.Count);
                                     }
 
+                                    // Nachricht holen
                                     var message = imapClient.Inbox.GetMessage(uid);
 
-                                    // write the message to a file
-                                    //message.WriteTo(string.Format("{0}.msg", uid));
+                                    // Von der Nachricht den HashCode nehmen
+                                    // Nur den HashCode nehmen dauert genauso lang wie die ganze Nachricht holen weil er
+                                    // die ganze Nachricht holt, und sonst die Nachricht nur noch mal geholt werden müsste falls
+                                    // sie noch nicht vorhanden sein sollte
+                                    int hashCode = message.GetHashCode();
 
-                                    Console.WriteLine("Message " + uid + ": " + message.Subject);
-
-                                    Email email = new Email();
-
-                                    email.sender = message.From.ToString();
-
-                                    foreach (MimeKit.InternetAddress inetAdress in message.To)
+                                    if (!account.doEmailsContainsHashCode(hashCode))
                                     {
-                                        email.receiver.Add(inetAdress.ToString());
+                                        // write the message to a file
+                                        //message.WriteTo(string.Format("{0}.msg", uid));
+
+                                        Console.WriteLine("Message " + uid + ": " + message.Subject);
+
+                                        Email email = new Email();
+
+                                        email.sender = message.From.ToString();
+
+                                        foreach (MimeKit.InternetAddress inetAdress in message.To)
+                                        {
+                                            email.receiver.Add(inetAdress.ToString());
+                                        }
+
+                                        email.subject = message.Subject.ToString();
+
+                                        if (!string.IsNullOrEmpty(message.HtmlBody))
+                                        {
+                                            email.message = message.HtmlBody.ToString();
+                                            // TODO HTML to true setzen
+                                        }
+                                        else
+                                        {
+                                            email.message = message.Body.ToString();
+                                            // TODO HTML to false setzen
+                                        }
+
+                                        email.dateTime = message.Date.Date;
+
+                                        email.hashCode = message.GetHashCode();
+
+                                        var currentAccount = account;
+                                        var currentEmail = email;
+
+                                        dispatcher.BeginInvoke((Action)(() =>
+                                        {
+                                            currentAccount.Emails.Add(currentEmail);
+                                        }));
                                     }
-
-                                    email.subject = message.Subject.ToString();
-
-                                    if (!string.IsNullOrEmpty(message.HtmlBody))
-                                    {
-                                        email.message = message.HtmlBody.ToString();
-                                        // TODO HTML to true setzen
-                                    }
-                                    else
-                                    {
-                                        email.message = message.Body.ToString();
-                                        // TODO HTML to false setzen
-                                    }
-
-                                    email.dateTime = message.Date.Date;
-
-                                    var currentAccount = account;
-                                    var currentEmail = email;
-
-                                    dispatcher.BeginInvoke((Action)(() =>
-                                    {
-                                        currentAccount.Emails.Add(currentEmail);
-                                    }));
                                 }
-
                                 imapClient.Disconnect(true);
                             }
                         }
@@ -265,49 +276,60 @@ namespace Common
                                         progress.Report((i * 100) / count);
                                     }
 
+                                    // Nachricht holen
                                     var message = client.GetMessage(i);
 
-                                    // write the message to a file
-                                    //message.WriteTo(string.Format("{0}.msg", i));
+                                    // Von der Nachricht den HashCode nehmen
+                                    // Nur den HashCode nehmen dauert genauso lang wie die ganze Nachricht holen weil er
+                                    // die ganze Nachricht holt, und sonst die Nachricht nur noch mal geholt werden müsste falls
+                                    // sie noch nicht vorhanden sein sollte
+                                    int hashCode = message.GetHashCode();
 
-                                    //Console.WriteLine("Message " + i + ": " + message.Subject);
-
-                                    Email email = new Email();
-
-                                    email.sender = message.From.ToString();
-
-                                    foreach (MimeKit.InternetAddress inetAdress in message.To)
+                                    if (!account.doEmailsContainsHashCode(hashCode))
                                     {
-                                        email.receiver.Add(inetAdress.ToString());
+                                        // write the message to a file
+                                        //message.WriteTo(string.Format("{0}.msg", i));
+
+                                        //Console.WriteLine("Message " + i + ": " + message.Subject);
+
+                                        Email email = new Email();
+
+                                        email.sender = message.From.ToString();
+
+                                        foreach (MimeKit.InternetAddress inetAdress in message.To)
+                                        {
+                                            email.receiver.Add(inetAdress.ToString());
+                                        }
+
+                                        email.subject = message.Subject.ToString();
+
+                                        if (!string.IsNullOrEmpty(message.HtmlBody))
+                                        {
+                                            email.message = message.HtmlBody.ToString();
+                                            // TODO HTML to true setzen
+                                        }
+                                        else
+                                        {
+                                            email.message = message.Body.ToString();
+                                            // TODO HTML to false setzen
+                                        }
+
+                                        email.dateTime = message.Date.Date;
+
+                                        email.hashCode = message.GetHashCode();
+
+                                        var currentAccount = account;
+                                        var currentEmail = email;
+
+                                        dispatcher.BeginInvoke((Action)(() =>
+                                        {
+                                            currentAccount.Emails.Add(currentEmail);
+                                        }));
+
+                                        // mark the message for deletion
+                                        //client.DeleteMessage(i);
                                     }
-
-                                    email.subject = message.Subject.ToString();
-
-                                    if (!string.IsNullOrEmpty(message.HtmlBody))
-                                    {
-                                        email.message = message.HtmlBody.ToString();
-                                        // TODO HTML to true setzen
-                                    }
-                                    else
-                                    {
-                                        email.message = message.Body.ToString();
-                                        // TODO HTML to false setzen
-                                    }
-
-                                    email.dateTime = message.Date.Date;
-
-                                    var currentAccount = account;
-                                    var currentEmail = email;
-
-                                    dispatcher.BeginInvoke((Action)(() =>
-                                    {
-                                        currentAccount.Emails.Add(currentEmail);
-                                    }));
-
-                                    // mark the message for deletion
-                                    //client.DeleteMessage(i);
                                 }
-
                                 client.Disconnect(true);
                             }
                         }

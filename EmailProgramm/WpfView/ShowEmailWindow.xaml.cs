@@ -51,8 +51,11 @@ namespace WpfView
             //message.Replace("®", "&reg;");
             //message.Replace("§", "&sect;");
 
-            // Damit tut er Umlaute und Zeichen richtig darstellen, und für die wo es schon gesetzt ist stört es auch nicht.
-            message = "<!DOCTYPE html>\r\n<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
+            // Damit Umlaute und Zeichen richtig dargestellt werden.
+            if (!message.Substring(0,9).Equals("<!DOCTYPE"))
+            {
+                message = "<!DOCTYPE html>\r\n<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
+            }
 
             messageWebBrowser.NavigateToString(message);
 
@@ -94,12 +97,24 @@ namespace WpfView
 
         private void replyButton_Click(object sender, RoutedEventArgs e)
         {
-            new SendEmailWindow((Email)DataContext);
+            Email replyEmail = new Email();
+
+            replyEmail.sender = ((Email)DataContext).sender;
+            replyEmail.subject = "Antwort auf " + ((Email)DataContext).subject; // TODO könnte auch Re:
+            replyEmail.message = "\n\nAlte Email: \n{\n" + ((Email)DataContext).message + "\n}"; // TODO Mehr Informationen
+
+            new SendEmailWindow(replyEmail);
         }
 
         private void forwardButton_Click(object sender, RoutedEventArgs e)
         {
+            Email forwardEmail = new Email();
 
+            forwardEmail.sender = ((Email)DataContext).sender;
+            forwardEmail.subject = "Weiterleitung von " + ((Email)DataContext).subject; // TODO könnte auch Fwd:
+            forwardEmail.message = "\n\nWeitergeleitete Email: \n{\n" + ((Email)DataContext).message + "\n}"; // TODO Mehr Informationen
+
+            new SendEmailWindow(forwardEmail);
         }
     }
 }

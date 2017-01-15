@@ -32,8 +32,8 @@ namespace WpfView
         public SendEmailWindow(Email email) : this()
         {
             receiverTextBox.Text = email.sender;
-            subjectTextBox.Text = "Antwort auf " + email.subject; // TODO könnte auch Re:
-            messageTextBox.Text = "\n\nAlte Email: \n{\n" + email.message + "\n}"; // TODO Mehr Informationen
+            subjectTextBox.Text = email.subject;
+            messageTextBox.Text = email.message;
         }
 
         private void LoadData()
