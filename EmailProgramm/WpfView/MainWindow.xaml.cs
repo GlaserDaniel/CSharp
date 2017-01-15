@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -131,17 +132,36 @@ namespace WpfView
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            MessageBoxResult closingResult = MessageBox.Show("Möchten Sie das Programm wirklich beenden?", "SMTP-Server fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            // Wenn mehr als ein Fenster (also das noch ein anderes Fenster als das Hauptfenster)
+            // offen ist nachfragen ob man das Programm beenden möchte
+            int windows = 1;
 
-            if (closingResult == MessageBoxResult.Yes)
+            // im Debug Modus 2 weil noch ein Diagnose Fenster mit läuft
+            if (Debugger.IsAttached)
+            {
+                windows = 2;
+            }
+
+            if (Application.Current.Windows.Count > windows)
+            {
+                MessageBoxResult closingResult = MessageBox.Show("Möchten Sie das Programm wirklich beenden?", "SMTP-Server fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (closingResult == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+
+                    base.OnClosing(e);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
             {
                 Application.Current.Shutdown();
 
                 base.OnClosing(e);
-            }
-            else
-            {
-                e.Cancel = true;
             }
         }
     }
