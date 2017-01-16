@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Common;
+using Common.ViewModel;
 
 namespace WpfView
 {
@@ -31,15 +31,15 @@ namespace WpfView
 
         private void LoadData()
         {
-            DataContext = new SettingsViewModel();
+            DataContext = new AccountListViewModel();
             //AccountsComboBox.Items.Clear();
             //foreach (Account account in ((SettingsViewModel)DataContext).Accounts)
             //{
             //    AccountsComboBox.Items.Add(account);
             //}
-            if (((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
+            if (((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
             {
-                AccountsComboBox.SelectedItem = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex];
+                AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex];
             }
         }
 
@@ -58,18 +58,18 @@ namespace WpfView
         void window_Activated(object sender, EventArgs e)
         {
             Console.WriteLine("OptionWindow activated");
-            if (((SettingsViewModel)DataContext).selectedAccountIndex == -1 && ((SettingsViewModel)DataContext).Accounts.Count >= 1)
+            if (((AccountListViewModel)DataContext).selectedAccountIndex == -1 && ((AccountListViewModel)DataContext).Accounts.Count >= 1)
             {
-                AccountsComboBox.SelectedItem = ((SettingsViewModel)DataContext).Accounts[0];
+                AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[0];
             }
         }
 
         private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
             //((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
-            ((SettingsViewModel)DataContext).selectedAccountIndex = AccountsComboBox.SelectedIndex;
+            ((AccountListViewModel)DataContext).selectedAccountIndex = AccountsComboBox.SelectedIndex;
             BindingGroup.CommitEdit();
-            ((SettingsViewModel)DataContext).appendSettings();
+            ((AccountListViewModel)DataContext).saveAsync();
             Close();
         }
 
@@ -81,24 +81,24 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((SettingsViewModel)DataContext);
+            new AccountWindow((AccountListViewModel)DataContext);
         }
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((SettingsViewModel)DataContext, (Account)AccountsComboBox.SelectedItem);
+            new AccountWindow((AccountListViewModel)DataContext, (AccountViewModel)AccountsComboBox.SelectedItem);
         }
 
         private void RemoveAccount_Click(object sender, RoutedEventArgs e)
         {
-            Account accountToRemove = (Account)AccountsComboBox.SelectedItem;
+            AccountViewModel accountToRemove = (AccountViewModel)AccountsComboBox.SelectedItem;
 
             MessageBoxResult result = MessageBox.Show("Willst du den Account " + accountToRemove.Email + " wirklich löschen?", "Account Löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 Console.WriteLine("Ausgewählter Account: " + accountToRemove.ToString());
 
-                ((SettingsViewModel)DataContext).removeAccount(accountToRemove);
+                ((AccountListViewModel)DataContext).removeAccount(accountToRemove);
 
                 //LoadData();
 

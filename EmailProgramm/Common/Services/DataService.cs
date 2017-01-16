@@ -1,4 +1,5 @@
-﻿using Common.ViewModel;
+﻿using Common.Model;
+using Common.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,18 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Common.Model
+namespace Common.Services
 {
     public static class DataService
     {
-        private static readonly string FILE_NAME = "Accounts.xml";
+        private static readonly string ACCOUNTS_FILE_NAME = "Accounts.xml";
+
+        private static readonly string SELECTED_ACCOUNT_INDEX_FILE_NAME = "SelectedAccountIndex.xml";
 
         public static async Task<List<Account>> LoadAccountsAsync()
         {
             await Task.Delay(0);
             try
             {
-                var fileStream = File.Open(FILE_NAME, FileMode.Open);
+                var fileStream = File.Open(ACCOUNTS_FILE_NAME, FileMode.Open);
                 var serializer = new XmlSerializer(typeof(List<Account>));
                 var obj = serializer.Deserialize(fileStream);
                 var accounts = obj as List<Account>;
@@ -26,7 +29,7 @@ namespace Common.Model
             }
             catch (Exception e)
             {
-                Console.Out.WriteLine($"Fehler beim Laden: {e.Message}");
+                Console.Out.WriteLine($"Fehler beim Laden von Accounts: {e.Message}");
                 Console.Out.WriteLine(e.StackTrace);
                 return LoadSampleAccounts();
             }
@@ -38,6 +41,7 @@ namespace Common.Model
                 {
                     new Account
                     {
+                        //Showname = "Test Account IMAP",
                         User = "danielglasertest@gmail.com",
                         Email = "danielglasertest@gmail.com",
                         Password = "EmailTestKonto",
@@ -50,12 +54,12 @@ namespace Common.Model
                 };
         }
 
-        public static async Task SaveContactsAsync(List<AccountViewModel> viewModels)
+        public static async Task SaveAccountsAsync(List<AccountViewModel> viewModels)
         {
             await Task.Delay(0);
             try
             {
-                using (var fileStream = File.Open(FILE_NAME, FileMode.Create))
+                using (var fileStream = File.Open(ACCOUNTS_FILE_NAME, FileMode.Create))
                 {
                     var serializer = new XmlSerializer(typeof(List<Account>));
                     var accountList = new List<Account>();
@@ -79,7 +83,47 @@ namespace Common.Model
             }
             catch (Exception e)
             {
-                Console.Out.WriteLine($"Fehler beim Speichern: {e.Message}");
+                Console.Out.WriteLine($"Fehler beim Speichern von Accounts: {e.Message}");
+            }
+        }
+
+        public static async Task<int> LoadSelectedAccountIndexAsync()
+        {
+            await Task.Delay(0);
+            try
+            {
+                var fileStream = File.Open(SELECTED_ACCOUNT_INDEX_FILE_NAME, FileMode.Open);
+                var serializer = new XmlSerializer(typeof(int));
+                var obj = serializer.Deserialize(fileStream);
+                var selectedAccountIndex = (int)obj;
+                return selectedAccountIndex;
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine($"Fehler beim Laden von SelectedAccountIndex: {e.Message}");
+                Console.Out.WriteLine(e.StackTrace);
+                return -1;
+            }
+        }
+
+        public static async Task SaveSelectedAccountIndexAsync(int selectedAccountIndex)
+        {
+            await Task.Delay(0);
+            try
+            {
+                using (var fileStream = File.Open(SELECTED_ACCOUNT_INDEX_FILE_NAME, FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(int));
+                    int selectedAccountIndexCopie = -1;
+
+                    selectedAccountIndexCopie = selectedAccountIndex;
+
+                    serializer.Serialize(fileStream, selectedAccountIndexCopie);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine($"Fehler beim Speichern von SelectedAccountIndex: {e.Message}");
             }
         }
     }

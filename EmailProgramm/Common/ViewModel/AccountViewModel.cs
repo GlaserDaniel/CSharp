@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ namespace Common.ViewModel
 {
     public class AccountViewModel : INotifyPropertyChanged
     {
+        private string _showname;
         private string _user;
         private string _email;
         private string _password;
@@ -19,7 +21,7 @@ namespace Common.ViewModel
         private int _imapPop3Port;
         private string _smtpServer;
         private int _smtpPort;
-        private ObservableCollection<Email> _emails;
+        private ObservableCollection<EmailViewModel> _emails;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,16 +38,53 @@ namespace Common.ViewModel
 
         public AccountViewModel(Account account)
         {
-
+            Showname = account.Showname;
+            User = account.User;
+            Email = account.Email;
+            Password = account.Password;
+            UseImap = account.UseImap;
+            ImapPop3Server = account.ImapPop3Server;
+            ImapPop3Port = account.ImapPop3Port;
+            SmtpServer = account.SmtpServer;
+            SmtpPort = account.SmtpPort;
+            Emails = new ObservableCollection<EmailViewModel>();
         }
 
-        public ObservableCollection<Email> Emails
+        public AccountViewModel(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
+        {
+            Showname = showname;
+            User = user;
+            Email = email;
+            Password = password;
+            UseImap = useImap;
+            ImapPop3Server = imapPop3Server;
+            ImapPop3Port = imapPop3Port;
+            SmtpServer = smtpServer;
+            SmtpPort = smtpPort;
+            Emails = new ObservableCollection<EmailViewModel>();
+        }
+
+        public ObservableCollection<EmailViewModel> Emails
         {
             get { return _emails; }
             set
             {
                 if (_emails == value) return;
                 _emails = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Showname
+        {
+            get
+            {
+                return _showname;
+            }
+            set
+            {
+                if (_showname == value) return;
+                _showname = value;
                 OnPropertyChanged();
             }
         }
@@ -77,8 +116,6 @@ namespace Common.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        
 
         public string Password
         {
@@ -144,6 +181,24 @@ namespace Common.ViewModel
                 _smtpPort = value;
                 OnPropertyChanged();
             }
+        }
+
+        public bool doEmailsContainsId(int id)
+        {
+            bool result = false;
+            foreach (var email in Emails)
+            {
+                if (email.Id == id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        public override string ToString()
+        {
+            return Email.ToString();
         }
     }
 }

@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Common;
 using System.Text.RegularExpressions;
+using Common.ViewModel;
+using Common.Services;
 
 namespace WpfView
 {
@@ -21,7 +22,7 @@ namespace WpfView
     /// </summary>
     public partial class AccountWindow : Window
     {
-        private SettingsViewModel settingsViewModel;
+        private AccountListViewModel settingsViewModel;
         //private SettingsWindow settingsWindow;
 
         public AccountWindow()
@@ -31,7 +32,7 @@ namespace WpfView
             Show();
         }
         
-        public AccountWindow(SettingsViewModel settingsViewModel) : this()
+        public AccountWindow(AccountListViewModel settingsViewModel) : this()
         {
             Console.WriteLine("Account hinzufügen (Constr mit SettingsViewModel)");
             this.settingsViewModel = settingsViewModel;
@@ -39,7 +40,7 @@ namespace WpfView
             Title = "Account hinzufügen";
         }
 
-        public AccountWindow(SettingsViewModel settingsViewModel, Account selectedAccountToEdit) : this()
+        public AccountWindow(AccountListViewModel settingsViewModel, AccountViewModel selectedAccountToEdit) : this()
         {
             Console.WriteLine("Account bearbeiten (Constr mit Account)");
             this.settingsViewModel = settingsViewModel;
@@ -63,6 +64,7 @@ namespace WpfView
             bool smtpServerResult = true;
             bool smtpPortResult = true;
 
+            //string showname = 
             string user = userTextBox.Text;
             string email = emailTextBox.Text;
             string password = passwordBox.Password;
@@ -130,7 +132,7 @@ namespace WpfView
                 if (DataContext == null)
                 {
                     //Account hinzufügen
-                    settingsViewModel.addAccount(user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
+                    settingsViewModel.addAccount("", user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
                 }
 
                 BindingGroup.CommitEdit();
@@ -174,7 +176,7 @@ namespace WpfView
 
             if ((bool)imapRadioButton.IsChecked)
             {
-                Task<bool> resultTask = new EmailViewModel().TestImapServer(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
+                Task<bool> resultTask = new EmailService().TestImapServer(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
 
                 Task.Run(() =>
                 {
@@ -195,7 +197,7 @@ namespace WpfView
                 });
             } else
             {
-                Task<bool> resultTask = new EmailViewModel().TestPop3Server(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
+                Task<bool> resultTask = new EmailService().TestPop3Server(imapPop3ServerTextBox.Text, int.Parse(imapPop3PortTextBox.Text));
 
                 Task.Run(() =>
                 {
@@ -233,7 +235,7 @@ namespace WpfView
                 return;
             }
 
-            Task<bool> resultTask = new EmailViewModel().TestSmtpServer(smtpServerTextBox.Text, int.Parse(smtpPortTextBox.Text));
+            Task<bool> resultTask = new EmailService().TestSmtpServer(smtpServerTextBox.Text, int.Parse(smtpPortTextBox.Text));
 
             Task.Run(() =>
             {

@@ -93,8 +93,8 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn DisplayMemberBinding="{Binding sender}" Header="Sender" />
-                        <GridViewColumn DisplayMemberBinding="{Binding subject}" Header="Betreff" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Sender}" Header="Sender" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Subject}" Header="Betreff" />
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

@@ -45,7 +45,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     IsReadOnly="True"
-                    Text="{Binding sender}"
+                    Text="{Binding Sender}"
                     TextWrapping="Wrap" />
                 <TextBox
                     x:Name="receiverTextBox"
@@ -53,7 +53,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     IsReadOnly="True"
-                    Text="{Binding receiver}"
+                    Text="{Binding Receiver}"
                     TextWrapping="Wrap" />
                 <TextBox
                     x:Name="subjectTextBox"
@@ -61,7 +61,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     IsReadOnly="True"
-                    Text="{Binding subject}"
+                    Text="{Binding Subject}"
                     TextWrapping="Wrap" />
                 <StackPanel Orientation="Horizontal">
                     <Button
@@ -79,7 +79,6 @@
                         Click="forwardButton_Click"
                         Content="Weiterleiten" />
                 </StackPanel>
-
             </StackPanel>
         </DockPanel>
 

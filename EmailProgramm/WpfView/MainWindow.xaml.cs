@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using Common.Services;
+using Common.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,23 +33,23 @@ namespace WpfView
 
         private void loadData()
         {
-            SettingsViewModel settingsViewModel = new SettingsViewModel();
+            AccountListViewModel settingsViewModel = new AccountListViewModel();
 
             DataContext = settingsViewModel;
 
             // Da es im XAML Code so nicht mehr funktioniert
             //ItemsSource = "{Binding Accounts[selectedAccountIndex].Emails}"
-            if (((SettingsViewModel)DataContext).selectedAccountIndex != -1)
+            if (((AccountListViewModel)DataContext).selectedAccountIndex != -1)
             {
-                EmailsListView.ItemsSource = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
+                EmailsListView.ItemsSource = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex].Emails;
             }
         }
 
-        // TODO anderst lösen!
+        // TODO anderst lösen! Wegen dem das wenn man den selectedAccount umgestellt hat es nicht die richtige Emails anzeigt.
         void window_Activated(object sender, EventArgs e)
         {
-            Console.WriteLine("OptionWindow activated");
-            loadData();
+            //Console.WriteLine("MainWindow activated");
+            //loadData();
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)
@@ -58,7 +59,7 @@ namespace WpfView
             {
                 loadData();
             }
-            if (DataContext != null && ((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
+            if (DataContext != null && ((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
             {
                 new SendEmailWindow();
             }
@@ -80,23 +81,23 @@ namespace WpfView
             {
                 loadData();
             }
-            if (DataContext != null && ((SettingsViewModel)DataContext).selectedAccountIndex >= 0)
+            if (DataContext != null && ((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
             {
-                Account account = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex];
+                AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex];
 
                 var progressHandler = new Progress<double>(value =>
                 {
                     ProgressBar.Value = value;
                 });
 
-                Task t = new EmailViewModel().receiveEmails(account, progressHandler, Dispatcher);
+                Task t = new EmailService().receiveEmails(account, progressHandler, Dispatcher);
 
                 Task.Run(() =>
                 {
                     t.Wait();
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        ((SettingsViewModel)DataContext).appendSettings();
+                        ((AccountListViewModel)DataContext).saveAsync();
                     }));
                 });
 
@@ -111,14 +112,14 @@ namespace WpfView
 
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            new ShowEmailWindow((Email)((FrameworkElement)e.OriginalSource).DataContext);
+            new ShowEmailWindow((EmailViewModel)((FrameworkElement)e.OriginalSource).DataContext);
         }
 
         private void DeleteEmails_Click(object sender, RoutedEventArgs e)
         {
             IList emailsToDelete = (IList)EmailsListView.SelectedItems;
 
-            ObservableCollection<Email> emails = ((SettingsViewModel)DataContext).Accounts[((SettingsViewModel)DataContext).selectedAccountIndex].Emails;
+            ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex].Emails;
 
             // TODO Funktioniert noch nicht richtig
             //foreach (var email in emailsToDelete)
@@ -126,7 +127,7 @@ namespace WpfView
             //    emails.Remove((Email)email);
             //}
 
-            ((SettingsViewModel)DataContext).appendSettings();
+            ((AccountListViewModel)DataContext).saveAsync();
         }
 
         private void EmailsListView_KeyDown(object sender, KeyEventArgs e)

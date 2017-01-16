@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Common;
+using Common.ViewModel;
+using Common.Services;
 
 namespace WpfView
 {
@@ -20,7 +21,7 @@ namespace WpfView
     /// </summary>
     public partial class SendEmailWindow : Window
     {
-        SettingsViewModel settingsViewModel { get; set; }
+        AccountListViewModel settingsViewModel { get; set; }
 
         public SendEmailWindow()
         {
@@ -29,16 +30,16 @@ namespace WpfView
             Show();
         }
 
-        public SendEmailWindow(Email email) : this()
+        public SendEmailWindow(EmailViewModel email) : this()
         {
-            receiverTextBox.Text = email.sender;
-            subjectTextBox.Text = email.subject;
-            messageTextBox.Text = email.message;
+            receiverTextBox.Text = email.Sender;
+            subjectTextBox.Text = email.Subject;
+            messageTextBox.Text = email.Message;
         }
 
         private void LoadData()
         {
-            settingsViewModel = new SettingsViewModel();
+            settingsViewModel = new AccountListViewModel();
 
             //foreach (Account account in settingsViewModel.Accounts)
             //{
@@ -47,16 +48,16 @@ namespace WpfView
 
             DataContext = settingsViewModel;
 
-            if (((SettingsViewModel)DataContext).selectedAccountIndex != -1)
+            if (((AccountListViewModel)DataContext).selectedAccountIndex != -1)
             {
-                senderComboBox.SelectedIndex = ((SettingsViewModel)DataContext).selectedAccountIndex;
+                senderComboBox.SelectedIndex = ((AccountListViewModel)DataContext).selectedAccountIndex;
             }
         }
 
         private void SendEmail_Click(object senderObject, RoutedEventArgs e)
         {
             //string sender = senderComboBox.Text;
-            Account senderAccount = (Account)senderComboBox.SelectedItem;
+            AccountViewModel senderAccount = (AccountViewModel)senderComboBox.SelectedItem;
             string receiver = receiverTextBox.Text;
             string subject = subjectTextBox.Text;
             string message = messageTextBox.Text;
@@ -81,9 +82,9 @@ namespace WpfView
 
             if (receiverResult && subjectResult == MessageBoxResult.Yes && messageResult == MessageBoxResult.Yes)
             {
-                EmailViewModel emailViewModel = new EmailViewModel();
+                EmailService emailService = new EmailService();
 
-                emailViewModel.sendEmail(senderAccount, receiver, subject, message);
+                emailService.sendEmail(senderAccount, receiver, subject, message);
 
                 Close();
             }

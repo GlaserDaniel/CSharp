@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Common.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +26,11 @@ namespace WpfView
             Show();
         }
 
-        public ShowEmailWindow(Email email) : this()
+        public ShowEmailWindow(EmailViewModel email) : this()
         {
             DataContext = email;
 
-            String message = email.message;
+            String message = email.Message;
 
             //message.Replace("ä", "&auml;");
             //message.Replace("ü", "&uuml;");
@@ -97,22 +97,22 @@ namespace WpfView
 
         private void replyButton_Click(object sender, RoutedEventArgs e)
         {
-            Email replyEmail = new Email();
+            EmailViewModel replyEmail = new EmailViewModel();
 
-            replyEmail.sender = ((Email)DataContext).sender;
-            replyEmail.subject = "Antwort auf " + ((Email)DataContext).subject; // TODO könnte auch Re:
-            replyEmail.message = "\n\nAlte Email: \n{\n" + ((Email)DataContext).message + "\n}"; // TODO Mehr Informationen
+            replyEmail.Sender = ((EmailViewModel)DataContext).Sender;
+            replyEmail.Subject = "Antwort auf " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Re:
+            replyEmail.Message = "\n\nAlte Email: \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
 
             new SendEmailWindow(replyEmail);
         }
 
         private void forwardButton_Click(object sender, RoutedEventArgs e)
         {
-            Email forwardEmail = new Email();
+            EmailViewModel forwardEmail = new EmailViewModel();
 
-            forwardEmail.sender = ((Email)DataContext).sender;
-            forwardEmail.subject = "Weiterleitung von " + ((Email)DataContext).subject; // TODO könnte auch Fwd:
-            forwardEmail.message = "\n\nWeitergeleitete Email: \n{\n" + ((Email)DataContext).message + "\n}"; // TODO Mehr Informationen
+            forwardEmail.Sender = ((EmailViewModel)DataContext).Sender;
+            forwardEmail.Subject = "Weiterleitung von " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Fwd:
+            forwardEmail.Message = "\n\nWeitergeleitete Email: \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
 
             new SendEmailWindow(forwardEmail);
         }

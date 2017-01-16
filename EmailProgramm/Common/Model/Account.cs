@@ -8,11 +8,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace Common.Model
 {
     [Serializable]
     public class Account : INotifyPropertyChanged
     {
+        public string Showname { get; set; }
         public string User { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -61,7 +62,7 @@ namespace Common
 
         public override string ToString()
         {
-            return Email.ToString();
+            return Showname.ToString();
         }
 
         public bool doEmailsContainsId(int id)

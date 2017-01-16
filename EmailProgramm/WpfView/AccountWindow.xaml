@@ -90,7 +90,7 @@
                     Height="23"
                     Margin="10,10,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding user}"
+                    Text="{Binding User}"
                     TextWrapping="Wrap"
                     ToolTip="Der Benutzername oder die Email-Adresse des Kontos" />
                 <TextBox
@@ -98,7 +98,7 @@
                     Height="23"
                     Margin="10,10,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding email}"
+                    Text="{Binding Email}"
                     TextWrapping="Wrap"
                     ToolTip="Die Email-Adresse des Kontos" />
                 <PasswordBox
@@ -111,7 +111,7 @@
                     Height="23"
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding imapPop3Server}"
+                    Text="{Binding ImapPop3Server}"
                     TextWrapping="Wrap"
                     ToolTip="Der IMAP oder POP3-Server" />
                 <TextBox
@@ -120,7 +120,7 @@
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
                     PreviewTextInput="imapPop3PortTextBox_PreviewTextInput"
-                    Text="{Binding imapPop3Port}"
+                    Text="{Binding ImapPop3Port}"
                     TextWrapping="Wrap"
                     ToolTip="Der IMAP oder POP3-Port" />
                 <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
@@ -129,20 +129,19 @@
                         Margin="10"
                         Content="IMAP"
                         GroupName="ImapOrPop3"
-                        IsChecked="{Binding useImap}" />
+                        IsChecked="{Binding UseImap}" />
                     <RadioButton
                         x:Name="pop3RadioButton"
                         Margin="10"
                         Content="POP3"
-                        GroupName="ImapOrPop3"
-                        IsChecked="True" />
+                        GroupName="ImapOrPop3" />
                 </StackPanel>
                 <TextBox
                     x:Name="smtpServerTextBox"
                     Height="23"
                     Margin="10,2,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding smtpServer}"
+                    Text="{Binding SmtpServer}"
                     TextWrapping="Wrap"
                     ToolTip="Die Adresse des SMTP-Servers" />
                 <TextBox
@@ -151,7 +150,7 @@
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
                     PreviewTextInput="smtpPortTextBox_PreviewTextInput"
-                    Text="{Binding smtpPort}"
+                    Text="{Binding SmtpPort}"
                     TextWrapping="Wrap"
                     ToolTip="Der Port des SMTP-Servers" />
                 <Button
