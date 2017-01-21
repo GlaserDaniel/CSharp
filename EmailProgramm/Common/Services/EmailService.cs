@@ -189,7 +189,7 @@ namespace Common.Services
 
                                 var uids = imapClient.Inbox.Search(SearchQuery.All);
 
-                                foreach (var uid in uids)
+                                foreach (UniqueId uid in uids)
                                 {
                                     Console.WriteLine("uid: " + uid.Id);
                                     if (progress != null)
@@ -200,50 +200,12 @@ namespace Common.Services
                                     if (!account.doEmailsContainsId((int)uid.Id))
                                     {
                                         // Nachricht holen
-                                        var message = imapClient.Inbox.GetMessage(uid);
+                                        MimeMessage message = imapClient.Inbox.GetMessage(uid);
 
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", uid));
 
-                                        Console.WriteLine("Message " + uid + ": " + message.Subject);
-
-                                        EmailViewModel email = new EmailViewModel();
-
-                                        email.Sender = message.From.ToString();
-
-                                        foreach (MimeKit.InternetAddress inetAdress in message.To)
-                                        {
-                                            email.Receiver.Add(inetAdress.ToString());
-                                        }
-
-                                        if (!String.IsNullOrEmpty(message.Subject))
-                                        {
-                                            email.Subject = message.Subject.ToString();
-                                        }
-
-                                        if (!string.IsNullOrEmpty(message.HtmlBody))
-                                        {
-                                            email.Message = message.HtmlBody.ToString();
-                                            email.IsHtml = true;
-                                        }
-                                        else
-                                        {
-                                            //email.Message = message.Body.ToString();
-                                            email.Message = message.TextBody.ToString();
-                                            email.IsHtml = false;
-                                        }
-
-                                        email.DateTime = message.Date.Date;
-
-                                        email.Id = (int)uid.Id;
-
-                                        var currentAccount = account;
-                                        var currentEmail = email;
-
-                                        dispatcher.BeginInvoke((Action)(() =>
-                                        {
-                                            currentAccount.Emails.Add(currentEmail);
-                                        }));
+                                        convertMessageToEmail(message, (int)uid.Id, account, dispatcher);
                                     }
                                 }
                                 imapClient.Disconnect(true);
@@ -256,7 +218,6 @@ namespace Common.Services
                         catch (SocketException se)
                         {
                             Console.WriteLine("SocketException: " + se);
-                            
                         }
                     }
                     else
@@ -275,7 +236,7 @@ namespace Common.Services
                                 //{
                                 //    client.GetMessage(uid);
                                 //}
-                                
+
                                 int count = client.Count;
 
                                 // TODO Erstmal nur 50 Emails abholen
@@ -284,14 +245,14 @@ namespace Common.Services
                                 //    count = 50;
                                 //}
 
-                                for (int i = 0; i < count; i++)
+                                for (int id = 0; id < count; id++)
                                 {
                                     if (progress != null)
                                     {
-                                        progress.Report((i * 100) / count);
+                                        progress.Report((id * 100) / count);
                                     }
 
-                                    HeaderList list = client.GetMessageHeaders(i);
+                                    HeaderList list = client.GetMessageHeaders(id);
 
                                     foreach (var header in list)
                                     {
@@ -299,56 +260,15 @@ namespace Common.Services
                                         Console.WriteLine("header Value: " + header.Value);
                                     }
 
-                                    if (!account.doEmailsContainsId(i))
+                                    if (!account.doEmailsContainsId(id))
                                     {
                                         // Nachricht holen
-                                        var message = client.GetMessage(i);
+                                        var message = client.GetMessage(id);
 
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", i));
 
-                                        //Console.WriteLine("Message " + i + ": " + message.Subject);
-
-                                        EmailViewModel email = new EmailViewModel();
-
-                                        email.Sender = message.From.ToString();
-
-                                        foreach (MimeKit.InternetAddress inetAdress in message.To)
-                                        {
-                                            email.Receiver.Add(inetAdress.ToString());
-                                        }
-
-                                        if (!String.IsNullOrEmpty(message.Subject))
-                                        {
-                                            email.Subject = message.Subject.ToString();
-                                        }
-
-                                        if (!string.IsNullOrEmpty(message.HtmlBody))
-                                        {
-                                            email.Message = message.HtmlBody.ToString();
-                                            email.IsHtml = true;
-                                        }
-                                        else
-                                        {
-                                            //email.Message = message.Body.ToString();
-                                            email.Message = message.TextBody.ToString();
-                                            email.IsHtml = false;
-                                        }
-
-                                        email.DateTime = message.Date.Date;
-
-                                        email.Id = i;
-
-                                        var currentAccount = account;
-                                        var currentEmail = email;
-
-                                        dispatcher.BeginInvoke((Action)(() =>
-                                        {
-                                            currentAccount.Emails.Add(currentEmail);
-                                        }));
-
-                                        // mark the message for deletion
-                                        //client.DeleteMessage(i);
+                                        convertMessageToEmail(message, id, account, dispatcher);
                                     }
                                 }
                                 client.Disconnect(true);
@@ -394,6 +314,51 @@ namespace Common.Services
                     //}
                 }
             });
+        }
+
+        private void convertMessageToEmail(MimeMessage message, int id, AccountViewModel account, Dispatcher dispatcher)
+        {
+            EmailViewModel email = new EmailViewModel();
+
+            email.Sender = message.From.ToString();
+
+            foreach (MimeKit.InternetAddress inetAdress in message.To)
+            {
+                email.Receiver.Add(inetAdress.ToString());
+            }
+
+            if (!String.IsNullOrEmpty(message.Subject))
+            {
+                email.Subject = message.Subject.ToString();
+            }
+            else
+            {
+                email.Subject = "(Kein Betreff)";
+            }
+
+            if (!string.IsNullOrEmpty(message.HtmlBody))
+            {
+                email.Message = message.HtmlBody.ToString();
+                email.IsHtml = true;
+            }
+            else
+            {
+                //email.Message = message.Body.ToString();
+                email.Message = message.TextBody.ToString();
+                email.IsHtml = false;
+            }
+
+            email.DateTime = message.Date.DateTime;
+
+            email.Id = id;
+
+            var currentAccount = account;
+            var currentEmail = email;
+
+            dispatcher.BeginInvoke((Action)(() =>
+            {
+                currentAccount.Emails.Add(currentEmail);
+            }));
         }
 
         public bool HasErrors

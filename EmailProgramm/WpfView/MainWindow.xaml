@@ -98,6 +98,7 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
+                        <GridViewColumn DisplayMemberBinding="{Binding DateTimeString}" Header="Zeit" />
                         <GridViewColumn DisplayMemberBinding="{Binding Sender}" Header="Sender" />
                         <GridViewColumn DisplayMemberBinding="{Binding Subject}" Header="Betreff" />
                     </GridView.Columns>

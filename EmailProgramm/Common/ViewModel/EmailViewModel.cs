@@ -168,5 +168,13 @@ namespace Common.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        public String DateTimeString
+        {
+            get
+            {
+                return DateTime.ToString();
+            }
+        }
     }
 }
