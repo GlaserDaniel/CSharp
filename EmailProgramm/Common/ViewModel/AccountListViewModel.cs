@@ -21,6 +21,28 @@ namespace Common.ViewModel
     /// </summary>
     public class AccountListViewModel : INotifyPropertyChanged
     {
+        private static AccountListViewModel instance;
+
+        private AccountListViewModel()
+        {
+            // TODO vielleicht unnötig
+            Accounts = new ObservableCollection<AccountViewModel>();
+            selectedAccountIndex = -1;
+            loadAsync();
+        }
+
+        public static AccountListViewModel Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new AccountListViewModel();
+                }
+                return instance;
+            }
+        }
+
         private ObservableCollection<AccountViewModel> _accounts;
 
         /// <summary>
@@ -49,14 +71,6 @@ namespace Common.ViewModel
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public AccountListViewModel()
-        {
-            // TODO vielleicht unnötig
-            Accounts = new ObservableCollection<AccountViewModel>();
-            selectedAccountIndex = -1;
-            loadAsync();
         }
 
         public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
@@ -143,6 +157,7 @@ namespace Common.ViewModel
 
         private async void loadAsync()
         {
+            Console.WriteLine("load");
             List<Account> accountsList = await DataService.LoadAccountsAsync();
 
             Accounts = new ObservableCollection<AccountViewModel>();

@@ -100,6 +100,7 @@ namespace WpfView
             EmailViewModel replyEmail = new EmailViewModel();
 
             replyEmail.Sender = ((EmailViewModel)DataContext).Sender;
+            replyEmail.Receiver = (((EmailViewModel)DataContext).Receiver);
             replyEmail.Subject = "Antwort auf " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Re:
             replyEmail.Message = "\n\nAlte Email: \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
 
@@ -110,9 +111,9 @@ namespace WpfView
         {
             EmailViewModel forwardEmail = new EmailViewModel();
 
-            forwardEmail.Sender = ((EmailViewModel)DataContext).Sender;
+            //forwardEmail.Sender = ((EmailViewModel)DataContext).Sender;
             forwardEmail.Subject = "Weiterleitung von " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Fwd:
-            forwardEmail.Message = "\n\nWeitergeleitete Email: \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
+            forwardEmail.Message = "\n\nWeitergeleitete Email von " + ((EmailViewModel)DataContext).Sender + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
 
             new SendEmailWindow(forwardEmail);
         }

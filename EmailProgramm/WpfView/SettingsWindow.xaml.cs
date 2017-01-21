@@ -29,9 +29,17 @@ namespace WpfView
             //Console.WriteLine("selectedAccount: " + ((SettingsViewModel)DataContext).selectedAccount.email);
         }
 
+        public SettingsWindow(AccountListViewModel dataContext)
+        {
+            InitializeComponent();
+            DataContext = dataContext;
+            Show();
+            BindingGroup.BeginEdit();
+        }
+
         private void LoadData()
         {
-            DataContext = new AccountListViewModel();
+            DataContext = AccountListViewModel.Instance;
             //AccountsComboBox.Items.Clear();
             //foreach (Account account in ((SettingsViewModel)DataContext).Accounts)
             //{

@@ -32,14 +32,44 @@ namespace WpfView
 
         public SendEmailWindow(EmailViewModel email) : this()
         {
+            if (!String.IsNullOrEmpty(email.Sender))
+            {
+                receiverTextBox.Text = email.Sender;
+            }
+            subjectTextBox.Text = email.Subject;
+            messageTextBox.Text = email.Message;
+
+            if (String.IsNullOrEmpty(email.Sender))
+            {
+                receiverTextBox.Focus();
+            }
+            else
+            {
+                messageTextBox.Focus();
+            }
+        }
+
+        public SendEmailWindow(AccountListViewModel dataContext)
+        {
+            InitializeComponent();
+            DataContext = dataContext;
+            Show();
+        }
+
+        public SendEmailWindow(AccountListViewModel dataContext, EmailViewModel email)
+        {
+            InitializeComponent();
+            DataContext = dataContext;
             receiverTextBox.Text = email.Sender;
             subjectTextBox.Text = email.Subject;
             messageTextBox.Text = email.Message;
+            messageTextBox.Focus();
+            Show();
         }
 
         private void LoadData()
         {
-            settingsViewModel = new AccountListViewModel();
+            settingsViewModel = AccountListViewModel.Instance;
 
             //foreach (Account account in settingsViewModel.Accounts)
             //{
@@ -58,7 +88,7 @@ namespace WpfView
         {
             //string sender = senderComboBox.Text;
             AccountViewModel senderAccount = (AccountViewModel)senderComboBox.SelectedItem;
-            string receiver = receiverTextBox.Text;
+            string receiverString = receiverTextBox.Text;
             string subject = subjectTextBox.Text;
             string message = messageTextBox.Text;
 
@@ -66,7 +96,7 @@ namespace WpfView
             MessageBoxResult subjectResult = MessageBoxResult.Yes;
             MessageBoxResult messageResult = MessageBoxResult.Yes;
 
-            if (String.IsNullOrEmpty(receiver))
+            if (String.IsNullOrEmpty(receiverString))
             {
                 MessageBox.Show("Der Empfänger ist leer!", "Empfänger fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 receiverResult = false;
@@ -84,7 +114,20 @@ namespace WpfView
             {
                 EmailService emailService = new EmailService();
 
-                emailService.sendEmail(senderAccount, receiver, subject, message);
+                List<string> receivers = new List<string>();
+
+                receiverString.Trim();
+
+                if(receiverString.Contains(',')) {
+                    receivers = receiverString.Split(new string[] { ",", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                } else
+                {
+                    receivers.Add(receiverString);
+                }
+
+                Console.WriteLine("receivers: " + receivers.ToString());
+
+                emailService.sendEmail(senderAccount, receivers, subject, message);
 
                 Close();
             }

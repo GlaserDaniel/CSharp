@@ -27,12 +27,17 @@
                             HorizontalAlignment="Left"
                             Click="SendEmail_Click"
                             Header="Schreiben" />
+                        <MenuItem
+                            Width="140"
+                            HorizontalAlignment="Left"
+                            Click="ReceiveEmails_Click"
+                            Header="Abholen" />
                     </MenuItem>
                     <MenuItem Header="Optionen">
                         <MenuItem
                             Width="140"
                             HorizontalAlignment="Left"
-                            Click="Optionen_Click"
+                            Click="Settings_Click"
                             Header="Optionen" />
                     </MenuItem>
                 </Menu>

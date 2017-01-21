@@ -112,7 +112,7 @@ namespace Common.Services
         /// <param name="message"></param>
         // Snippet von www.code-bude.net
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
-        public void sendEmail(AccountViewModel senderAccount, string receiver, string subject, string message)
+        public void sendEmail(AccountViewModel senderAccount, List<string> receivers, string subject, string message)
         {
             MailMessage mailMessage = new MailMessage();
 
@@ -120,7 +120,10 @@ namespace Common.Services
             mailMessage.From = new MailAddress(senderAccount.Email);
 
             //Empfänger konfigurieren
-            mailMessage.To.Add(new MailAddress(receiver.Trim()));
+            foreach (var receiver in receivers)
+            {
+                mailMessage.To.Add(new MailAddress(receiver.Trim()));
+            }
 
             //Betreff einrichten
             mailMessage.Subject = subject;

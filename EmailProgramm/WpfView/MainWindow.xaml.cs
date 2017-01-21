@@ -33,7 +33,7 @@ namespace WpfView
 
         private void loadData()
         {
-            AccountListViewModel settingsViewModel = new AccountListViewModel();
+            AccountListViewModel settingsViewModel = AccountListViewModel.Instance;
 
             DataContext = settingsViewModel;
 
@@ -61,7 +61,7 @@ namespace WpfView
             }
             if (DataContext != null && ((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
             {
-                new SendEmailWindow();
+                new SendEmailWindow((AccountListViewModel)DataContext);
             }
             else
             {
@@ -69,10 +69,10 @@ namespace WpfView
             }
         }
 
-        private void Optionen_Click(object sender, RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Optionen_Click");
-            new SettingsWindow();
+            new SettingsWindow((AccountListViewModel) DataContext);
         }
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
