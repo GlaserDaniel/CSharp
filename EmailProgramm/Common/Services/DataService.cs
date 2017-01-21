@@ -3,8 +3,6 @@ using Common.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -49,7 +47,7 @@ namespace Common.Services
                         ImapPop3Port = 993,
                         SmtpServer = "smtp.gmail.com",
                         SmtpPort = 587,
-                        UseImap = true
+                        UseImap = true // TODO Email new emty List<Email>()
                     }
                 };
         }
