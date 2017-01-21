@@ -31,14 +31,14 @@ namespace Common.ViewModel
 
         public EmailViewModel(Email email)
         {
-            this.Id = email.id;
-            this.Sender = email.sender;
-            this.Receiver = email.receiver;
-            this.Subject = email.subject;
-            this.Message = email.message;
-            this.DateTime = email.dateTime;
-            this.IsRead = email.isRead;
-            this.FileURI = email.fileURI;
+            this.Id = email.Id;
+            this.Sender = email.Sender;
+            this.Receiver = email.Receiver;
+            this.Subject = email.Subject;
+            this.Message = email.Message;
+            this.DateTime = email.DateTime;
+            this.IsRead = email.IsRead;
+            this.FileURI = email.FileURI;
         }
 
         public int Id

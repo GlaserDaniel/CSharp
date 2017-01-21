@@ -45,9 +45,13 @@ namespace Common.ViewModel
             this.SmtpServer = account.SmtpServer;
             this.SmtpPort = account.SmtpPort;
 
+            // List von Email zu ObservableCollection von EmailViewModel machen
             List<EmailViewModel> _emailsViewModel = new List<EmailViewModel>();
             List<Email> emails = account.Emails;
-            emails.ToList().ForEach(c => _emailsViewModel.Add(new EmailViewModel(c)));
+            foreach (var email in emails)
+            {
+                _emailsViewModel.Add(new EmailViewModel(email));
+            }
             this.Emails = new ObservableCollection<EmailViewModel>(_emailsViewModel);
         }
 

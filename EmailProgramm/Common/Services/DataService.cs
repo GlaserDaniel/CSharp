@@ -2,6 +2,7 @@
 using Common.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -47,7 +48,8 @@ namespace Common.Services
                         ImapPop3Port = 993,
                         SmtpServer = "smtp.gmail.com",
                         SmtpPort = 587,
-                        UseImap = true // TODO Email new emty List<Email>()
+                        UseImap = true 
+                        // Emails nicht nötig da im Construktor eine neue Liste angelegt wird
                     }
                 };
         }
@@ -64,6 +66,14 @@ namespace Common.Services
 
                     viewModels.ForEach(vm =>
                     {
+                        // ObservableCollection von EmailViewModel zu List von Email machen
+                        List<Email> _emails = new List<Email>();
+                        ObservableCollection<EmailViewModel> emailsViewModel = vm.Emails;
+                        foreach (var emailVm in emailsViewModel)
+                        {
+                            _emails.Add(new Email(emailVm));
+                        }
+
                         accountList.Add(new Account
                         {
                             Showname = vm.Showname,
@@ -75,11 +85,7 @@ namespace Common.Services
                             SmtpServer = vm.SmtpServer,
                             SmtpPort = vm.SmtpPort,
                             UseImap = vm.UseImap,
-                            // TODO
-                            //Emails = vm.Emails.ToList()
-                            //TODO
-                            //EmailViewModel emailsVM = new EmailViewModel(account.Emails);
-                            //Emails = new ObservableCollection<EmailViewModel>(emailsVM);
+                            Emails = _emails
                         });
                     });
                     serializer.Serialize(fileStream, accountList);

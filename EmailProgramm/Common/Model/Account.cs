@@ -45,7 +45,7 @@ namespace Common.Model
             bool result = false;
             foreach (Email email in Emails)
             {
-                if (email.id == id)
+                if (email.Id == id)
                 {
                     result = true;
                 }
