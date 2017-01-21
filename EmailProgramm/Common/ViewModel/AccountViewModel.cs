@@ -1,6 +1,8 @@
 ﻿using Common.Model;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Common.ViewModel
@@ -33,32 +35,34 @@ namespace Common.ViewModel
 
         public AccountViewModel(Account account)
         {
-            Showname = account.Showname;
-            User = account.User;
-            Email = account.Email;
-            Password = account.Password;
-            UseImap = account.UseImap;
-            ImapPop3Server = account.ImapPop3Server;
-            ImapPop3Port = account.ImapPop3Port;
-            SmtpServer = account.SmtpServer;
-            SmtpPort = account.SmtpPort;
-            //TODO
-            //EmailViewModel emailsVM = new EmailViewModel(account.Emails);
-            //Emails = new ObservableCollection<EmailViewModel>(emailsVM);
+            this.Showname = account.Showname;
+            this.User = account.User;
+            this.Email = account.Email;
+            this.Password = account.Password;
+            this.UseImap = account.UseImap;
+            this.ImapPop3Server = account.ImapPop3Server;
+            this.ImapPop3Port = account.ImapPop3Port;
+            this.SmtpServer = account.SmtpServer;
+            this.SmtpPort = account.SmtpPort;
+
+            List<EmailViewModel> _emailsViewModel = new List<EmailViewModel>();
+            List<Email> emails = account.Emails;
+            emails.ToList().ForEach(c => _emailsViewModel.Add(new EmailViewModel(c)));
+            this.Emails = new ObservableCollection<EmailViewModel>(_emailsViewModel);
         }
 
-        public AccountViewModel(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
+        public AccountViewModel(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort, ObservableCollection<EmailViewModel> emails)
         {
-            Showname = showname;
-            User = user;
-            Email = email;
-            Password = password;
-            UseImap = useImap;
-            ImapPop3Server = imapPop3Server;
-            ImapPop3Port = imapPop3Port;
-            SmtpServer = smtpServer;
-            SmtpPort = smtpPort;
-            Emails = new ObservableCollection<EmailViewModel>();
+            this.Showname = showname;
+            this.User = user;
+            this.Email = email;
+            this.Password = password;
+            this.UseImap = useImap;
+            this.ImapPop3Server = imapPop3Server;
+            this.ImapPop3Port = imapPop3Port;
+            this.SmtpServer = smtpServer;
+            this.SmtpPort = smtpPort;
+            this.Emails = emails;
         }
 
         public ObservableCollection<EmailViewModel> Emails
@@ -195,7 +199,11 @@ namespace Common.ViewModel
 
         public override string ToString()
         {
-            return Email.ToString();
+            if (Showname.Equals(""))
+            {
+                return Email.ToString();
+            }
+            return Showname.ToString();
         }
     }
 }

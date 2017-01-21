@@ -28,7 +28,7 @@ namespace Common.Services
             catch (Exception e)
             {
                 Console.Out.WriteLine($"Fehler beim Laden von Accounts: {e.Message}");
-                Console.Out.WriteLine(e.StackTrace);
+                Console.Out.WriteLine(e.StackTrace); // TODO Error Message Box für Nutzer das Beispiel Daten geladen wurden.
                 return LoadSampleAccounts();
             }
         }
@@ -39,7 +39,7 @@ namespace Common.Services
                 {
                     new Account
                     {
-                        //Showname = "Test Account IMAP",
+                        Showname = "Test Account IMAP",
                         User = "danielglasertest@gmail.com",
                         Email = "danielglasertest@gmail.com",
                         Password = "EmailTestKonto",
@@ -77,6 +77,9 @@ namespace Common.Services
                             UseImap = vm.UseImap,
                             // TODO
                             //Emails = vm.Emails.ToList()
+                            //TODO
+                            //EmailViewModel emailsVM = new EmailViewModel(account.Emails);
+                            //Emails = new ObservableCollection<EmailViewModel>(emailsVM);
                         });
                     });
                     serializer.Serialize(fileStream, accountList);

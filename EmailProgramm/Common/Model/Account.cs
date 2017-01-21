@@ -22,7 +22,7 @@ namespace Common.Model
             Emails = new List<Email>();
         }
 
-        public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
+        public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort, List<Email> emails)
         {
             this.User = user;
             this.Email = email;
@@ -32,7 +32,7 @@ namespace Common.Model
             this.ImapPop3Port = imapPop3Port;
             this.SmtpServer = smtpServer;
             this.SmtpPort = smtpPort;
-            Emails = new List<Email>();
+            this.Emails = emails;
         }
 
         public override string ToString()

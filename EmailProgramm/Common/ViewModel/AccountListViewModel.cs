@@ -61,7 +61,7 @@ namespace Common.ViewModel
 
         public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
         {
-            AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
+            AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort, new ObservableCollection<EmailViewModel>());
 
             Accounts.Add(account);
             //OnPropertyChanged("Accounts");

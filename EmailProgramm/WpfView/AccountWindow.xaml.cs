@@ -64,7 +64,7 @@ namespace WpfView
             bool smtpServerResult = true;
             bool smtpPortResult = true;
 
-            //string showname = 
+            string showname = shownameTextBox.Text;
             string user = userTextBox.Text;
             string email = emailTextBox.Text;
             string password = passwordBox.Password;
@@ -132,7 +132,7 @@ namespace WpfView
                 if (DataContext == null)
                 {
                     //Account hinzufügen
-                    settingsViewModel.addAccount("", user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
+                    settingsViewModel.addAccount(showname, user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort);
                 }
 
                 BindingGroup.CommitEdit();

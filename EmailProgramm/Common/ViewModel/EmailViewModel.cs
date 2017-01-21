@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -26,6 +27,18 @@ namespace Common.ViewModel
         public EmailViewModel()
         {
             Receiver = new List<string>();
+        }
+
+        public EmailViewModel(Email email)
+        {
+            this.Id = email.id;
+            this.Sender = email.sender;
+            this.Receiver = email.receiver;
+            this.Subject = email.subject;
+            this.Message = email.message;
+            this.DateTime = email.dateTime;
+            this.IsRead = email.isRead;
+            this.FileURI = email.fileURI;
         }
 
         public int Id

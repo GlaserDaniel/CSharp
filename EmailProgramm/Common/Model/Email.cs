@@ -23,6 +23,18 @@ namespace Common.Model
             receiver = new List<string>();
         }
 
+        public Email(int id, string sender, List<string> receiver, string subject, string message, DateTime dateTime, bool isRead, string fileURI)
+        {
+            this.id = id;
+            this.sender = sender;
+            this.receiver = receiver;
+            this.subject = subject;
+            this.message = message;
+            this.dateTime = dateTime;
+            this.isRead = isRead;
+            this.fileURI = fileURI;
+        }
+
         public override string ToString()
         {
             return "Email:" +
