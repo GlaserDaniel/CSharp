@@ -112,7 +112,7 @@ namespace WpfView
 
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            new ShowEmailWindow((EmailViewModel)((FrameworkElement)e.OriginalSource).DataContext);
+            new ShowEmailWindow((EmailViewModel)((FrameworkElement)e.OriginalSource).DataContext); // TODO kann anscheind auch AccountViewModel kommen!
         }
 
         private void DeleteEmails_Click(object sender, RoutedEventArgs e)

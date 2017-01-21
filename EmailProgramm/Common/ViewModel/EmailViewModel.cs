@@ -15,6 +15,7 @@ namespace Common.ViewModel
         private string _message;
         private DateTime _dateTime;
         private bool _isRead;
+        private bool _isHtml;
         private string _fileURI;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -38,6 +39,7 @@ namespace Common.ViewModel
             this.Message = email.Message;
             this.DateTime = email.DateTime;
             this.IsRead = email.IsRead;
+            this.IsHtml = email.IsHtml;
             this.FileURI = email.FileURI;
         }
 
@@ -149,6 +151,20 @@ namespace Common.ViewModel
             {
                 if (_fileURI == value) return;
                 _fileURI = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsHtml
+        {
+            get
+            {
+                return _isHtml;
+            }
+            set
+            {
+                if (_isHtml == value) return;
+                _isHtml = value;
                 OnPropertyChanged();
             }
         }

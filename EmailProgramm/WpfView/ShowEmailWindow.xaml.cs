@@ -32,32 +32,23 @@ namespace WpfView
 
             String message = email.Message;
 
-            //message.Replace("ä", "&auml;");
-            //message.Replace("ü", "&uuml;");
-            //message.Replace("ö", "&ouml;");
-            //message.Replace("Ä", "&Auml;");
-            //message.Replace("Ü", "&Uuml;");
-            //message.Replace("Ö", "&Ouml;");
-            //message.Replace("ß", "&szlig;");
-
-            //message.Replace("€", "&euro;");
-            //message.Replace("&", "&amp;");
-            //message.Replace("<", "&lt");
-            //message.Replace(">", "&gt");
-            //message.Replace("„", "&quot;");
-            //message.Replace("©", "&copy;");
-            //message.Replace("•", "&bull;");
-            //message.Replace("™", "&trade;");
-            //message.Replace("®", "&reg;");
-            //message.Replace("§", "&sect;");
-
-            // Damit Umlaute und Zeichen richtig dargestellt werden.
-            if (!message.Substring(0,9).Equals("<!DOCTYPE"))
+            if (!email.IsHtml)
             {
-                message = "<!DOCTYPE html>\r\n<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
+                // Damit Umlaute und Zeichen richtig dargestellt werden.
+                //if (message.Length >= 9 && !message.Substring(0, 9).Equals("<!DOCTYPE"))
+                //{
+                    message = "<!DOCTYPE html>\r\n<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
+                //}
+
+                message = "<pre>" + message + "</pre>";
             }
 
-            messageWebBrowser.NavigateToString(message);
+            Console.WriteLine("Message: " + message);
+
+            if (!String.IsNullOrEmpty(message))
+            {
+                messageWebBrowser.NavigateToString(message);
+            }
 
             // TODO HTML Text richtig darstellen
 

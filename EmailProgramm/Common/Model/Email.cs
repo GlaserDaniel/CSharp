@@ -17,6 +17,7 @@ namespace Common.Model
         public string Message { get; set; }
         public DateTime DateTime { get; set; }
         public bool IsRead { get; set; }
+        public bool IsHtml { get; set; }
         public string FileURI { get; set; }
 
         public Email()
@@ -33,6 +34,7 @@ namespace Common.Model
             this.Message = email.Message;
             this.DateTime = email.DateTime;
             this.IsRead = email.IsRead;
+            this.IsHtml = email.IsHtml;
             this.FileURI = email.FileURI;
         }
 
@@ -56,6 +58,7 @@ namespace Common.Model
                 ",\n subject: " + Subject +
                 ",\n dateTime: " + DateTime.ToString() +
                 ",\n isRead: " + IsRead +
+                ",\n isHtml: " + IsHtml +
                 ",\n fileURI: " + FileURI +
                 //",\n message: " + message +
                 "";

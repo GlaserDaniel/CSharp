@@ -187,10 +187,7 @@ namespace Common.Services
 
                                 imapClient.Inbox.Open(FolderAccess.ReadOnly);
 
-                                var uids = imapClient.Inbox.Search(SearchQuery.All); // vorher New
-
-                                // TODO entfernen
-                                Console.WriteLine("Emails IMAP Anzahl: " + uids.Count);
+                                var uids = imapClient.Inbox.Search(SearchQuery.All);
 
                                 foreach (var uid in uids)
                                 {
@@ -210,7 +207,6 @@ namespace Common.Services
 
                                         Console.WriteLine("Message " + uid + ": " + message.Subject);
 
-                                        //TODO EmailViewModel nutzen
                                         EmailViewModel email = new EmailViewModel();
 
                                         email.Sender = message.From.ToString();
@@ -220,17 +216,21 @@ namespace Common.Services
                                             email.Receiver.Add(inetAdress.ToString());
                                         }
 
-                                        email.Subject = message.Subject.ToString();
+                                        if (!String.IsNullOrEmpty(message.Subject))
+                                        {
+                                            email.Subject = message.Subject.ToString();
+                                        }
 
                                         if (!string.IsNullOrEmpty(message.HtmlBody))
                                         {
                                             email.Message = message.HtmlBody.ToString();
-                                            // TODO HTML to true setzen
+                                            email.IsHtml = true;
                                         }
                                         else
                                         {
-                                            email.Message = message.Body.ToString();
-                                            // TODO HTML to false setzen
+                                            //email.Message = message.Body.ToString();
+                                            email.Message = message.TextBody.ToString();
+                                            email.IsHtml = false;
                                         }
 
                                         email.DateTime = message.Date.Date;
@@ -275,13 +275,14 @@ namespace Common.Services
                                 //{
                                 //    client.GetMessage(uid);
                                 //}
+                                
+                                int count = client.Count;
 
                                 // TODO Erstmal nur 50 Emails abholen
-                                int count = client.Count;
-                                if (client.Count > 50)
-                                {
-                                    count = 50;
-                                }
+                                //if (client.Count > 50)
+                                //{
+                                //    count = 50;
+                                //}
 
                                 for (int i = 0; i < count; i++)
                                 {
@@ -317,17 +318,21 @@ namespace Common.Services
                                             email.Receiver.Add(inetAdress.ToString());
                                         }
 
-                                        email.Subject = message.Subject.ToString();
+                                        if (!String.IsNullOrEmpty(message.Subject))
+                                        {
+                                            email.Subject = message.Subject.ToString();
+                                        }
 
                                         if (!string.IsNullOrEmpty(message.HtmlBody))
                                         {
                                             email.Message = message.HtmlBody.ToString();
-                                            // TODO HTML to true setzen
+                                            email.IsHtml = true;
                                         }
                                         else
                                         {
-                                            email.Message = message.Body.ToString();
-                                            // TODO HTML to false setzen
+                                            //email.Message = message.Body.ToString();
+                                            email.Message = message.TextBody.ToString();
+                                            email.IsHtml = false;
                                         }
 
                                         email.DateTime = message.Date.Date;
@@ -364,14 +369,18 @@ namespace Common.Services
                         progress.Report(100);
                     }
 
-                    // Warte 5 Sekunden
-                    Thread.Sleep(5000);
-
-                    // Und setze die ProgressBar wieder auf 0
-                    if (progress != null)
+                    // Damit weil gespeichert wird und im Hintergrund die ProgressBar zurückgestzt wird.
+                    Task.Run(() =>
                     {
-                        progress.Report(0);
-                    }
+                        // Warte 2 Sekunden
+                        Thread.Sleep(2000);
+
+                        // Und setze die ProgressBar wieder auf 0
+                        if (progress != null)
+                        {
+                            progress.Report(0);
+                        }
+                    });
 
                     // TODO Testausgabe
                     //Console.WriteLine("Emails ausgeben: ");

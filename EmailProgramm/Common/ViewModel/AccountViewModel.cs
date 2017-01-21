@@ -191,7 +191,7 @@ namespace Common.ViewModel
         public bool doEmailsContainsId(int id)
         {
             bool result = false;
-            foreach (var email in Emails)
+            foreach (var email in _emails) // TODO kann hier abstürzen wegen InvalidOperationException (Die Auflistung wurde geändert. Der Enumerationsvorgang kann möglicherweise nicht ausgeführt werden.)
             {
                 if (email.Id == id)
                 {

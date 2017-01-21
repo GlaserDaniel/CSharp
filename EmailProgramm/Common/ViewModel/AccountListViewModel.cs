@@ -121,6 +121,7 @@ namespace Common.ViewModel
 
         public async void saveAsync()
         {
+            Console.WriteLine("save");
             await DataService.SaveAccountsAsync(Accounts.ToList());
 
             await DataService.SaveSelectedAccountIndexAsync(selectedAccountIndex);
