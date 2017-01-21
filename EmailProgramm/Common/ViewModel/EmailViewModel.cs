@@ -12,7 +12,7 @@ namespace Common.ViewModel
     {
         private int _id;
         private string _sender;
-        private IList<string> _receiver;
+        private List<string> _receiver;
         private string _subject;
         private string _message;
         private DateTime _dateTime;
@@ -59,7 +59,7 @@ namespace Common.ViewModel
             }
         }
 
-        public IList<string> Receiver
+        public List<string> Receiver
         {
             get
             {

@@ -68,6 +68,7 @@ namespace Common.Services
                     {
                         accountList.Add(new Account
                         {
+                            Showname = vm.Showname,
                             User = vm.User,
                             Email = vm.Email,
                             Password = vm.Password,
@@ -75,7 +76,9 @@ namespace Common.Services
                             ImapPop3Port = vm.ImapPop3Port,
                             SmtpServer = vm.SmtpServer,
                             SmtpPort = vm.SmtpPort,
-                            UseImap = vm.UseImap
+                            UseImap = vm.UseImap,
+                            // TODO
+                            //Emails = vm.Emails.ToList()
                         });
                     });
                     serializer.Serialize(fileStream, accountList);

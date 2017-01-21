@@ -47,7 +47,9 @@ namespace Common.ViewModel
             ImapPop3Port = account.ImapPop3Port;
             SmtpServer = account.SmtpServer;
             SmtpPort = account.SmtpPort;
-            Emails = new ObservableCollection<EmailViewModel>();
+            //TODO
+            //EmailViewModel emailsVM = new EmailViewModel(account.Emails);
+            //Emails = new ObservableCollection<EmailViewModel>(emailsVM);
         }
 
         public AccountViewModel(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)

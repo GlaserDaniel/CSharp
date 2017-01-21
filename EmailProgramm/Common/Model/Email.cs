@@ -11,7 +11,7 @@ namespace Common.Model
     {
         public int id { get; set; }
         public string sender { get; set; }
-        public IList<string> receiver { get; set; }
+        public List<string> receiver { get; set; }
         public string subject { get; set; }
         public string message { get; set; }
         public DateTime dateTime { get; set; }
