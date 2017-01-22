@@ -45,6 +45,7 @@
                     Margin="10,10,10,5"
                     VerticalAlignment="Top"
                     ItemsSource="{Binding Accounts}"
+                    SelectedIndex="{Binding SelectedAccountIndex, Mode=OneTime}"
                     KeyboardNavigation.TabIndex="1" />
                 <TextBox
                     x:Name="receiverTextBox"

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Mail;
 using MailKit.Net.Imap;
 using MailKit;
 using MailKit.Search;
 using System.IO;
 using MailKit.Net.Pop3;
+using MailKit.Net.Smtp;
 using System.Net.Sockets;
 using System.Windows.Threading;
 using System.Threading;
@@ -16,6 +16,7 @@ using MimeKit;
 using System.ComponentModel;
 using System.Collections;
 using Common.ViewModel;
+using System.Net.Mail;
 
 namespace Common.Services
 {
@@ -31,7 +32,7 @@ namespace Common.Services
 
         }
 
-        public Task<bool> TestImapServer(String imapServer, int imapPort)
+        public Task<bool> TestImapServer(string imapServer, int imapPort)
         {
             return Task.Run(() =>
             {
@@ -39,23 +40,29 @@ namespace Common.Services
                 {
                     using (ImapClient imapClient = new ImapClient())
                     {
-                        imapClient.Timeout = 5000;
-                        imapClient.Connect(imapServer, imapPort, true);
+                        imapClient.Timeout = 1000;
+                        Task ConnectTask = imapClient.ConnectAsync(imapServer, imapPort, true);
+
+                        ConnectTask.Wait(1000);
+
+                        if (imapClient.IsConnected)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
-                catch (IOException)
+                catch (Exception)
                 {
                     return false;
                 }
-                catch (SocketException)
-                {
-                    return false;
-                }
-                return true;
             });
         }
 
-        public Task<bool> TestPop3Server(String pop3Server, int pop3Port)
+        public Task<bool> TestPop3Server(string pop3Server, int pop3Port)
         {
             return Task.Run(() =>
             {
@@ -63,43 +70,56 @@ namespace Common.Services
                 {
                     using (Pop3Client pop3Client = new Pop3Client())
                     {
-                        pop3Client.Timeout = 5000;
-                        pop3Client.Connect(pop3Server, pop3Port, true);
+                        pop3Client.Timeout = 1000;
+                        Task ConnectTask = pop3Client.ConnectAsync(pop3Server, pop3Port, true);
+
+                        ConnectTask.Wait(1000);
+
+                        if (pop3Client.IsConnected)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
-                catch (IOException)
+                catch (Exception)
                 {
                     return false;
                 }
-                catch (SocketException)
-                {
-                    return false;
-                }
-                return true;
             });
         }
 
-        public Task<bool> TestSmtpServer(String smtpServer, int smtpPort)
+        public Task<bool> TestSmtpServer(string smtpServer, int smtpPort)
         {
             return Task.Run(() =>
             {
                 try
                 {
-                    using (TcpClient tcpClient = new TcpClient())
+                    using (MailKit.Net.Smtp.SmtpClient smtpClient = new MailKit.Net.Smtp.SmtpClient())
                     {
-                        tcpClient.ReceiveTimeout = 5000; // TODO Timeout funktioniert nicht.
-                        tcpClient.Connect(smtpServer, smtpPort); // TODO Reicht nicht aus. Da wenn TLS/STARTTLS erwünscht ist der eine Port auch falsch sein kann.
+                        smtpClient.Timeout = 1000;
+
+                        Task ConnectTask = smtpClient.ConnectAsync(smtpServer, smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+
+                        ConnectTask.Wait(1000);
+
+                        if (smtpClient.IsConnected)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
-                catch (IOException)
+                catch (Exception)
                 {
                     return false;
                 }
-                catch (SocketException)
-                {
-                    return false;
-                }
-                return true;
             });
         }
 
@@ -112,6 +132,7 @@ namespace Common.Services
         /// <param name="message"></param>
         // Snippet von www.code-bude.net
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
+        // und http://www.mimekit.net/docs/html/T_MailKit_Net_Smtp_SmtpClient.htm kombiniert und abgeändert
         public void sendEmail(AccountViewModel senderAccount, List<string> receivers, string subject, string message)
         {
             MailMessage mailMessage = new MailMessage();
@@ -132,7 +153,7 @@ namespace Common.Services
             mailMessage.Body = message;
 
             //Ausgangsserver initialisieren
-            SmtpClient smtpClient = new SmtpClient(senderAccount.SmtpServer, senderAccount.SmtpPort);
+            System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient(senderAccount.SmtpServer, senderAccount.SmtpPort);
 
             // SSL aktivieren
             // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
@@ -150,7 +171,7 @@ namespace Common.Services
             //Email absenden
             try
             {
-                smtpClient.Send(mailMessage); // TODO SendMailAsync
+                smtpClient.SendMailAsync(mailMessage);
                 Console.WriteLine("Email gesendet!");
             }
             catch (SmtpException e)
@@ -158,6 +179,48 @@ namespace Common.Services
                 // TODO Benachrichtigung das es nicht funktioniert hat!
                 Console.WriteLine("SMTP Exception: " + e);
             }
+
+            //MailKit SMTPClient hat noch nicht geklappt
+            //MimeMessage mailMessage = new MimeMessage();
+
+            ////Absender konfigurieren
+            //mailMessage.Sender = new MailboxAddress(senderAccount.Email.ToString());
+
+            ////Empfänger konfigurieren
+            //foreach (var receiver in receivers)
+            //{
+            //    mailMessage.To.Add(new MailboxAddress(receiver.Trim())); // Das scheint nicht zu funktionieren
+            //}
+
+            ////Betreff einrichten
+            //mailMessage.Subject = subject;
+
+            ////Hinzufügen der eigentlichen Nachricht
+            //mailMessage.Body = new TextPart(message);
+
+            ////Ausgangsserver initialisieren
+            //MailKit.Net.Smtp.SmtpClient smtpClient = new MailKit.Net.Smtp.SmtpClient();
+            //smtpClient.Connect(senderAccount.SmtpServer, senderAccount.SmtpPort);
+
+            //if (senderAccount.User.Length > 0 && senderAccount.User != string.Empty)
+            //{
+            //    //Login konfigurieren
+            //    smtpClient.Authenticate(senderAccount.User, senderAccount.Password);
+            //}
+
+            //Console.WriteLine(mailMessage.To);
+
+            ////Email absenden
+            //try
+            //{
+            //    smtpClient.SendAsync(mailMessage);
+            //    Console.WriteLine("Email gesendet!");
+            //}
+            //catch (Exception e)
+            //{
+            //    // TODO Benachrichtigung das es nicht funktioniert hat!
+            //    Console.WriteLine("SMTP Exception: " + e);
+            //}
         }
 
         /// <summary>
@@ -324,7 +387,7 @@ namespace Common.Services
 
             foreach (MimeKit.InternetAddress inetAdress in message.To)
             {
-                email.Receiver.Add(inetAdress.ToString());
+                email.Receivers.Add(inetAdress.ToString());
             }
 
             if (!String.IsNullOrEmpty(message.Subject))
@@ -344,7 +407,14 @@ namespace Common.Services
             else
             {
                 //email.Message = message.Body.ToString();
-                email.Message = message.TextBody.ToString();
+                if (message.TextBody != null)
+                {
+                    email.Message = message.TextBody.ToString();
+                }
+                else
+                {
+                    email.Message = ""; // kein Body
+                }
                 email.IsHtml = false;
             }
 

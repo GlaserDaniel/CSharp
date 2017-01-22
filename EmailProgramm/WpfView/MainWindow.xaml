@@ -80,7 +80,10 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="10,10,10,10" DockPanel.Dock="Left">
-            <Button x:Name="Posteingang" Content="Posteingang" />
+            <Button
+                x:Name="Posteingang"
+                Height="23"
+                Content="Posteingang" />
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
             <ProgressBar

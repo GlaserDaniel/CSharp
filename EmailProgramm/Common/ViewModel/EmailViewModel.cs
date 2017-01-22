@@ -27,14 +27,14 @@ namespace Common.ViewModel
 
         public EmailViewModel()
         {
-            Receiver = new List<string>();
+            Receivers = new List<string>();
         }
 
         public EmailViewModel(Email email)
         {
             this.Id = email.Id;
             this.Sender = email.Sender;
-            this.Receiver = email.Receiver;
+            this.Receivers = email.Receiver;
             this.Subject = email.Subject;
             this.Message = email.Message;
             this.DateTime = email.DateTime;
@@ -71,7 +71,7 @@ namespace Common.ViewModel
             }
         }
 
-        public List<string> Receiver
+        public List<string> Receivers
         {
             get
             {
@@ -174,6 +174,24 @@ namespace Common.ViewModel
             get
             {
                 return DateTime.ToString();
+            }
+        }
+
+        public string ReceiversString
+        {
+            get
+            {
+                string result = "";
+                if (Receivers.Count > 0)
+                {
+                    result += Receivers[0].ToString();
+                    for (int i = 1; i < Receivers.Count; i++)
+                    {
+                        result += ", " + Receivers[i].ToString();
+                    }
+                }
+
+                return result.ToString();
             }
         }
     }

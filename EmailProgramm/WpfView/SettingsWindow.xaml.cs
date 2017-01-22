@@ -45,9 +45,9 @@ namespace WpfView
             //{
             //    AccountsComboBox.Items.Add(account);
             //}
-            if (((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
+            if (((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
             {
-                AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex];
+                AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
             }
         }
 
@@ -66,7 +66,7 @@ namespace WpfView
         void window_Activated(object sender, EventArgs e)
         {
             Console.WriteLine("OptionWindow activated");
-            if (((AccountListViewModel)DataContext).selectedAccountIndex == -1 && ((AccountListViewModel)DataContext).Accounts.Count >= 1)
+            if (((AccountListViewModel)DataContext).SelectedAccountIndex == -1 && ((AccountListViewModel)DataContext).Accounts.Count >= 1)
             {
                 AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[0];
             }
@@ -75,7 +75,7 @@ namespace WpfView
         private void AppendSettings_Click(object sender, RoutedEventArgs e)
         {
             //((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
-            ((AccountListViewModel)DataContext).selectedAccountIndex = AccountsComboBox.SelectedIndex;
+            ((AccountListViewModel)DataContext).SelectedAccountIndex = AccountsComboBox.SelectedIndex;
             BindingGroup.CommitEdit();
             ((AccountListViewModel)DataContext).saveAsync();
             Close();

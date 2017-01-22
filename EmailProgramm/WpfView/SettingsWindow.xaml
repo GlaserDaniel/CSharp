@@ -64,7 +64,7 @@
                                 MinWidth="110"
                                 Margin="10,10,5,10"
                                 ItemsSource="{Binding Accounts}"
-                                SelectedIndex="{Binding selectedAccountIndex}" />
+                                SelectedIndex="{Binding SelectedAccountIndex}" />
                         </DockPanel>
                         <DockPanel DockPanel.Dock="Bottom">
                             <Button

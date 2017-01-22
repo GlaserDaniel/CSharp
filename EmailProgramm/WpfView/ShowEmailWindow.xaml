@@ -53,7 +53,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     IsReadOnly="True"
-                    Text="{Binding Receiver}"
+                    Text="{Binding ReceiversString, Mode=OneWay}"
                     TextWrapping="Wrap" />
                 <TextBox
                     x:Name="subjectTextBox"
@@ -61,7 +61,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     IsReadOnly="True"
-                    Text="{Binding Subject}"
+                    Text="{Binding Subject, Mode=OneWay}"
                     TextWrapping="Wrap" />
                 <StackPanel Orientation="Horizontal">
                     <Button

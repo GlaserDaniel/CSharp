@@ -27,7 +27,7 @@ namespace Common.ViewModel
         {
             // TODO vielleicht unnötig
             Accounts = new ObservableCollection<AccountViewModel>();
-            selectedAccountIndex = -1;
+            SelectedAccountIndex = -1;
             loadAsync();
         }
 
@@ -62,7 +62,7 @@ namespace Common.ViewModel
         /// <summary>
         /// Der Index des ausgewählten Accounts. Falls keine ausgewählt ist, ist er -1.
         /// </summary>
-        public int selectedAccountIndex { get; set; }
+        public int SelectedAccountIndex { get; set; }
         //public AccountViewModel selectedAccount { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -82,9 +82,9 @@ namespace Common.ViewModel
 
             //Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
 
-            if (selectedAccountIndex == -1) //selectedAccount == null || 
+            if (SelectedAccountIndex == -1) //selectedAccount == null || 
             {
-                selectedAccountIndex = Accounts.IndexOf(account);
+                SelectedAccountIndex = Accounts.IndexOf(account);
                 //selectedAccount = (Account)Accounts[Accounts.Count - 1];
                 //Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
             }
@@ -114,7 +114,7 @@ namespace Common.ViewModel
             //}
             if (Accounts.Count == 0)
             {
-                selectedAccountIndex = -1;
+                SelectedAccountIndex = -1;
             }
             saveAsync();
         }
@@ -124,7 +124,7 @@ namespace Common.ViewModel
             Console.WriteLine("save");
             await DataService.SaveAccountsAsync(Accounts.ToList());
 
-            await DataService.SaveSelectedAccountIndexAsync(selectedAccountIndex);
+            await DataService.SaveSelectedAccountIndexAsync(SelectedAccountIndex);
 
             //IFormatter formatter = new BinaryFormatter();
             //Stream accountsStream = new FileStream("accounts.bin",
@@ -168,11 +168,11 @@ namespace Common.ViewModel
                 Accounts.Add(new AccountViewModel(account));
             }
 
-            selectedAccountIndex = await DataService.LoadSelectedAccountIndexAsync();
+            SelectedAccountIndex = await DataService.LoadSelectedAccountIndexAsync();
 
             if (Accounts.Count == 0)
             {
-                selectedAccountIndex = -1;
+                SelectedAccountIndex = -1;
             }
 
             //IFormatter formatter = new BinaryFormatter();

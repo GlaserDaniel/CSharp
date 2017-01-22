@@ -29,7 +29,7 @@ namespace Common.Model
         {
             this.Id = email.Id;
             this.Sender = email.Sender;
-            this.Receiver = email.Receiver;
+            this.Receiver = email.Receivers;
             this.Subject = email.Subject;
             this.Message = email.Message;
             this.DateTime = email.DateTime;

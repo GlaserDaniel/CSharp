@@ -91,7 +91,7 @@ namespace WpfView
             EmailViewModel replyEmail = new EmailViewModel();
 
             replyEmail.Sender = ((EmailViewModel)DataContext).Sender;
-            replyEmail.Receiver = (((EmailViewModel)DataContext).Receiver);
+            replyEmail.Receivers = (((EmailViewModel)DataContext).Receivers);
             replyEmail.Subject = "Antwort auf " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Re:
             replyEmail.Message = "\n\nAlte Email: \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
 

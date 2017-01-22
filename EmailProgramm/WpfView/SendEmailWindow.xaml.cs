@@ -78,9 +78,9 @@ namespace WpfView
 
             DataContext = settingsViewModel;
 
-            if (((AccountListViewModel)DataContext).selectedAccountIndex != -1)
+            if (((AccountListViewModel)DataContext).SelectedAccountIndex != -1)
             {
-                senderComboBox.SelectedIndex = ((AccountListViewModel)DataContext).selectedAccountIndex;
+                senderComboBox.SelectedIndex = ((AccountListViewModel)DataContext).SelectedAccountIndex;
             }
         }
 

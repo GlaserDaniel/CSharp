@@ -39,9 +39,9 @@ namespace WpfView
 
             // Da es im XAML Code so nicht mehr funktioniert
             //ItemsSource = "{Binding Accounts[selectedAccountIndex].Emails}"
-            if (((AccountListViewModel)DataContext).selectedAccountIndex != -1)
+            if (((AccountListViewModel)DataContext).SelectedAccountIndex != -1)
             {
-                EmailsListView.ItemsSource = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex].Emails;
+                EmailsListView.ItemsSource = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
             }
         }
 
@@ -59,7 +59,7 @@ namespace WpfView
             {
                 loadData();
             }
-            if (DataContext != null && ((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
+            if (DataContext != null && ((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
             {
                 new SendEmailWindow((AccountListViewModel)DataContext);
             }
@@ -81,9 +81,9 @@ namespace WpfView
             {
                 loadData();
             }
-            if (DataContext != null && ((AccountListViewModel)DataContext).selectedAccountIndex >= 0)
+            if (DataContext != null && ((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
             {
-                AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex];
+                AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
 
                 var progressHandler = new Progress<double>(value =>
                 {
@@ -119,7 +119,7 @@ namespace WpfView
         {
             IList emailsToDelete = (IList)EmailsListView.SelectedItems;
 
-            ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).selectedAccountIndex].Emails;
+            ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
 
             // TODO Funktioniert noch nicht richtig
             //foreach (var email in emailsToDelete)
