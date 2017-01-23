@@ -77,6 +77,7 @@
                     Click="DeleteEmails_Click"
                     Content="Emails löschen"
                     DockPanel.Dock="Top" />
+                <!--  Command="{Binding DeleteSelectedCommandExecute(EmailsListView.SelectedItem())}"  -->
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="10,10,10,10" DockPanel.Dock="Left">
@@ -97,7 +98,8 @@
             Margin="10,10,10,5"
             VerticalContentAlignment="Top"
             KeyDown="EmailsListView_KeyDown"
-            MouseDoubleClick="EmailsListView_MouseDoubleClick">
+            MouseDoubleClick="EmailsListView_MouseDoubleClick"
+            SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>

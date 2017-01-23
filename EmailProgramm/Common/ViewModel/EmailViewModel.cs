@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Common.ViewModel
 {
-    public class EmailViewModel : INotifyPropertyChanged
+    public class EmailViewModel : INotifyPropertyChanged, IComparable<EmailViewModel>
     {
         private int _id;
         private string _sender;
@@ -23,6 +23,11 @@ namespace Common.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public int CompareTo(EmailViewModel other)
+        {
+            return Id.CompareTo(other.Id);
         }
 
         public EmailViewModel()

@@ -23,6 +23,8 @@ namespace Common.ViewModel
     {
         private static AccountListViewModel instance;
 
+        private ObservableCollection<AccountViewModel> _accounts;
+
         private AccountListViewModel()
         {
             // TODO vielleicht unnötig
@@ -42,8 +44,6 @@ namespace Common.ViewModel
                 return instance;
             }
         }
-
-        private ObservableCollection<AccountViewModel> _accounts;
 
         /// <summary>
         /// Eine Liste aller Accounts.

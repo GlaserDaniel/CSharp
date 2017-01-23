@@ -117,17 +117,26 @@ namespace WpfView
 
         private void DeleteEmails_Click(object sender, RoutedEventArgs e)
         {
-            IList emailsToDelete = (IList)EmailsListView.SelectedItems;
-
-            ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
-
-            // TODO Funktioniert noch nicht richtig
-            //foreach (var email in emailsToDelete)
-            //{
-            //    emails.Remove((Email)email);
-            //}
+            ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].DeleteSelectedCommandExecute((EmailViewModel)EmailsListView.SelectedItem);
 
             ((AccountListViewModel)DataContext).saveAsync();
+
+
+            // funktionieort nicht
+            //foreach (var eachItem in EmailsListView.SelectedItems)
+            //{
+            //    EmailsListView.Items.Remove(eachItem);
+            //}
+
+            //List<EmailViewModel> emailsToDelete = new List<EmailViewModel>((IEnumerable<EmailViewModel>)EmailsListView.SelectedItems.GetEnumerator());
+
+            //ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
+
+            //// TODO Funktioniert noch nicht richtig
+            //foreach (var email in emailsToDelete)
+            //{
+            //    emails.Remove(email);
+            //}
         }
 
         private void EmailsListView_KeyDown(object sender, KeyEventArgs e)

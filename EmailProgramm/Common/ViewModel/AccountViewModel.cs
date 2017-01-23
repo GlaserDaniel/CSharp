@@ -19,6 +19,7 @@ namespace Common.ViewModel
         private string _smtpServer;
         private int _smtpPort;
         private ObservableCollection<EmailViewModel> _emails;
+        //private ObservableCollection<EmailViewModel> _selectedEmailsToDelete;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -79,6 +80,17 @@ namespace Common.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        //public ObservableCollection<EmailViewModel> SelectedEmailsToDelete
+        //{
+        //    get { return _selectedEmailsToDelete; }
+        //    set
+        //    {
+        //        if (_selectedEmailsToDelete == value) return;
+        //        _selectedEmailsToDelete = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public string Showname
         {
@@ -208,6 +220,18 @@ namespace Common.ViewModel
                 return Email.ToString();
             }
             return Showname.ToString();
+        }
+
+        public void DeleteSelectedCommandExecute(EmailViewModel emailToDelete)
+        {
+            Emails.Remove(emailToDelete);
+
+            //foreach(var email in SelectedEmailsToDelete)
+            //{
+            //    Emails.Remove(email);
+            //}
+
+            // TODO Email auf Server löschen
         }
     }
 }
