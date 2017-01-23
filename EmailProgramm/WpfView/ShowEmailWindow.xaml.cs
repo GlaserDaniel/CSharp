@@ -1,17 +1,6 @@
 ﻿using Common.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfView
 {
@@ -28,6 +17,7 @@ namespace WpfView
 
         public ShowEmailWindow(EmailViewModel email) : this()
         {
+            email.IsRead = true;
             DataContext = email;
 
             String message = email.Message;
@@ -107,6 +97,16 @@ namespace WpfView
             forwardEmail.Message = "\n\nWeitergeleitete Email von " + ((EmailViewModel)DataContext).Sender + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
 
             new SendEmailWindow(forwardEmail);
+        }
+
+        private void replyAllButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -42,6 +42,17 @@ namespace WpfView
             if (((AccountListViewModel)DataContext).SelectedAccountIndex != -1)
             {
                 EmailsListView.ItemsSource = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
+
+                // TODO Versuch die Zeilen fett zu markieren in dehnen die Mails ungelesen sind.
+                //ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
+
+                //for (int i = 0; i < emails.Count; i++)
+                //{
+                //    if (!emails[i].IsRead)
+                //    {
+                //        ((ListViewItem)EmailsListView.Items[i]).FontWeight = FontWeights.Bold; 
+                //    }
+                //}
             }
         }
 
@@ -72,7 +83,7 @@ namespace WpfView
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Optionen_Click");
-            new SettingsWindow((AccountListViewModel) DataContext);
+            new SettingsWindow((AccountListViewModel)DataContext);
         }
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
@@ -112,15 +123,25 @@ namespace WpfView
 
         private void EmailsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            new ShowEmailWindow((EmailViewModel)((FrameworkElement)e.OriginalSource).DataContext); // TODO kann anscheind auch AccountViewModel kommen!
+            // weil anscheinend auch AccountViewModel kommen kann
+            if (((FrameworkElement)e.OriginalSource).DataContext is EmailViewModel)
+            {
+                new ShowEmailWindow((EmailViewModel)((FrameworkElement)e.OriginalSource).DataContext);
+            }
+            else
+            {
+                Console.WriteLine("selected Item by DoubleClick was no EmailViewModel");
+            }
         }
 
         private void DeleteEmails_Click(object sender, RoutedEventArgs e)
         {
-            ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].DeleteSelectedCommandExecute((EmailViewModel)EmailsListView.SelectedItem);
+            MessageBoxResult closingResult = MessageBox.Show("Möchten Sie die Email wirklich löschen?", "Email löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            ((AccountListViewModel)DataContext).saveAsync();
-
+            if (closingResult == MessageBoxResult.Yes)
+            {
+                ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].DeleteSelectedCommandExecute((EmailViewModel)EmailsListView.SelectedItem);
+            }
 
             // funktionieort nicht
             //foreach (var eachItem in EmailsListView.SelectedItems)
@@ -143,6 +164,13 @@ namespace WpfView
         {
             if (e.Key == Key.Delete)
             {
+                MessageBoxResult closingResult = MessageBox.Show("Möchten Sie die Email wirklich löschen?", "Email löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (closingResult == MessageBoxResult.Yes)
+                {
+                    ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].DeleteSelectedCommandExecute((EmailViewModel)EmailsListView.SelectedItem);
+                }
+
                 // TODO Funktioniert noch nicht richtig
                 //foreach (ListViewItem listViewItem in ((ListView)sender).SelectedItems)
                 //{
@@ -151,6 +179,12 @@ namespace WpfView
             }
         }
 
+        /// <summary>
+        /// Schließen des Programmes. Hier wird noch einmal nachgefragt ob er das Programm wirklich 
+        /// schließen möchte wenn er mehrere Fenster offen hat. 
+        /// Falls er das Programm beendet wird gespeichert.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             // Wenn mehr als ein Fenster (also das noch ein anderes Fenster als das Hauptfenster)
@@ -165,25 +199,22 @@ namespace WpfView
 
             if (Application.Current.Windows.Count > windows)
             {
-                MessageBoxResult closingResult = MessageBox.Show("Möchten Sie das Programm wirklich beenden?", "SMTP-Server fehlt", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult closingResult = MessageBox.Show("Möchten Sie das Programm wirklich beenden?", "Programm beenden", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                if (closingResult == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-
-                    base.OnClosing(e);
-                }
-                else
+                if (closingResult == MessageBoxResult.No)
                 {
                     e.Cancel = true;
+
+                    return;
                 }
             }
-            else
-            {
-                Application.Current.Shutdown();
 
-                base.OnClosing(e);
-            }
+            // speichern
+            AccountListViewModel.Instance.saveAsync();
+            
+            Application.Current.Shutdown();
+
+            base.OnClosing(e);
         }
     }
 }

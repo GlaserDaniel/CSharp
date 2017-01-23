@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Common.ViewModel;
 using Common.Services;
 
@@ -30,10 +21,16 @@ namespace WpfView
             Show();
         }
 
+        /// <summary>
+        /// Konstruktor der eine Email mit annimmt um die Daten dieser im Fenster zu setzen.
+        /// Wird für Antworten und Weiterleiten genutzt.
+        /// </summary>
+        /// <param name="email"></param>
         public SendEmailWindow(EmailViewModel email) : this()
         {
             if (!String.IsNullOrEmpty(email.Sender))
             {
+                // Anwortmail
                 receiverTextBox.Text = email.Sender;
             }
             subjectTextBox.Text = email.Subject;

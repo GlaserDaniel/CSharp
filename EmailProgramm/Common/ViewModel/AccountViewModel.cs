@@ -1,4 +1,5 @@
 ﻿using Common.Model;
+using Common.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -224,14 +225,17 @@ namespace Common.ViewModel
 
         public void DeleteSelectedCommandExecute(EmailViewModel emailToDelete)
         {
+            // Email auf Server löschen
+            new EmailService().deleteMessage(emailToDelete, AccountListViewModel.Instance.Accounts[AccountListViewModel.Instance.SelectedAccountIndex]);
+
+            // Email aus Emails löschen
             Emails.Remove(emailToDelete);
 
+            // TODO mehrere Emails löschen funktioniert noch nicht
             //foreach(var email in SelectedEmailsToDelete)
             //{
             //    Emails.Remove(email);
             //}
-
-            // TODO Email auf Server löschen
         }
     }
 }

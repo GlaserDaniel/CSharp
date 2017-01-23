@@ -106,6 +106,7 @@
                         <GridViewColumn DisplayMemberBinding="{Binding DateTimeString}" Header="Zeit" />
                         <GridViewColumn DisplayMemberBinding="{Binding Sender}" Header="Sender" />
                         <GridViewColumn DisplayMemberBinding="{Binding Subject}" Header="Betreff" />
+                        <GridViewColumn DisplayMemberBinding="{Binding IsRead}" Header="Gelesen" />
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

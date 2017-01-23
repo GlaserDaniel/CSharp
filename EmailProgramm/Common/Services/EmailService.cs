@@ -265,6 +265,8 @@ namespace Common.Services
                                         // Nachricht holen
                                         MimeMessage message = imapClient.Inbox.GetMessage(uid);
 
+                                        Console.WriteLine("MessageID: " + message.MessageId);
+
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", uid));
 
@@ -327,6 +329,8 @@ namespace Common.Services
                                     {
                                         // Nachricht holen
                                         var message = client.GetMessage(id);
+
+                                        Console.WriteLine("MessageID: " + message.MessageId);
 
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", i));
@@ -429,6 +433,66 @@ namespace Common.Services
             {
                 currentAccount.Emails.Add(currentEmail);
             }));
+        }
+
+        public void deleteMessage(EmailViewModel email, AccountViewModel account)
+        {
+            if (account != null)
+            {
+                if (account.UseImap)
+                {
+                    try
+                    {
+                        using (ImapClient imapClient = new ImapClient())
+                        {
+                            imapClient.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
+
+                            imapClient.Authenticate(account.User, account.Password);
+
+                            imapClient.Inbox.Open(FolderAccess.ReadWrite);
+
+                            // zum Löschen markieren
+                            // TODO funktioniert noch nicht
+                            imapClient.Inbox.AddFlags(email.Id, MessageFlags.Deleted, false);
+
+                            imapClient.Disconnect(true);
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine("IOException: " + e);
+                    }
+                    catch (SocketException se)
+                    {
+                        Console.WriteLine("SocketException: " + se);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        using (var client = new Pop3Client())
+                        {
+                            client.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
+
+                            client.Authenticate(account.User, account.Password);
+
+                            // zum Löschen markieren
+                            client.DeleteMessage(email.Id);
+
+                            client.Disconnect(true);
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine("IOException: " + e);
+                    }
+                    catch (SocketException se)
+                    {
+                        Console.WriteLine("SocketException: " + se);
+                    }
+                }
+            }
         }
 
         public bool HasErrors

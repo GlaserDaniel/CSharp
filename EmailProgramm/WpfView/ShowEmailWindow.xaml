@@ -72,12 +72,26 @@
                         Click="replyButton_Click"
                         Content="Antworten" />
                     <Button
+                        x:Name="replyAllButton"
+                        Width="70"
+                        Height="23"
+                        Margin="10"
+                        Click="replyAllButton_Click"
+                        Content="Allen antworten" />
+                    <Button
                         x:Name="forwardButton"
                         Width="70"
                         Height="23"
                         Margin="10"
                         Click="forwardButton_Click"
                         Content="Weiterleiten" />
+                    <Button
+                        x:Name="deleteButton"
+                        Width="70"
+                        Height="23"
+                        Margin="10"
+                        Click="deleteButton_Click"
+                        Content="Löschen" />
                 </StackPanel>
             </StackPanel>
         </DockPanel>
