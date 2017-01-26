@@ -82,8 +82,8 @@ namespace WpfView
 
             replyEmail.Sender = ((EmailViewModel)DataContext).Sender;
             replyEmail.Receivers = (((EmailViewModel)DataContext).Receivers);
-            replyEmail.Subject = "Antwort auf " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Re:
-            replyEmail.Message = "\n\nAlte Email: \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
+            replyEmail.Subject = "RE: " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Re:
+            replyEmail.Message = "\n\n" + ((EmailViewModel)DataContext).Sender + "\nschrieb am " + ((EmailViewModel)DataContext).DateTime + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
 
             new SendEmailWindow(replyEmail);
         }
@@ -93,8 +93,8 @@ namespace WpfView
             EmailViewModel forwardEmail = new EmailViewModel();
 
             //forwardEmail.Sender = ((EmailViewModel)DataContext).Sender;
-            forwardEmail.Subject = "Weiterleitung von " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Fwd:
-            forwardEmail.Message = "\n\nWeitergeleitete Email von " + ((EmailViewModel)DataContext).Sender + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO Mehr Informationen
+            forwardEmail.Subject = "Fwd " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Fwd:
+            forwardEmail.Message = "\n\nWeitergeleitete Email\nVon: " + ((EmailViewModel)DataContext).Sender + "\nDatum: " + ((EmailViewModel)DataContext).DateTime + "\nBetreff: " + ((EmailViewModel)DataContext).Subject + "\nEmpfänger: " + ((EmailViewModel)DataContext).ReceiversString + " \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
 
             new SendEmailWindow(forwardEmail);
         }

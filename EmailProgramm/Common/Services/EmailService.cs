@@ -426,6 +426,9 @@ namespace Common.Services
 
             email.Id = id;
 
+            // TODO
+            //email.IsRead = message.
+
             var currentAccount = account;
             var currentEmail = email;
 

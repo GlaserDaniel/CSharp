@@ -69,6 +69,98 @@
       <HintPath>..\packages\Antlr2.Runtime.2.7.7.02\lib\antlr.runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NuGet.Client, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Commands, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Commands.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Common, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.ContentModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.ContentModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.DependencyResolver, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.DependencyResolver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.DependencyResolver.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.DependencyResolver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Frameworks, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Frameworks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.LibraryModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.LibraryModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.PackageManagement, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.PackageManagement.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Packaging, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Packaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Packaging.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Packaging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Packaging.Core.Types, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Packaging.Core.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.ProjectManagement, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.ProjectManagement.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.ProjectModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.ProjectModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Protocol.Core.Types, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Protocol.Core.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Protocol.Core.v2, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Protocol.Core.v2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Protocol.Core.v3, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Protocol.Core.v3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Protocol.VisualStudio, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Protocol.VisualStudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Repositories, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Repositories.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Resolver, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Resolver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.RuntimeModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.RuntimeModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Versioning, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5aaa11a165479571, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.NuGet.Ultimate.3.5.0.1\lib\net45\NuGet.Versioning.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
