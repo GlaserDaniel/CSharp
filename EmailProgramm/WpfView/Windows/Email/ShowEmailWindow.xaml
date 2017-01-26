@@ -66,30 +66,34 @@
                 <StackPanel Orientation="Horizontal">
                     <Button
                         x:Name="replyButton"
-                        Width="70"
+                        Width="100"
                         Height="23"
                         Margin="10"
+                        Background="White"
                         Click="replyButton_Click"
                         Content="Antworten" />
                     <Button
                         x:Name="replyAllButton"
-                        Width="70"
+                        Width="100"
                         Height="23"
                         Margin="10"
+                        Background="White"
                         Click="replyAllButton_Click"
                         Content="Allen antworten" />
                     <Button
                         x:Name="forwardButton"
-                        Width="70"
+                        Width="100"
                         Height="23"
                         Margin="10"
+                        Background="White"
                         Click="forwardButton_Click"
                         Content="Weiterleiten" />
                     <Button
                         x:Name="deleteButton"
-                        Width="70"
+                        Width="100"
                         Height="23"
                         Margin="10"
+                        Background="White"
                         Click="deleteButton_Click"
                         Content="Löschen" />
                 </StackPanel>

@@ -22,16 +22,17 @@ namespace WpfView
 
             String message = email.Message;
 
-            if (!email.IsHtml)
-            {
-                // Damit Umlaute und Zeichen richtig dargestellt werden.
-                //if (message.Length >= 9 && !message.Substring(0, 9).Equals("<!DOCTYPE"))
-                //{
-                    message = "<!DOCTYPE html>\r\n<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
-                //}
+            Console.WriteLine("isHTML: " + email.IsHtml);
 
-                message = "<pre>" + message + "</pre>";
-            }
+            // Damit Umlaute und Zeichen richtig dargestellt werden.
+            message = "<!DOCTYPE html>\r<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
+
+            message = message.Replace("\n", "<br>");
+
+            //if (!email.IsHtml)
+            //{
+            //    message = "<pre style=\"font - family: Georgia, 'Times New Roman', serif; \">" + message + "</pre>";
+            //}
 
             Console.WriteLine("Message: " + message);
 

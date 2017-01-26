@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Others\Ecxeptions.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Model\Email.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />

@@ -44,9 +44,10 @@
                     Height="23"
                     Margin="10,10,10,5"
                     VerticalAlignment="Top"
+                    Background="Blue"
                     ItemsSource="{Binding Accounts}"
-                    SelectedIndex="{Binding SelectedAccountIndex, Mode=OneTime}"
-                    KeyboardNavigation.TabIndex="1" />
+                    KeyboardNavigation.TabIndex="1"
+                    SelectedIndex="{Binding SelectedAccountIndex, Mode=OneTime}" />
                 <TextBox
                     x:Name="receiverTextBox"
                     Height="23"
@@ -70,6 +71,7 @@
                 Width="100"
                 Height="23"
                 Margin="10,10,10,10"
+                Background="White"
                 Click="SendEmail_Click"
                 Content="Senden"
                 DockPanel.Dock="Right" />
@@ -78,6 +80,7 @@
                 Width="100"
                 Height="23"
                 Margin="10,10,0,10"
+                Background="White"
                 Click="AbortSendEmail_Click"
                 Content="Abbrechen"
                 DockPanel.Dock="Right" />

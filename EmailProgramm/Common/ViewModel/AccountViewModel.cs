@@ -1,10 +1,13 @@
-﻿using Common.Model;
+﻿using Common.Exceptions;
+using Common.Model;
 using Common.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Common.ViewModel
 {
@@ -156,7 +159,7 @@ namespace Common.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+
         public string SmtpServer
         {
             get { return _smtpServer; }

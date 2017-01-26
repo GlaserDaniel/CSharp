@@ -1,0 +1,96 @@
+﻿<Window
+    x:Class="WpfView.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfView"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Optionen"
+    Width="500"
+    Height="400"
+    MinWidth="400"
+    MinHeight="300"
+    Activated="window_Activated"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.BindingGroup>
+        <BindingGroup />
+    </Window.BindingGroup>
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button
+                    x:Name="CloseSettings"
+                    Width="100"
+                    Height="23"
+                    Margin="5,10,10,10"
+                    Background="White"
+                    Click="CloseSettings_Click"
+                    Content="Schließen"
+                    DockPanel.Dock="Right" />
+                <Grid />
+            </DockPanel>
+            <GroupBox Margin="5,0" Header="Accounts">
+                <DockPanel DockPanel.Dock="Top">
+                    <DockPanel DockPanel.Dock="Bottom">
+                        <Button
+                            x:Name="RemoveAccount"
+                            Width="100"
+                            Height="23"
+                            Margin="5,10,1,10"
+                            Background="White"
+                            Click="RemoveAccount_Click"
+                            Content="Löschen"
+                            DockPanel.Dock="Right" />
+                        <Button
+                            x:Name="EditAccount"
+                            Width="100"
+                            Height="23"
+                            Margin="5,10,5,10"
+                            Background="White"
+                            Click="EditAccount_Click"
+                            Content="Bearbeiten"
+                            DockPanel.Dock="Right" />
+                        <Button
+                            x:Name="AddAccount"
+                            Width="100"
+                            Height="23"
+                            Margin="5,10,5,10"
+                            Background="White"
+                            Click="AddAccount_Click"
+                            Content="Hinzufügen"
+                            DockPanel.Dock="Right" />
+                        <Grid />
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <ListView
+                            x:Name="AccountsListView"
+                            Margin="1,5"
+                            ItemsSource="{Binding Accounts}"
+                            MouseDoubleClick="AccountsListView_MouseDoubleClick"
+                            SelectionMode="Single">
+                            <ListView.View>
+                                <GridView>
+                                    <GridView.Columns>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Showname}" Header="Anzeigename" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding Email}" Header="Email" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding Username}" Header="Benutzername" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding IsRead}" Header="Standard" />
+                                    </GridView.Columns>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <!--
+                            <ComboBox
+                                x:Name="AccountsComboBox"
+                                Height="23"
+                                MinWidth="110"
+                                Margin="10,10,5,10"
+                                ItemsSource="{Binding Accounts}"
+                                SelectedIndex="{Binding SelectedAccountIndex}" />-->
+                    </DockPanel>
+                </DockPanel>
+            </GroupBox>
+        </DockPanel>
+    </Grid>
+</Window>

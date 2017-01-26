@@ -34,6 +34,7 @@ namespace Common.Services
 
         public Task<bool> TestImapServer(string imapServer, int imapPort)
         {
+            // TODO async und Exceptions
             return Task.Run(() =>
             {
                 try

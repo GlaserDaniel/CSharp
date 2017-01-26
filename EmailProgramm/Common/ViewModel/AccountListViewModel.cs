@@ -1,4 +1,5 @@
-﻿using Common.Model;
+﻿using Common.Exceptions;
+using Common.Model;
 using Common.Services;
 using Common.ViewModel;
 using System;
@@ -73,9 +74,160 @@ namespace Common.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort)
+        public Task<bool> TestIMAPServer(string imapServer, string imapPort)
         {
-            AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3Port, smtpServer, smtpPort, new ObservableCollection<EmailViewModel>());
+            if (String.IsNullOrEmpty(imapServer))
+            {
+                throw new IMAPPOP3ServerEmptyException();
+            }
+
+            int imapPortInt = 0;
+
+            if (String.IsNullOrEmpty(imapPort))
+            {
+                throw new IMAPPOP3PortEmptyException();
+            }
+            else
+            {
+                try
+                {
+                    imapPortInt = int.Parse(imapPort);
+                }
+                catch (FormatException)
+                {
+                    throw new IMAPPOP3PortFormatException();
+                }
+            }
+
+            return new EmailService().TestImapServer(imapServer, imapPortInt);
+        }
+
+        public Task<bool> TestPOP3Server(string pop3Server, string pop3Port)
+        {
+            if (String.IsNullOrEmpty(pop3Server))
+            {
+                throw new IMAPPOP3ServerEmptyException();
+            }
+
+            int pop3PortInt = 0;
+
+            if (String.IsNullOrEmpty(pop3Port))
+            {
+                throw new IMAPPOP3PortEmptyException();
+            }
+            else
+            {
+                try
+                {
+                    pop3PortInt = int.Parse(pop3Port);
+                }
+                catch (FormatException)
+                {
+                    throw new IMAPPOP3PortFormatException();
+                }
+            }
+
+            return new EmailService().TestPop3Server(pop3Server, pop3PortInt);
+        }
+
+        public Task<bool> TestSMTPServer(string smtpServer, string smtpPort)
+        {
+
+            if (String.IsNullOrEmpty(smtpServer))
+            {
+                throw new SMTPServerEmptyException();
+            }
+
+            int smtpPortInt = 0;
+
+            if (String.IsNullOrEmpty(smtpPort))
+            {
+                throw new SMTPPortEmtpyException();
+            }
+            else
+            {
+                try
+                {
+                    smtpPortInt = int.Parse(smtpPort);
+                }
+                catch (FormatException)
+                {
+                    throw new SMTPPortFormatException();
+                }
+            }
+
+            return new EmailService().TestSmtpServer(smtpServer, smtpPortInt);
+        }
+
+        public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, string imapPop3Port, string smtpServer, string smtpPort)
+        {
+            if (String.IsNullOrEmpty(showname))
+            {
+                throw new ShownameEmptyException();
+            }
+
+            if (String.IsNullOrEmpty(user))
+            {
+                throw new UserEmptyException();
+            }
+
+            if (String.IsNullOrEmpty(email))
+            {
+                throw new EmailEmptyException();
+            }
+
+            if (String.IsNullOrEmpty(password))
+            {
+                throw new PasswordEmptyException();
+            }
+
+            if (String.IsNullOrEmpty(imapPop3Server))
+            {
+                throw new IMAPPOP3ServerEmptyException();
+            }
+
+            int imapPop3PortInt = 0;
+
+            if (String.IsNullOrEmpty(imapPop3Port))
+            {
+                throw new IMAPPOP3PortEmptyException();
+            }
+            else
+            {
+                try
+                {
+                    imapPop3PortInt = int.Parse(imapPop3Port);
+                }
+                catch (FormatException)
+                {
+                    throw new IMAPPOP3PortFormatException();
+                }
+            }
+
+            if (String.IsNullOrEmpty(smtpServer))
+            {
+                throw new SMTPServerEmptyException();
+            }
+
+            int smtpPortInt = 0;
+
+            if (String.IsNullOrEmpty(smtpPort))
+            {
+                throw new SMTPPortEmtpyException();
+            }
+            else
+            {
+                try
+                {
+                    smtpPortInt = int.Parse(smtpPort);
+                }
+                catch (FormatException)
+                {
+                    throw new SMTPPortFormatException();
+                }
+            }
+
+            AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3PortInt, smtpServer, smtpPortInt, new ObservableCollection<EmailViewModel>());
 
             Accounts.Add(account);
             //OnPropertyChanged("Accounts");
@@ -91,7 +243,7 @@ namespace Common.ViewModel
 
             //Console.WriteLine("nach adden selectedAccount: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
 
-            saveAsync();
+            //saveAsync();
         }
 
         public void removeAccount(AccountViewModel accountToRemove)

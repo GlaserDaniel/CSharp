@@ -30,15 +30,11 @@ namespace WpfView
         private void LoadData()
         {
             DataContext = AccountListViewModel.Instance;
-            //AccountsComboBox.Items.Clear();
-            //foreach (Account account in ((SettingsViewModel)DataContext).Accounts)
+
+            //if (((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
             //{
-            //    AccountsComboBox.Items.Add(account);
+            //    AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
             //}
-            if (((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
-            {
-                AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
-            }
         }
 
         public void Refresh()
@@ -56,16 +52,16 @@ namespace WpfView
         void window_Activated(object sender, EventArgs e)
         {
             Console.WriteLine("OptionWindow activated");
-            if (((AccountListViewModel)DataContext).SelectedAccountIndex == -1 && ((AccountListViewModel)DataContext).Accounts.Count >= 1)
-            {
-                AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[0];
-            }
+            //if (((AccountListViewModel)DataContext).SelectedAccountIndex == -1 && ((AccountListViewModel)DataContext).Accounts.Count >= 1)
+            //{
+            //    AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[0];
+            //}
         }
 
-        private void AppendSettings_Click(object sender, RoutedEventArgs e)
+        private void CloseSettings_Click(object sender, RoutedEventArgs e)
         {
             //((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
-            ((AccountListViewModel)DataContext).SelectedAccountIndex = AccountsComboBox.SelectedIndex;
+            //((AccountListViewModel)DataContext).SelectedAccountIndex = AccountsComboBox.SelectedIndex;
             BindingGroup.CommitEdit();
             ((AccountListViewModel)DataContext).saveAsync();
             Close();
@@ -84,17 +80,17 @@ namespace WpfView
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((AccountListViewModel)DataContext, (AccountViewModel)AccountsComboBox.SelectedItem);
+            new AccountWindow((AccountListViewModel)DataContext, (AccountViewModel)AccountsListView.SelectedItem);
         }
 
         private void RemoveAccount_Click(object sender, RoutedEventArgs e)
         {
-            AccountViewModel accountToRemove = (AccountViewModel)AccountsComboBox.SelectedItem;
+            AccountViewModel accountToRemove = (AccountViewModel)AccountsListView.SelectedItem;
 
-            MessageBoxResult result = MessageBox.Show("Willst du den Account " + accountToRemove.Email + " wirklich löschen?", "Account Löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Willst du den Account " + accountToRemove.Showname + " wirklich löschen?", "Account Löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                Console.WriteLine("Ausgewählter Account: " + accountToRemove.ToString());
+                Console.WriteLine("Ausgewählter Account zum löschen: " + accountToRemove.ToString());
 
                 ((AccountListViewModel)DataContext).removeAccount(accountToRemove);
 
@@ -102,14 +98,19 @@ namespace WpfView
 
                 //AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
 
-                if (AccountsComboBox.SelectedItem == null)
-                {
-                    if (AccountsComboBox.Items.Count > 0)
-                    {
-                        AccountsComboBox.SelectedItem = AccountsComboBox.Items.GetItemAt(0);
-                    }
-                }
+                //if (AccountsComboBox.SelectedItem == null)
+                //{
+                //    if (AccountsComboBox.Items.Count > 0)
+                //    {
+                //        AccountsComboBox.SelectedItem = AccountsComboBox.Items.GetItemAt(0);
+                //    }
+                //}
             }
+        }
+
+        private void AccountsListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
         }
     }
 }

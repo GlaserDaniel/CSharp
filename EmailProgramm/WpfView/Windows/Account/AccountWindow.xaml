@@ -5,11 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfView"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Account"
     Title="Account"
     Width="350"
-    Height="420"
+    Height="460"
     MinWidth="320"
-    MinHeight="420"
+    MinHeight="460"
+    KeyDown="Account_KeyDown"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.BindingGroup>
@@ -31,7 +33,7 @@
                     Margin="10,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="Username" />
+                    Content="Benutzername" />
                 <Label
                     x:Name="emailLabel"
                     Width="99"
@@ -45,7 +47,7 @@
                     Margin="10,5,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="Password" />
+                    Content="Passwort" />
                 <Label
                     x:Name="imapPop3ServerLabel"
                     Width="113"
@@ -66,7 +68,7 @@
                     Margin="10,5,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="use IMAP?" />
+                    Content="IMAP oder POP3" />
                 <Label
                     x:Name="smtpServerLabel"
                     Width="99"
@@ -83,14 +85,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Content="Port" />
-                <Button
-                    x:Name="testImapPop3ServerButton"
-                    Height="23"
-                    Margin="10"
-                    Padding="5,0,5,0"
-                    VerticalAlignment="Bottom"
-                    Click="testImapPop3ServerButton_Click"
-                    Content="Test IMAP/POP3-Server" />
             </StackPanel>
             <StackPanel DockPanel.Dock="Right">
                 <TextBox
@@ -100,7 +94,7 @@
                     VerticalAlignment="Top"
                     Text="{Binding Showname}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Anzeigename für dieses Konto" />
+                    ToolTip="Der Name der für dieses Konto angezeigt wird" />
                 <TextBox
                     x:Name="userTextBox"
                     Height="23"
@@ -121,7 +115,8 @@
                     x:Name="passwordBox"
                     Height="23"
                     Margin="10,8,10,0"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Top"
+                    ToolTip="Das Passwort des Kontos" />
                 <TextBox
                     x:Name="imapPop3ServerTextBox"
                     Height="23"
@@ -129,7 +124,7 @@
                     VerticalAlignment="Top"
                     Text="{Binding ImapPop3Server}"
                     TextWrapping="Wrap"
-                    ToolTip="Der IMAP oder POP3-Server" />
+                    ToolTip="Die Adresse des IMAP oder POP3-Server" />
                 <TextBox
                     x:Name="imapPop3PortTextBox"
                     Height="23"
@@ -138,7 +133,7 @@
                     PreviewTextInput="imapPop3PortTextBox_PreviewTextInput"
                     Text="{Binding ImapPop3Port}"
                     TextWrapping="Wrap"
-                    ToolTip="Der IMAP oder POP3-Port" />
+                    ToolTip="Der Port des IMAP oder POP3-Servers" />
                 <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
                     <RadioButton
                         x:Name="imapRadioButton"
@@ -155,7 +150,7 @@
                 <TextBox
                     x:Name="smtpServerTextBox"
                     Height="23"
-                    Margin="10,2,10,0"
+                    Margin="10,0,10,0"
                     VerticalAlignment="Top"
                     Text="{Binding SmtpServer}"
                     TextWrapping="Wrap"
@@ -169,21 +164,50 @@
                     Text="{Binding SmtpPort}"
                     TextWrapping="Wrap"
                     ToolTip="Der Port des SMTP-Servers" />
-                <Button
-                    x:Name="testSmtpServerButton"
-                    Height="23"
-                    Margin="10,13,10,10"
-                    VerticalAlignment="Bottom"
-                    Click="testSmtpServerButton_Click"
-                    Content="Test SMTP-Server" />
             </StackPanel>
         </DockPanel>
+        <Label
+            Margin="0,0,0,-5"
+            Content="Zum Testen ob die Server funktionieren."
+            DockPanel.Dock="Top" />
+        <Label
+            Margin="0,-5,0,0"
+            Content="Wenn die Buttons grün werden passt alles."
+            DockPanel.Dock="Top" />
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="testImapPop3ServerButton"
+                Grid.Column="0"
+                Height="23"
+                Margin="10"
+                Padding="5,0,5,0"
+                VerticalAlignment="Bottom"
+                Background="White"
+                Click="testImapPop3ServerButton_Click"
+                Content="Test IMAP/POP3-Server"
+                ToolTip="Zum testen ob der IMAP oder POP3-Server funktioniert" />
+            <Button
+                x:Name="testSmtpServerButton"
+                Grid.Column="1"
+                Height="23"
+                Margin="10"
+                VerticalAlignment="Bottom"
+                Background="White"
+                Click="testSmtpServerButton_Click"
+                Content="Test SMTP-Server"
+                ToolTip="Zum testen ob der SMTP-Server funktioniert" />
+        </Grid>
         <DockPanel DockPanel.Dock="Bottom">
             <Button
                 x:Name="SaveAccount"
                 Width="100"
                 Height="23"
                 Margin="10,10,10,10"
+                Background="White"
                 Click="SaveAccount_Click"
                 Content="Speichern"
                 DockPanel.Dock="Right" />
@@ -192,6 +216,7 @@
                 Width="100"
                 Height="23"
                 Margin="10,10,0,10"
+                Background="White"
                 Click="Abort_Click"
                 Content="Abbrechen"
                 DockPanel.Dock="Right" />
