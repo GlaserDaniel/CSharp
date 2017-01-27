@@ -25,26 +25,29 @@ namespace WpfView
         private AccountListViewModel settingsViewModel;
         //private SettingsWindow settingsWindow;
 
-        public AccountWindow()
+        public AccountWindow(AccountListViewModel settingsViewModel)
         {
             InitializeComponent();
-            Console.WriteLine("Constr");
-            Show();
-            shownameTextBox.Focus();
-        }
 
-        public AccountWindow(AccountListViewModel settingsViewModel) : this()
-        {
-            Console.WriteLine("Account hinzufügen (Constr mit SettingsViewModel)");
+            Console.WriteLine("Account hinzufügen");
             this.settingsViewModel = settingsViewModel;
             //this.settingsWindow = settingsWindow;
             Title = "Account hinzufügen";
+
+            DataContext = new AccountViewModel();
+
+            BindingGroup.BeginEdit();
+
+            shownameTextBox.Focus();
+
+            ShowDialog();
         }
 
-        public AccountWindow(AccountListViewModel settingsViewModel, AccountViewModel selectedAccountToEdit) : this()
+        public AccountWindow(AccountViewModel selectedAccountToEdit)
         {
-            Console.WriteLine("Account bearbeiten (Constr mit Account)");
-            this.settingsViewModel = settingsViewModel;
+            InitializeComponent();
+
+            Console.WriteLine("Account bearbeiten");
             Title = "Account bearbeiten";
 
             // Account als DataContext setzen
@@ -53,35 +56,31 @@ namespace WpfView
             passwordBox.Password = selectedAccountToEdit.Password;
 
             BindingGroup.BeginEdit();
+
+            shownameTextBox.Focus();
+
+            ShowDialog();
         }
 
         private void SaveAccount_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext == null)
+            if (settingsViewModel != null)
             {
                 //Account hinzufügen
                 try
                 {
-                    settingsViewModel.addAccount(shownameTextBox.Text, userTextBox.Text, emailTextBox.Text, 
-                        passwordBox.Password, (bool)imapRadioButton.IsChecked, imapPop3ServerTextBox.Text, 
+                    BindingGroup.CommitEdit();
+                    settingsViewModel.addAccount(shownameTextBox.Text, userTextBox.Text, emailTextBox.Text,
+                        passwordBox.Password, (bool)imapRadioButton.IsChecked, imapPop3ServerTextBox.Text,
                         imapPop3PortTextBox.Text, smtpServerTextBox.Text, smtpPortTextBox.Text);
-                    Close();
+                    if (!BindingGroup.HasValidationError)
+                    {
+                        Close();
+                    }
                 }
-                catch (IMAPPOP3PortEmptyException)
+                catch (ShownameEmptyException)
                 {
-                    MessageBox.Show("Der IMAP/POP3-Port ist leer!", "IMAP/POP3-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                catch (IMAPPOP3PortFormatException)
-                {
-                    MessageBox.Show("Der IMAP/POP3-Port ist keine Zahl!", "IMAP/POP3-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                catch (SMTPPortEmtpyException)
-                {
-                    MessageBox.Show("Der SMTP-Port ist leer!", "SMTP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                catch (SMTPPortFormatException)
-                {
-                    MessageBox.Show("Der SMTP-Port ist keine Zahl!", "SMTP-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Der Anzeigename ist leer!", "Anzeigename fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (UserEmptyException)
                 {
@@ -99,15 +98,36 @@ namespace WpfView
                 {
                     MessageBox.Show("Der IMAP/POP3-Server ist leer!", "IMAP/POP3-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+                catch (IMAPPOP3PortEmptyException)
+                {
+                    imapPop3PortTextBox.BorderBrush = Brushes.Red;
+                    MessageBox.Show("Der IMAP/POP3-Port ist leer!", "IMAP/POP3-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (IMAPPOP3PortFormatException)
+                {
+                    MessageBox.Show("Der IMAP/POP3-Port ist keine Zahl!", "IMAP/POP3-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
                 catch (SMTPServerEmptyException)
                 {
                     MessageBox.Show("Der SMTP-Server ist leer!", "SMTP-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+                catch (SMTPPortEmtpyException)
+                {
+                    MessageBox.Show("Der SMTP-Port ist leer!", "SMTP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (SMTPPortFormatException)
+                {
+                    MessageBox.Show("Der SMTP-Port ist keine Zahl!", "SMTP-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                
             }
             else
             {
                 BindingGroup.CommitEdit();
-                Close();
+                if (!BindingGroup.HasValidationError)
+                {
+                    Close();
+                }
             }
         }
 

@@ -131,9 +131,24 @@
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
                     PreviewTextInput="imapPop3PortTextBox_PreviewTextInput"
-                    Text="{Binding ImapPop3Port}"
+                    Text="{Binding Path=ImapPop3Port, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des IMAP oder POP3-Servers" />
+                    ToolTip="Der Port des IMAP oder POP3-Servers">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <AdornedElementPlaceholder x:Name="textBox" />
+                                <ItemsControl ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
                 <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
                     <RadioButton
                         x:Name="imapRadioButton"

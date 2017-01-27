@@ -20,11 +20,21 @@ namespace Common.ViewModel
     /// <summary>
     /// Klasse für die Einstllungen.
     /// </summary>
-    public class AccountListViewModel : INotifyPropertyChanged
+    public class AccountListViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
+
         private static AccountListViewModel instance;
 
         private ObservableCollection<AccountViewModel> _accounts;
+
+        /// <summary>
+        /// Der Index des ausgewählten Accounts. Falls keine ausgewählt ist, ist er -1.
+        /// </summary>
+        public int SelectedAccountIndex { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private AccountListViewModel()
         {
@@ -60,15 +70,7 @@ namespace Common.ViewModel
             }
         }
 
-        /// <summary>
-        /// Der Index des ausgewählten Accounts. Falls keine ausgewählt ist, ist er -1.
-        /// </summary>
-        public int SelectedAccountIndex { get; set; }
-        //public AccountViewModel selectedAccount { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // protected virtual 
+        // TODO protected virtual 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -404,5 +406,62 @@ namespace Common.ViewModel
             //    selectedAccountIndex = -1;
             //}
         }
+
+        public bool HasErrors
+        {
+            get
+            {
+                return _errors.Count > 0;
+            }
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName) ||
+                !_errors.ContainsKey(propertyName)) return null;
+            return _errors[propertyName];
+        }
+
+        public void RaiseErrorsChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        public void AddError(string propertyName, string error, bool isWarning)
+        {
+            if (!_errors.ContainsKey(propertyName))
+                _errors[propertyName] = new List<string>();
+
+            if (!_errors[propertyName].Contains(error))
+            {
+                if (isWarning) _errors[propertyName].Add(error);
+                else _errors[propertyName].Insert(0, error);
+                RaiseErrorsChanged(propertyName);
+            }
+        }
+
+        public void RemoveError(string propertyName, string error)
+        {
+            if (_errors.ContainsKey(propertyName) &&
+                _errors[propertyName].Contains(error))
+            {
+                _errors[propertyName].Remove(error);
+                if (_errors[propertyName].Count == 0) _errors.Remove(propertyName);
+                RaiseErrorsChanged(propertyName);
+            }
+        }
+
+
+        //private bool IsImapPop3PortNotEmpty(String imapPop3Port)
+        //{
+        //    var error = "Bitte geben Sie einen Namen ein.";
+        //    if (String.IsNullOrEmpty(imapPop3Port))
+        //    {
+        //        AddError(nameof(ImapPop3Port), error, false);
+        //        return false;
+        //    }
+        //    RemoveError(nameof(ImapPop3Port), error);
+        //    return true;
+        //}
     }
 }

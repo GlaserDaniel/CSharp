@@ -75,12 +75,13 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("Add Account Click, DataContext: " + (AccountListViewModel)DataContext);
             new AccountWindow((AccountListViewModel)DataContext);
         }
 
         private void EditAccount_Click(object sender, RoutedEventArgs e)
         {
-            new AccountWindow((AccountListViewModel)DataContext, (AccountViewModel)AccountsListView.SelectedItem);
+            new AccountWindow((AccountViewModel)AccountsListView.SelectedItem);
         }
 
         private void RemoveAccount_Click(object sender, RoutedEventArgs e)
