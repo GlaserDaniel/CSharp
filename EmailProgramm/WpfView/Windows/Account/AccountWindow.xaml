@@ -17,6 +17,31 @@
     <Window.BindingGroup>
         <BindingGroup />
     </Window.BindingGroup>
+
+    <Window.Resources>
+        <Style x:Key="ShowErrorTexts" TargetType="TextBox">
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <!--  Placeholder for the TextBox itself  -->
+                            <AdornedElementPlaceholder x:Name="textBox" />
+                            <ItemsControl ItemsSource="{Binding}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <StackPanel DockPanel.Dock="Left">
@@ -92,23 +117,34 @@
                     Height="23"
                     Margin="10,10,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding Showname}"
+                    Style="{StaticResource ShowErrorTexts}"
+                    Text="{Binding Path=Showname, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Name der für dieses Konto angezeigt wird" />
+                    ToolTip="Der Name der für dieses Konto angezeigt wird" >
+                    <TextBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                    </TextBox.BorderBrush>
+                </TextBox>
                 <TextBox
                     x:Name="userTextBox"
                     Height="23"
                     Margin="10,10,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding User}"
+                    Style="{StaticResource ShowErrorTexts}"
+                    Text="{Binding Path=User, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Benutzername oder die Email-Adresse des Kontos" />
+                    ToolTip="Der Benutzername oder die Email-Adresse des Kontos" >
+                    <TextBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                    </TextBox.BorderBrush>
+                </TextBox>
                 <TextBox
                     x:Name="emailTextBox"
                     Height="23"
                     Margin="10,10,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding Email}"
+                    Style="{StaticResource ShowErrorTexts}"
+                    Text="{Binding Email, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
                     ToolTip="Die Email-Adresse des Kontos" />
                 <PasswordBox
@@ -117,12 +153,14 @@
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
                     ToolTip="Das Passwort des Kontos" />
+                <!--  TODO Validation scheint da anderst  -->
                 <TextBox
                     x:Name="imapPop3ServerTextBox"
                     Height="23"
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding ImapPop3Server}"
+                    Style="{StaticResource ShowErrorTexts}"
+                    Text="{Binding ImapPop3Server, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
                     ToolTip="Die Adresse des IMAP oder POP3-Server" />
                 <TextBox
@@ -130,10 +168,11 @@
                     Height="23"
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
+                    Style="{StaticResource ShowErrorTexts}"
                     PreviewTextInput="imapPop3PortTextBox_PreviewTextInput"
                     Text="{Binding Path=ImapPop3Port, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des IMAP oder POP3-Servers">
+                    ToolTip="Der Port des IMAP oder POP3-Servers" >
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <StackPanel>
@@ -141,7 +180,7 @@
                                 <ItemsControl ItemsSource="{Binding}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                            <TextBlock Foreground="Red" Text="Bitte geben Sie eine Zahl ein." />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -155,7 +194,7 @@
                         Margin="10"
                         Content="IMAP"
                         GroupName="ImapOrPop3"
-                        IsChecked="{Binding UseImap}" />
+                        IsChecked="{Binding UseImap, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
                     <RadioButton
                         x:Name="pop3RadioButton"
                         Margin="10"
@@ -167,7 +206,8 @@
                     Height="23"
                     Margin="10,0,10,0"
                     VerticalAlignment="Top"
-                    Text="{Binding SmtpServer}"
+                    Style="{StaticResource ShowErrorTexts}"
+                    Text="{Binding SmtpServer, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
                     ToolTip="Die Adresse des SMTP-Servers" />
                 <TextBox
@@ -175,10 +215,26 @@
                     Height="23"
                     Margin="10,8,10,0"
                     VerticalAlignment="Top"
+                    Style="{StaticResource ShowErrorTexts}"
                     PreviewTextInput="smtpPortTextBox_PreviewTextInput"
-                    Text="{Binding SmtpPort}"
+                    Text="{Binding SmtpPort, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des SMTP-Servers" />
+                    ToolTip="Der Port des SMTP-Servers" >
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <AdornedElementPlaceholder x:Name="textBox" />
+                                <ItemsControl ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Foreground="Red" Text="Bitte geben Sie eine Zahl ein." />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
             </StackPanel>
         </DockPanel>
         <Label
@@ -225,7 +281,8 @@
                 Background="White"
                 Click="SaveAccount_Click"
                 Content="Speichern"
-                DockPanel.Dock="Right" />
+                DockPanel.Dock="Right"
+                IsDefault="True" />
             <Button
                 x:Name="Abort"
                 Width="100"
@@ -234,7 +291,8 @@
                 Background="White"
                 Click="Abort_Click"
                 Content="Abbrechen"
-                DockPanel.Dock="Right" />
+                DockPanel.Dock="Right"
+                IsCancel="True" />
             <Grid />
         </DockPanel>
         <Grid />

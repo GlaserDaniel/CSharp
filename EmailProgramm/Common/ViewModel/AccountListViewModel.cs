@@ -76,7 +76,7 @@ namespace Common.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Task<bool> TestIMAPServer(string imapServer, string imapPort)
+        public async Task<bool> TestIMAPServerAsync(string imapServer, string imapPort)
         {
             if (String.IsNullOrEmpty(imapServer))
             {
@@ -101,7 +101,7 @@ namespace Common.ViewModel
                 }
             }
 
-            return new EmailService().TestImapServer(imapServer, imapPortInt);
+            return await new EmailService().TestImapServerAsync(imapServer, imapPortInt);
         }
 
         public Task<bool> TestPOP3Server(string pop3Server, string pop3Port)
@@ -159,6 +159,16 @@ namespace Common.ViewModel
             }
 
             return new EmailService().TestSmtpServer(smtpServer, smtpPortInt);
+        }
+
+        public void addAccount(AccountViewModel account)
+        {
+            Accounts.Add(account);
+
+            if (SelectedAccountIndex == -1)
+            {
+                SelectedAccountIndex = Accounts.IndexOf(account);
+            }
         }
 
         public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, string imapPop3Port, string smtpServer, string smtpPort)
@@ -232,18 +242,11 @@ namespace Common.ViewModel
             AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3PortInt, smtpServer, smtpPortInt, new ObservableCollection<EmailViewModel>());
 
             Accounts.Add(account);
-            //OnPropertyChanged("Accounts");
-
-            //Console.WriteLine("bei adden selectedAccount: " + selectedAccount + ", Index: " + selectedAccountIndex);
 
             if (SelectedAccountIndex == -1) //selectedAccount == null || 
             {
                 SelectedAccountIndex = Accounts.IndexOf(account);
-                //selectedAccount = (Account)Accounts[Accounts.Count - 1];
-                //Console.WriteLine("selectedAccount if null: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
             }
-
-            //Console.WriteLine("nach adden selectedAccount: " + selectedAccount.email + ", Index: " + selectedAccountIndex);
 
             //saveAsync();
         }

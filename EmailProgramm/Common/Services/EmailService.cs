@@ -30,11 +30,13 @@ namespace Common.Services
 
         }
 
-        public Task<bool> TestImapServer(string imapServer, int imapPort)
+        public async Task<bool> TestImapServerAsync(string imapServer, int imapPort)
         {
             // TODO async und Exceptions
-            return Task.Run(() =>
-            {
+            await Task.Delay(0);
+
+            //return Task.Run(() =>
+            //{
                 try
                 {
                     using (ImapClient imapClient = new ImapClient())
@@ -50,15 +52,29 @@ namespace Common.Services
                         }
                         else
                         {
-                            return false;
+                            throw new TimeoutException();
+                            //return false;
                         }
                     }
                 }
-                catch (Exception)
+                catch (TimeoutException)
                 {
+                    throw new TimeoutException();
+                }
+                catch (UriFormatException)
+                {
+                    throw new UriFormatException();
+                }
+                catch (SocketException)
+                {
+                    throw new SocketException();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Test imap ecxeption: " + e);
                     return false;
                 }
-            });
+            //});
         }
 
         public Task<bool> TestPop3Server(string pop3Server, int pop3Port)

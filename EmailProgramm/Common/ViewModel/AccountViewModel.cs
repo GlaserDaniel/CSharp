@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace Common.ViewModel
 {
-    public class AccountViewModel : INotifyPropertyChanged, INotifyDataErrorInfo//, IEditableObject
+    public class AccountViewModel : INotifyPropertyChanged, INotifyDataErrorInfo, IEditableObject
     {
         private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
 
@@ -109,9 +109,24 @@ namespace Common.ViewModel
             set
             {
                 if (_showname == value) return;
-                _showname = value;
-                OnPropertyChanged();
+                if (IsShownameValid(value))
+                {
+                    _showname = value;
+                    OnPropertyChanged();
+                }
             }
+        }
+
+        private bool IsShownameValid(String showname)
+        {
+            var error = "Bitte geben Sie einen Anzeigenamen ein.";
+            if (String.IsNullOrEmpty(showname))
+            {
+                AddError(nameof(Showname), error, false);
+                return false;
+            }
+            RemoveError(nameof(Showname), error);
+            return true;
         }
 
         public string User
@@ -123,9 +138,25 @@ namespace Common.ViewModel
             set
             {
                 if (_user == value) return;
-                _user = value;
-                OnPropertyChanged();
+                if (IsUserValid(value))
+                {
+                    _user = value;
+                    OnPropertyChanged();
+                }
+               
             }
+        }
+
+        private bool IsUserValid(String user)
+        {
+            var error = "Bitte geben Sie einen Benutzername ein.";
+            if (String.IsNullOrEmpty(user))
+            {
+                AddError(nameof(User), error, false);
+                return false;
+            }
+            RemoveError(nameof(User), error);
+            return true;
         }
 
         public string Email
@@ -137,9 +168,24 @@ namespace Common.ViewModel
             set
             {
                 if (_email == value) return;
-                _email = value;
-                OnPropertyChanged();
+                if (IsEmailValid(value))
+                {
+                    _email = value;
+                    OnPropertyChanged();
+                }
             }
+        }
+
+        private bool IsEmailValid(String email)
+        {
+            var error = "Bitte geben Sie eine Email-Adresse ein.";
+            if (String.IsNullOrEmpty(email))
+            {
+                AddError(nameof(Email), error, false);
+                return false;
+            }
+            RemoveError(nameof(Email), error);
+            return true;
         }
 
         public string Password
@@ -148,9 +194,24 @@ namespace Common.ViewModel
             set
             {
                 if (_password == value) return;
-                _password = value;
-                OnPropertyChanged();
+                if (IsPasswordValid(value))
+                {
+                    _password = value;
+                    OnPropertyChanged();
+                }
             }
+        }
+
+        private bool IsPasswordValid(String password)
+        {
+            var error = "Bitte geben Sie ein Passwort ein.";
+            if (String.IsNullOrEmpty(password))
+            {
+                AddError(nameof(Password), error, false);
+                return false;
+            }
+            RemoveError(nameof(Password), error);
+            return true;
         }
 
         public string ImapPop3Server
@@ -159,9 +220,25 @@ namespace Common.ViewModel
             set
             {
                 if (_imapPop3Server == value) return;
-                _imapPop3Server = value;
-                OnPropertyChanged();
+                if (IsImapPop3ServerValid(value))
+                {
+                    _imapPop3Server = value;
+                    OnPropertyChanged();
+                }
+
             }
+        }
+
+        private bool IsImapPop3ServerValid(String imapPop3Server)
+        {
+            var error = "Bitte geben Sie einen Imap/Pop3-Server ein.";
+            if (String.IsNullOrEmpty(imapPop3Server))
+            {
+                AddError(nameof(ImapPop3Server), error, false);
+                return false;
+            }
+            RemoveError(nameof(ImapPop3Server), error);
+            return true;
         }
 
         public string SmtpServer
@@ -170,9 +247,25 @@ namespace Common.ViewModel
             set
             {
                 if (_smtpServer == value) return;
-                _smtpServer = value;
-                OnPropertyChanged();
+                if (IsSmtpServerValid(value))
+                {
+                    _smtpServer = value;
+                    OnPropertyChanged();
+                }
+
             }
+        }
+
+        private bool IsSmtpServerValid(String smtpServer)
+        {
+            var error = "Bitte geben Sie einen SMTP-Server ein.";
+            if (String.IsNullOrEmpty(smtpServer))
+            {
+                AddError(nameof(SmtpServer), error, false);
+                return false;
+            }
+            RemoveError(nameof(SmtpServer), error);
+            return true;
         }
 
         public bool UseImap
@@ -289,19 +382,19 @@ namespace Common.ViewModel
             }
         }
 
-        //public void BeginEdit()
-        //{
-        //    //throw new NotImplementedException();
-        //}
+        public void BeginEdit()
+        {
+            //throw new NotImplementedException();
+        }
 
-        //public void EndEdit()
-        //{
-        //    //throw new NotImplementedException();
-        //}
+        public void EndEdit()
+        {
+            //throw new NotImplementedException();
+        }
 
-        //public void CancelEdit()
-        //{
-        //    //throw new NotImplementedException();
-        //}
+        public void CancelEdit()
+        {
+            //throw new NotImplementedException();
+        }
     }
 }
