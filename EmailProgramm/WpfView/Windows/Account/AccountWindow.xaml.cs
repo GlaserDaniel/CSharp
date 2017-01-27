@@ -77,6 +77,8 @@ namespace WpfView
             smtpServerTextBox.ClearValue(TextBox.BorderBrushProperty);
             smtpPortTextBox.ClearValue(TextBox.BorderBrushProperty);
 
+            ErrorLabel.Content = "";
+
             if (settingsViewModel != null)
             {
                 //Account hinzufügen
@@ -96,52 +98,52 @@ namespace WpfView
                 catch (ShownameEmptyException)
                 {
                     shownameTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der Anzeigename ist leer!", "Anzeigename fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der Anzeigename ist leer!";
                 }
                 catch (UserEmptyException)
                 {
                     userTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der User ist leer!", "User fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der User ist leer!";
                 }
                 catch (EmailEmptyException)
                 {
                     emailTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Die Email ist leer!", "Email fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Die Email ist leer!";
                 }
                 catch (PasswordEmptyException)
                 {
                     passwordBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Das Passwort ist leer!", "Passwort fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Das Passwort ist leer!";
                 }
                 catch (IMAPPOP3ServerEmptyException)
                 {
                     imapPop3ServerTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der IMAP/POP3-Server ist leer!", "IMAP/POP3-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der IMAP/POP3-Server ist leer!";
                 }
                 catch (IMAPPOP3PortEmptyException)
                 {
                     imapPop3PortTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der IMAP/POP3-Port ist leer!", "IMAP/POP3-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der IMAP/POP3-Port ist leer!";
                 }
                 catch (IMAPPOP3PortFormatException)
                 {
                     imapPop3PortTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der IMAP/POP3-Port ist keine Zahl!", "IMAP/POP3-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der IMAP/POP3-Port ist keine Zahl!";
                 }
                 catch (SMTPServerEmptyException)
                 {
                     smtpServerTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der SMTP-Server ist leer!", "SMTP-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der SMTP-Server ist leer!";
                 }
                 catch (SMTPPortEmtpyException)
                 {
                     smtpPortTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der SMTP-Port ist leer!", "SMTP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der SMTP-Port ist leer!";
                 }
                 catch (SMTPPortFormatException)
                 {
                     smtpPortTextBox.BorderBrush = Brushes.Red;
-                    MessageBox.Show("Der SMTP-Port ist keine Zahl!", "SMTP-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der SMTP-Port ist keine Zahl!";
                 }
             }
             else
@@ -172,147 +174,149 @@ namespace WpfView
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void testImapPop3ServerButton_Click(object sender, RoutedEventArgs e)
+        private async void testImapPop3ServerButton_ClickAsync(object sender, RoutedEventArgs e)
         {
             testImapPop3ServerButton.Background = Brushes.White;
+            ErrorLabel.Content = "";
 
             if ((bool)imapRadioButton.IsChecked)
             {
                 try
                 {
-                    Task<bool> resultTask = settingsViewModel.TestIMAPServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
+                    bool result = await settingsViewModel.TestIMAPServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
 
-                    Task.Run(() =>
+                    if (result)
                     {
-                        resultTask.Wait();
-                        if (resultTask.Result)
-                        {
-                            Dispatcher.BeginInvoke((Action)(() =>
-                            {
-                                testImapPop3ServerButton.Background = Brushes.Green;
-                            }));
-                        }
-                        else
-                        {
-                            Dispatcher.BeginInvoke((Action)(() =>
-                            {
-                                testImapPop3ServerButton.Background = Brushes.Red;
-                            }));
-                        }
-                    });
+                        testImapPop3ServerButton.Background = Brushes.Green;
+                    }
+                    else
+                    {
+                        testImapPop3ServerButton.Background = Brushes.Red;
+                    }
                 }
                 catch (IMAPPOP3ServerEmptyException)
                 {
-                    MessageBox.Show("Der IMAP-Server ist leer!", "IMAP-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der IMAP-Server ist leer!";
                 }
                 catch (IMAPPOP3PortEmptyException)
                 {
-                    MessageBox.Show("Der IMAP-Port ist leer!", "IMAP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der IMAP-Port ist leer!";
                 }
                 catch (IMAPPOP3PortFormatException)
                 {
-                    MessageBox.Show("Der IMAP-Port ist keine Zahl!", "IMAP-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der IMAP-Port ist keine Zahl!";
                 }
                 catch (TimeoutException)
                 {
-                    MessageBox.Show("Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.", "Server antwortet nicht", MessageBoxButton.OK, MessageBoxImage.Warning);
-                } catch (UriFormatException)
+                    ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.";
+                }
+                catch (UriFormatException)
                 {
-                    MessageBox.Show("Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal", "Server Adresse ungültig", MessageBoxButton.OK, MessageBoxImage.Warning);
-                } catch (SocketException)
+                    ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal";
+                }
+                catch (SocketException)
                 {
-                    MessageBox.Show("Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.", "Server antwortet nicht", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar oder nicht für Email gedacht.";
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex);
-                    MessageBox.Show("Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex, "Unerwarteter Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex;
                 }
             }
             else
             {
                 try
                 {
-                    Task<bool> resultTask = settingsViewModel.TestPOP3Server(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
+                    bool result = await settingsViewModel.TestPOP3ServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
 
-                    Task.Run(() =>
+                    if (result)
                     {
-                        if (resultTask.Result)
-                        {
-                            Dispatcher.BeginInvoke((Action)(() =>
-                            {
-                                testImapPop3ServerButton.Background = Brushes.Green;
-                            }));
-                        }
-                        else
-                        {
-                            Dispatcher.BeginInvoke((Action)(() =>
-                            {
-                                testImapPop3ServerButton.Background = Brushes.Red;
-                            }));
-                        }
-                    });
+                        testImapPop3ServerButton.Background = Brushes.Green;
+                    }
+                    else
+                    {
+                        testImapPop3ServerButton.Background = Brushes.Red;
+                    }
                 }
                 catch (IMAPPOP3ServerEmptyException)
                 {
-                    MessageBox.Show("Der POP3-Server ist leer!", "POP3-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der POP3-Server ist leer!";
                 }
                 catch (IMAPPOP3PortEmptyException)
                 {
-                    MessageBox.Show("Der POP3-Port ist leer!", "POP3-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der POP3-Port ist leer!";
                 }
                 catch (IMAPPOP3PortFormatException)
                 {
-                    MessageBox.Show("Der POP3-Port ist keine Zahl!", "POP3-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der POP3-Port ist keine Zahl!";
                 }
                 catch (TimeoutException)
                 {
-                    MessageBox.Show("Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.", "Server antwortet nicht", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.";
+                }
+                catch (UriFormatException)
+                {
+                    ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal";
+                }
+                catch (SocketException)
+                {
+                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar oder nicht für Email gedacht.";
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception: " + ex);
+                    ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex;
                 }
             }
         }
 
-        private void testSmtpServerButton_Click(object sender, RoutedEventArgs e)
+        private async void testSmtpServerButton_ClickAsync(object sender, RoutedEventArgs e)
         {
             testSmtpServerButton.Background = Brushes.White;
+            ErrorLabel.Content = "";
 
             try
             {
-                Task<bool> resultTask = settingsViewModel.TestSMTPServer(smtpServerTextBox.Text, smtpPortTextBox.Text);
+                bool result = await settingsViewModel.TestSMTPServerAsync(smtpServerTextBox.Text, smtpPortTextBox.Text);
 
-                Task.Run(() =>
+                if (result)
                 {
-                    if (resultTask.Result)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() =>
-                        {
-                            testSmtpServerButton.Background = Brushes.Green;
-                        }));
-                    }
-                    else
-                    {
-                        Dispatcher.BeginInvoke((Action)(() =>
-                        {
-                            testSmtpServerButton.Background = Brushes.Red;
-                        }));
-                    }
-                });
+                    testSmtpServerButton.Background = Brushes.Green;
+                }
+                else
+                {
+                    testSmtpServerButton.Background = Brushes.Red;
+                }
             }
             catch (SMTPServerEmptyException)
             {
-                MessageBox.Show("Der SMTP-Server ist leer!", "SMTP-Server fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ErrorLabel.Content = "Der SMTP-Server ist leer!";
             }
             catch (SMTPPortEmtpyException)
             {
-                MessageBox.Show("Der SMTP-Port ist leer!", "SMTP-Port fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ErrorLabel.Content = "Der SMTP-Port ist leer!";
             }
             catch (SMTPPortFormatException)
             {
-                MessageBox.Show("Der SMTP-Port ist keine Zahl!", "SMTP-Port falsch", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ErrorLabel.Content = "Der SMTP-Port ist keine Zahl!";
             }
             catch (TimeoutException)
             {
-                MessageBox.Show("Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.", "Server antwortet nicht", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.";
+            }
+            catch (UriFormatException)
+            {
+                ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal";
+            }
+            catch (SocketException)
+            {
+                ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar oder nicht für Email gedacht.";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex);
+                ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex;
             }
         }
 

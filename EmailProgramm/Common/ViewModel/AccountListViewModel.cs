@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -101,10 +102,30 @@ namespace Common.ViewModel
                 }
             }
 
-            return await new EmailService().TestImapServerAsync(imapServer, imapPortInt);
+            try
+            {
+                return await new EmailService().TestImapServerAsync(imapServer, imapPortInt);
+            }
+            catch (TimeoutException)
+            {
+                throw new TimeoutException();
+            }
+            catch (UriFormatException)
+            {
+                throw new UriFormatException();
+            }
+            catch (SocketException)
+            {
+                throw new SocketException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test IMAP ecxeption in AccountListViewModel: " + e);
+                throw;
+            }
         }
 
-        public Task<bool> TestPOP3Server(string pop3Server, string pop3Port)
+        public async Task<bool> TestPOP3ServerAsync(string pop3Server, string pop3Port)
         {
             if (String.IsNullOrEmpty(pop3Server))
             {
@@ -129,12 +150,31 @@ namespace Common.ViewModel
                 }
             }
 
-            return new EmailService().TestPop3Server(pop3Server, pop3PortInt);
+            try
+            {
+                return await new EmailService().TestPop3ServerAsync(pop3Server, pop3PortInt);
+            }
+            catch (TimeoutException)
+            {
+                throw new TimeoutException();
+            }
+            catch (UriFormatException)
+            {
+                throw new UriFormatException();
+            }
+            catch (SocketException)
+            {
+                throw new SocketException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test POP3 ecxeption in AccountListViewModel: " + e);
+                throw;
+            }
         }
 
-        public Task<bool> TestSMTPServer(string smtpServer, string smtpPort)
+        public async Task<bool> TestSMTPServerAsync(string smtpServer, string smtpPort)
         {
-
             if (String.IsNullOrEmpty(smtpServer))
             {
                 throw new SMTPServerEmptyException();
@@ -158,7 +198,27 @@ namespace Common.ViewModel
                 }
             }
 
-            return new EmailService().TestSmtpServer(smtpServer, smtpPortInt);
+            try
+            {
+                return await new EmailService().TestSmtpServerAsync(smtpServer, smtpPortInt);
+            }
+            catch (TimeoutException)
+            {
+                throw new TimeoutException();
+            }
+            catch (UriFormatException)
+            {
+                throw new UriFormatException();
+            }
+            catch (SocketException)
+            {
+                throw new SocketException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test SMTP ecxeption in AccountListViewModel: " + e);
+                throw;
+            }
         }
 
         public void addAccount(AccountViewModel account)

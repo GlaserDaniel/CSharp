@@ -111,7 +111,7 @@ namespace WpfView
 
         private void AccountsListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-
+            new AccountWindow((AccountViewModel)AccountsListView.SelectedItem);
         }
     }
 }

@@ -32,110 +32,118 @@ namespace Common.Services
 
         public async Task<bool> TestImapServerAsync(string imapServer, int imapPort)
         {
-            // TODO async und Exceptions
-            await Task.Delay(0);
-
-            //return Task.Run(() =>
-            //{
-                try
+            try
+            {
+                using (ImapClient imapClient = new ImapClient())
                 {
-                    using (ImapClient imapClient = new ImapClient())
+                    imapClient.Timeout = 1000;
+                    
+                    await imapClient.ConnectAsync(imapServer, imapPort, true);
+
+                    if (imapClient.IsConnected)
                     {
-                        imapClient.Timeout = 1000;
-                        Task ConnectTask = imapClient.ConnectAsync(imapServer, imapPort, true);
-
-                        ConnectTask.Wait(1000);
-
-                        if (imapClient.IsConnected)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            throw new TimeoutException();
-                            //return false;
-                        }
+                        return true;
+                    }
+                    else
+                    {
+                        throw new TimeoutException();
                     }
                 }
-                catch (TimeoutException)
-                {
-                    throw new TimeoutException();
-                }
-                catch (UriFormatException)
-                {
-                    throw new UriFormatException();
-                }
-                catch (SocketException)
-                {
-                    throw new SocketException();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Test imap ecxeption: " + e);
-                    return false;
-                }
-            //});
+            }
+            catch (TimeoutException)
+            {
+                throw new TimeoutException();
+            }
+            catch (UriFormatException)
+            {
+                throw new UriFormatException();
+            }
+            catch (SocketException)
+            {
+                throw new SocketException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test IMAP ecxeption: " + e);
+                throw;
+            }
         }
 
-        public Task<bool> TestPop3Server(string pop3Server, int pop3Port)
+        public async Task<bool> TestPop3ServerAsync(string pop3Server, int pop3Port)
         {
-            return Task.Run(() =>
+            try
             {
-                try
+                using (Pop3Client pop3Client = new Pop3Client())
                 {
-                    using (Pop3Client pop3Client = new Pop3Client())
+                    pop3Client.Timeout = 1000;
+                    await pop3Client.ConnectAsync(pop3Server, pop3Port, true);
+
+                    if (pop3Client.IsConnected)
                     {
-                        pop3Client.Timeout = 1000;
-                        Task ConnectTask = pop3Client.ConnectAsync(pop3Server, pop3Port, true);
-
-                        ConnectTask.Wait(1000);
-
-                        if (pop3Client.IsConnected)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return true;
+                    }
+                    else
+                    {
+                        throw new TimeoutException();
                     }
                 }
-                catch (Exception)
-                {
-                    return false;
-                }
-            });
+            }
+            catch (TimeoutException)
+            {
+                throw new TimeoutException();
+            }
+            catch (UriFormatException)
+            {
+                throw new UriFormatException();
+            }
+            catch (SocketException)
+            {
+                throw new SocketException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test POP3 ecxeption: " + e);
+                throw;
+            }
         }
 
-        public Task<bool> TestSmtpServer(string smtpServer, int smtpPort)
+        public async Task<bool> TestSmtpServerAsync(string smtpServer, int smtpPort)
         {
-            return Task.Run(() =>
+            try
             {
-                try
+                using (MailKit.Net.Smtp.SmtpClient smtpClient = new MailKit.Net.Smtp.SmtpClient())
                 {
-                    using (MailKit.Net.Smtp.SmtpClient smtpClient = new MailKit.Net.Smtp.SmtpClient())
+                    smtpClient.Timeout = 1000;
+
+                    await smtpClient.ConnectAsync(smtpServer, smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+
+                    if (smtpClient.IsConnected)
                     {
-                        smtpClient.Timeout = 1000;
-
-                        Task ConnectTask = smtpClient.ConnectAsync(smtpServer, smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
-
-                        ConnectTask.Wait(1000);
-
-                        if (smtpClient.IsConnected)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return true;
+                    }
+                    else
+                    {
+                        throw new TimeoutException();
                     }
                 }
-                catch (Exception)
-                {
-                    return false;
-                }
-            });
+            }
+            catch (TimeoutException)
+            {
+                throw new TimeoutException();
+            }
+            catch (UriFormatException)
+            {
+                throw new UriFormatException();
+            }
+            catch (SocketException)
+            {
+                throw new SocketException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test SMTP ecxeption: " + e);
+                throw;
+            }
         }
 
         /// <summary>

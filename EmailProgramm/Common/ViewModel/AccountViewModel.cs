@@ -39,7 +39,8 @@ namespace Common.ViewModel
 
         public AccountViewModel()
         {
-
+            UseImap = true;
+            this.Emails = new ObservableCollection<EmailViewModel>();
         }
 
         public AccountViewModel(Account account)
