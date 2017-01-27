@@ -9,6 +9,10 @@ using System.Xml.Serialization;
 
 namespace Common.Services
 {
+    /// <summary>
+    /// Klasse für das speichern und laden
+    /// </summary>
+    /// Code von Herr Rill genommen und angepasst
     public static class DataService
     {
         private static readonly string ACCOUNTS_FILE_NAME = "Accounts.xml";
@@ -48,7 +52,8 @@ namespace Common.Services
                         ImapPop3Port = 993,
                         SmtpServer = "smtp.gmail.com",
                         SmtpPort = 587,
-                        UseImap = true 
+                        UseImap = true,
+                        Signature = "Mit freundlichen Grüßen\nDaniel Glaser"
                         // Emails nicht nötig da im Construktor eine neue Liste angelegt wird
                     }
                 };
@@ -85,7 +90,8 @@ namespace Common.Services
                             SmtpServer = vm.SmtpServer,
                             SmtpPort = vm.SmtpPort,
                             UseImap = vm.UseImap,
-                            Emails = _emails
+                            Emails = _emails,
+                            Signature = vm.Signature
                         });
                     });
                     serializer.Serialize(fileStream, accountList);

@@ -16,23 +16,25 @@ namespace Common.Model
         public string SmtpServer { get; set; }
         public int SmtpPort { get; set; }
         public List<Email> Emails { get; set; }
+        public string Signature { get; set; }
 
         public Account()
         {
             Emails = new List<Email>();
         }
 
-        public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort, List<Email> emails)
+        public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort, List<Email> emails, string signature)
         {
-            this.User = user;
-            this.Email = email;
-            this.Password = password;
-            this.UseImap = useImap;
-            this.ImapPop3Server = imapPop3Server;
-            this.ImapPop3Port = imapPop3Port;
-            this.SmtpServer = smtpServer;
-            this.SmtpPort = smtpPort;
-            this.Emails = emails;
+            User = user;
+            Email = email;
+            Password = password;
+            UseImap = useImap;
+            ImapPop3Server = imapPop3Server;
+            ImapPop3Port = imapPop3Port;
+            SmtpServer = smtpServer;
+            SmtpPort = smtpPort;
+            Emails = emails;
+            Signature = signature;
         }
 
         public override string ToString()

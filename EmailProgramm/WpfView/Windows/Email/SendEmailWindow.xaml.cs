@@ -124,6 +124,9 @@ namespace WpfView
 
                 Console.WriteLine("receivers: " + receivers.ToString());
 
+                // Signature ans Ende hinzufügen
+                message += senderAccount.Signature;
+
                 emailService.sendEmail(senderAccount, receivers, subject, message);
 
                 Close();

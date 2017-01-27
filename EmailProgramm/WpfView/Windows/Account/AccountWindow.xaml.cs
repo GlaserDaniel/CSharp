@@ -90,7 +90,7 @@ namespace WpfView
                         //settingsViewModel.addAccount((AccountViewModel)DataContext);
                         settingsViewModel.addAccount(shownameTextBox.Text, userTextBox.Text, emailTextBox.Text,
                             passwordBox.Password, (bool)imapRadioButton.IsChecked, imapPop3ServerTextBox.Text,
-                            imapPop3PortTextBox.Text, smtpServerTextBox.Text, smtpPortTextBox.Text);
+                            imapPop3PortTextBox.Text, smtpServerTextBox.Text, smtpPortTextBox.Text, signatureTextBox.Text);
 
                         DialogResult = true;
                     }
@@ -183,7 +183,7 @@ namespace WpfView
             {
                 try
                 {
-                    bool result = await settingsViewModel.TestIMAPServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
+                    bool result = await AccountListViewModel.Instance.TestIMAPServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
 
                     if (result)
                     {
@@ -228,7 +228,7 @@ namespace WpfView
             {
                 try
                 {
-                    bool result = await settingsViewModel.TestPOP3ServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
+                    bool result = await AccountListViewModel.Instance.TestPOP3ServerAsync(imapPop3ServerTextBox.Text, imapPop3PortTextBox.Text);
 
                     if (result)
                     {
@@ -278,7 +278,7 @@ namespace WpfView
 
             try
             {
-                bool result = await settingsViewModel.TestSMTPServerAsync(smtpServerTextBox.Text, smtpPortTextBox.Text);
+                bool result = await AccountListViewModel.Instance.TestSMTPServerAsync(smtpServerTextBox.Text, smtpPortTextBox.Text);
 
                 if (result)
                 {

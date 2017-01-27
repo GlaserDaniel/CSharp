@@ -231,7 +231,7 @@ namespace Common.ViewModel
             }
         }
 
-        public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, string imapPop3Port, string smtpServer, string smtpPort)
+        public void addAccount(string showname, string user, string email, string password, bool useImap, string imapPop3Server, string imapPop3Port, string smtpServer, string smtpPort, string signature)
         {
             if (String.IsNullOrEmpty(showname))
             {
@@ -299,7 +299,7 @@ namespace Common.ViewModel
                 }
             }
 
-            AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3PortInt, smtpServer, smtpPortInt, new ObservableCollection<EmailViewModel>());
+            AccountViewModel account = new AccountViewModel(showname, user, email, password, useImap, imapPop3Server, imapPop3PortInt, smtpServer, smtpPortInt, new ObservableCollection<EmailViewModel>(), signature);
 
             Accounts.Add(account);
 
