@@ -150,6 +150,15 @@
 
         <DockPanel DockPanel.Dock="Bottom">
             <Button
+                x:Name="AbortSendEmail"
+                Width="100"
+                Height="23"
+                Margin="10,10,10,10"
+                Background="White"
+                Click="AbortSendEmail_Click"
+                Content="Abbrechen"
+                DockPanel.Dock="Right" />
+            <Button
                 x:Name="SendEmail"
                 Width="100"
                 Height="23"
@@ -157,15 +166,6 @@
                 Background="White"
                 Click="SendEmail_Click"
                 Content="Senden"
-                DockPanel.Dock="Right" />
-            <Button
-                x:Name="AbortSendEmail"
-                Width="100"
-                Height="23"
-                Margin="10,10,0,10"
-                Background="White"
-                Click="AbortSendEmail_Click"
-                Content="Abbrechen"
                 DockPanel.Dock="Right" />
             <Grid />
         </DockPanel>

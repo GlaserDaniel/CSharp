@@ -420,6 +420,16 @@
 
         <DockPanel DockPanel.Dock="Bottom">
             <Button
+                x:Name="Abort"
+                Width="100"
+                Height="23"
+                Margin="10,10,10,10"
+                Background="White"
+                Click="Abort_Click"
+                Content="Abbrechen"
+                DockPanel.Dock="Right"
+                IsCancel="True" />
+            <Button
                 x:Name="SaveAccount"
                 Width="100"
                 Height="23"
@@ -429,16 +439,6 @@
                 Content="Speichern"
                 DockPanel.Dock="Right"
                 IsDefault="True" />
-            <Button
-                x:Name="Abort"
-                Width="100"
-                Height="23"
-                Margin="10,10,0,10"
-                Background="White"
-                Click="Abort_Click"
-                Content="Abbrechen"
-                DockPanel.Dock="Right"
-                IsCancel="True" />
             <Grid />
         </DockPanel>
         <Grid />

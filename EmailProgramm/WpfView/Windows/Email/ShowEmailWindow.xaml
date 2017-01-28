@@ -110,6 +110,7 @@
         <StackPanel
             x:Name="attachmentsStackPanel"
             DockPanel.Dock="Bottom"
+            Orientation="Horizontal"
             Visibility="Collapsed">
             <Label x:Name="attachmentsLabel" Content="Anhänge: " />
         </StackPanel>
