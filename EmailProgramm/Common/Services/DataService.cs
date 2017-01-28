@@ -118,7 +118,7 @@ namespace Common.Services
             {
                 Console.Out.WriteLine($"Fehler beim Laden von SelectedAccountIndex: {e.Message}");
                 Console.Out.WriteLine(e.StackTrace);
-                return -1;
+                return 0; // Weil Beispiel Daten geladen werden, damit wird dieser ausgwählt wird. Sonst eigentlich -1
             }
         }
 

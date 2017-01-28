@@ -69,11 +69,6 @@ namespace WpfView
         {
             settingsViewModel = AccountListViewModel.Instance;
 
-            //foreach (Account account in settingsViewModel.Accounts)
-            //{
-            //    senderComboBox.Items.Add(((Account) account).email);
-            //}
-
             DataContext = settingsViewModel;
 
             if (((AccountListViewModel)DataContext).SelectedAccountIndex != -1)

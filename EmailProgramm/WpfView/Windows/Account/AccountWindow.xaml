@@ -76,13 +76,12 @@
                 <TextBox
                     x:Name="shownameTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding Path=Showname, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Name der für dieses Konto angezeigt wird" />
+                    ToolTip="Der Name der für dieses Konto angezeigt wird" VerticalContentAlignment="Center" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -103,13 +102,12 @@
                 <TextBox
                     x:Name="userTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding Path=User, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Benutzername oder die Email-Adresse des Kontos" />
+                    ToolTip="Der Benutzername oder die Email-Adresse des Kontos" VerticalContentAlignment="Center" />
             </Grid>
             <Grid
                 Grid.Row="2"
@@ -130,13 +128,12 @@
                 <TextBox
                     x:Name="emailTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding Email, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Die Email-Adresse des Kontos" />
+                    ToolTip="Die Email-Adresse des Kontos" VerticalContentAlignment="Center" />
             </Grid>
             <Grid
                 Grid.Row="3"
@@ -157,10 +154,10 @@
                 <PasswordBox
                     x:Name="passwordBox"
                     Grid.Column="1"
-                    Height="23"
+                    Height="26"
                     Margin="10"
                     VerticalAlignment="Top"
-                    ToolTip="Das Passwort des Kontos" />
+                    ToolTip="Das Passwort des Kontos" VerticalContentAlignment="Center" />
                 <!--  TODO Validation scheint da anderst  -->
             </Grid>
 
@@ -170,7 +167,7 @@
                 DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.5*" />
                 </Grid.ColumnDefinitions>
                 <Label
                     x:Name="imapPop3ServerLabel"
@@ -183,13 +180,12 @@
                 <TextBox
                     x:Name="imapPop3ServerTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding ImapPop3Server, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Die Adresse des IMAP oder POP3-Server" />
+                    ToolTip="Die Adresse des IMAP oder POP3-Server" VerticalContentAlignment="Center" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -197,7 +193,7 @@
                 DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.5*" />
                 </Grid.ColumnDefinitions>
                 <Label
                     x:Name="imapPop3PortLabel"
@@ -210,14 +206,13 @@
                 <TextBox
                     x:Name="imapPop3PortTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     PreviewTextInput="imapPop3PortTextBox_PreviewTextInput"
                     Text="{Binding Path=ImapPop3Port, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des IMAP oder POP3-Servers">
+                    ToolTip="Der Port des IMAP oder POP3-Servers" VerticalContentAlignment="Center">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <StackPanel>
@@ -240,7 +235,7 @@
                 DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.5*" />
                 </Grid.ColumnDefinitions>
                 <Label
                     x:Name="useImapLabel"
@@ -273,7 +268,7 @@
                 DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.5*" />
                 </Grid.ColumnDefinitions>
                 <Label
                     x:Name="smtpServerLabel"
@@ -287,13 +282,12 @@
                 <TextBox
                     x:Name="smtpServerTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding SmtpServer, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Die Adresse des SMTP-Servers" />
+                    ToolTip="Die Adresse des SMTP-Servers" VerticalContentAlignment="Center" />
             </Grid>
             <Grid
                 Grid.Row="4"
@@ -301,7 +295,7 @@
                 DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.5*" />
                 </Grid.ColumnDefinitions>
                 <Label
                     x:Name="smtpPortLabel"
@@ -315,14 +309,13 @@
                 <TextBox
                     x:Name="smtpPortTextBox"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10"
                     VerticalAlignment="Top"
                     Style="{StaticResource ShowErrorTexts}"
                     PreviewTextInput="smtpPortTextBox_PreviewTextInput"
                     Text="{Binding SmtpPort, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des SMTP-Servers">
+                    ToolTip="Der Port des SMTP-Servers" VerticalContentAlignment="Center">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <StackPanel>

@@ -327,15 +327,29 @@ namespace Common.ViewModel
             }
         }
 
+        /// <summary>
+        /// Prüfen ob eine Email mit der übergebenden ID bereits vorhanden ist.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool doEmailsContainsId(int id)
         {
             bool result = false;
 
             List<int> ids = new List<int>();
 
-            // Eine neue Liste machen da es hier sonst abstürtz
-            ids = new List<int>(_emails.Select(email => email.Id).ToList());            
-            
+            try
+            {
+                // Eine neue Liste erstellen da es hier sonst abstürtz
+                ids = new List<int>(_emails.Select(email => email.Id).ToList());
+            }
+            catch (InvalidOperationException)
+            {
+                // falls der Error trotzdem auftreten sollte, lieber abfangen
+                Console.WriteLine("InvalidOperationException in doEmailsContainsId");
+                return false;
+            }
+
             foreach (var _id in ids)
             {
                 if (_id == id)

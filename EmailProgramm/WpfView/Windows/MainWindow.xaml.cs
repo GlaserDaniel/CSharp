@@ -152,6 +152,8 @@ namespace WpfView
                     // Für ausgewählten Account Emails abholen
                     AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[selectedAccountIndex];
 
+                    statusBar.Visibility = Visibility.Visible;
+
                     var progressHandler = new Progress<double>(value =>
                     {
                         ProgressBar.Value = value;
@@ -165,6 +167,7 @@ namespace WpfView
                         Dispatcher.BeginInvoke((Action)(() =>
                         {
                             ((AccountListViewModel)DataContext).saveAsync();
+                            statusBar.Visibility = Visibility.Collapsed;
                         }));
                     });
                 }

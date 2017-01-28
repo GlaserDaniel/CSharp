@@ -8,7 +8,7 @@
     Title="Optionen"
     Width="550"
     Height="400"
-    MinWidth="480"
+    MinWidth="490"
     MinHeight="300"
     Activated="window_Activated"
     WindowStartupLocation="CenterScreen"
@@ -32,6 +32,7 @@
             </DockPanel>
             <GroupBox Margin="5,0" Header="Accounts">
                 <DockPanel DockPanel.Dock="Top">
+                    <Label DockPanel.Dock="Top" Content="Der Standardaccont ist der Ausgewählte. Zum Ändern auf &quot;Als Standard&quot; klicken."/>
                     <DockPanel DockPanel.Dock="Bottom">
                         <Button
                             x:Name="RemoveAccount"
@@ -77,14 +78,13 @@
                             Margin="1,5"
                             ItemsSource="{Binding Accounts}"
                             MouseDoubleClick="AccountsListView_MouseDoubleClick"
-                            SelectionMode="Single">
+                            SelectionMode="Single" SelectedIndex="{Binding SelectedAccountIndex, Mode=OneTime}">
                             <ListView.View>
                                 <GridView>
                                     <GridView.Columns>
                                         <GridViewColumn DisplayMemberBinding="{Binding Showname}" Header="Anzeigename" />
                                         <GridViewColumn DisplayMemberBinding="{Binding Email}" Header="Email" />
                                         <GridViewColumn DisplayMemberBinding="{Binding User}" Header="Benutzername" />
-                                        <GridViewColumn DisplayMemberBinding="{Binding }" Header="Standard" />
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>

@@ -96,6 +96,14 @@
                         Background="White"
                         Click="deleteButton_Click"
                         Content="Löschen" />
+                    <Button
+                        x:Name="unreadButton"
+                        Width="100"
+                        Height="23"
+                        Margin="10"
+                        Background="White"
+                        Click="unreadButton_Click"
+                        Content="Ungelesen" />
                 </StackPanel>
             </StackPanel>
         </DockPanel>

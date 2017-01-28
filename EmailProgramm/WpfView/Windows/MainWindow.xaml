@@ -83,7 +83,11 @@
                 <!--  Command="{Binding DeleteSelectedCommandExecute(EmailsListView.SelectedItem())}"  -->
             </StackPanel>
         </StackPanel>
-        <StatusBar Background="White" DockPanel.Dock="Bottom">
+        <StatusBar
+            x:Name="statusBar"
+            Background="White"
+            DockPanel.Dock="Bottom"
+            Visibility="Collapsed">
             <StatusBarItem HorizontalAlignment="Right">
                 <ProgressBar
                     x:Name="ProgressBar"
@@ -92,18 +96,23 @@
                     Margin="10,5,20,10" />
             </StatusBarItem>
         </StatusBar>
-        <StackPanel
-            x:Name="AccountFoldersStackPanel"
-            Margin="10,5,10,10"
-            DockPanel.Dock="Left">
-            <Button
-                x:Name="CompleteInboxButton"
-                Height="23"
-                Padding="5,0,5,0"
-                Background="White"
-                Click="CompleteInboxButton_Click"
-                Content="Gemeinsamer Posteingang" />
-        </StackPanel>
+        <GroupBox Margin="5,0,0,0" Header="Posteingänge">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel
+                    x:Name="AccountFoldersStackPanel"
+                    Margin="5"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Left">
+                    <Button
+                        x:Name="CompleteInboxButton"
+                        Height="23"
+                        Padding="5,0,5,0"
+                        Background="White"
+                        Click="CompleteInboxButton_Click"
+                        Content="Gemeinsamer Posteingang" />
+                </StackPanel>
+            </ScrollViewer>
+        </GroupBox>
         <ListView
             x:Name="EmailsListView"
             Margin="10,5"

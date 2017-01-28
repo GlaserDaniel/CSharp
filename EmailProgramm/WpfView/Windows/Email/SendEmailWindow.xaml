@@ -90,11 +90,10 @@
                     x:Name="receiverTextBox"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Height="23"
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     KeyboardNavigation.TabIndex="2"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap" Height="22" VerticalContentAlignment="Center" />
                 <TextBox
                     x:Name="CCTextBox"
                     Grid.Row="2"
@@ -103,7 +102,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     KeyboardNavigation.TabIndex="2"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap" VerticalContentAlignment="Center" />
                 <TextBox
                     x:Name="BCCTextBox"
                     Grid.Row="3"
@@ -112,7 +111,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     KeyboardNavigation.TabIndex="2"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap" VerticalContentAlignment="Center" />
                 <TextBox
                     x:Name="subjectTextBox"
                     Grid.Row="4"
@@ -121,7 +120,7 @@
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
                     KeyboardNavigation.TabIndex="3"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap" VerticalContentAlignment="Center" />
                 <Grid Grid.Row="5" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />

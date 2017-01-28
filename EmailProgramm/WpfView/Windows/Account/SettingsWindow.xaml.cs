@@ -31,6 +31,12 @@ namespace WpfView
         {
             DataContext = AccountListViewModel.Instance;
 
+            if (AccountListViewModel.Instance.SelectedAccountIndex != -1)
+            {
+                // Standard Account auswählen
+                AccountsListView.SelectedIndex = AccountListViewModel.Instance.SelectedAccountIndex;
+            }
+
             //if (((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
             //{
             //    AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
@@ -118,7 +124,7 @@ namespace WpfView
         {
             if (AccountsListView.SelectedIndex != -1)
             {
-                ((AccountListViewModel)DataContext).SelectedAccountIndex = AccountsListView.SelectedIndex;
+                AccountListViewModel.Instance.SelectedAccountIndex = AccountsListView.SelectedIndex;
             }
             else
             {

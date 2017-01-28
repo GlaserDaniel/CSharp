@@ -197,31 +197,38 @@ namespace WpfView
                 catch (IMAPPOP3ServerEmptyException)
                 {
                     ErrorLabel.Content = "Der IMAP-Server ist leer!";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (IMAPPOP3PortEmptyException)
                 {
                     ErrorLabel.Content = "Der IMAP-Port ist leer!";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (IMAPPOP3PortFormatException)
                 {
                     ErrorLabel.Content = "Der IMAP-Port ist keine Zahl!";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (TimeoutException)
                 {
                     ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! \nVielleicht keine Internetverbindung.";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (UriFormatException)
                 {
                     ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. \nBitte prüfen Sie sie noch einmal";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (SocketException)
                 {
                     ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex);
                     ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
             }
             else
@@ -242,31 +249,38 @@ namespace WpfView
                 catch (IMAPPOP3ServerEmptyException)
                 {
                     ErrorLabel.Content = "Der POP3-Server ist leer!";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (IMAPPOP3PortEmptyException)
                 {
                     ErrorLabel.Content = "Der POP3-Port ist leer!";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (IMAPPOP3PortFormatException)
                 {
                     ErrorLabel.Content = "Der POP3-Port ist keine Zahl!";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (TimeoutException)
                 {
                     ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! \nVielleicht keine Internetverbindung.";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (UriFormatException)
                 {
                     ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. \nBitte prüfen Sie sie noch einmal";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (SocketException)
                 {
                     ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex);
                     ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
+                    testImapPop3ServerButton.Background = Brushes.Red;
                 }
             }
         }
@@ -292,31 +306,38 @@ namespace WpfView
             catch (SMTPServerEmptyException)
             {
                 ErrorLabel.Content = "Der SMTP-Server ist leer!";
+                testSmtpServerButton.Background = Brushes.Red;
             }
             catch (SMTPPortEmtpyException)
             {
                 ErrorLabel.Content = "Der SMTP-Port ist leer!";
+                testSmtpServerButton.Background = Brushes.Red;
             }
             catch (SMTPPortFormatException)
             {
                 ErrorLabel.Content = "Der SMTP-Port ist keine Zahl!";
+                testSmtpServerButton.Background = Brushes.Red;
             }
             catch (TimeoutException)
             {
                 ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! \nVielleicht keine Internetverbindung.";
+                testSmtpServerButton.Background = Brushes.Red;
             }
             catch (UriFormatException)
             {
                 ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. \nBitte prüfen Sie sie noch einmal";
+                testSmtpServerButton.Background = Brushes.Red;
             }
             catch (SocketException)
             {
                 ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
+                testSmtpServerButton.Background = Brushes.Red;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception: " + ex);
                 ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
+                testSmtpServerButton.Background = Brushes.Red;
             }
         }
     }
