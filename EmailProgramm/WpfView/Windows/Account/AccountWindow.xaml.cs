@@ -320,15 +320,6 @@ namespace WpfView
             }
         }
 
-        private void Account_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Bei ShowDialog nicht mehr notwändig
-            //if (e.Key == Key.Enter)
-            //{
-            //    SaveAccount_Click(sender, e);
-            //}
-        }
-
         private int ConvertPort(String port)
         {
             if (String.IsNullOrEmpty(port))

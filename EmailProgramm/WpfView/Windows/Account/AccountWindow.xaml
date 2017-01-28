@@ -11,7 +11,6 @@
     Height="450"
     MinWidth="650"
     MinHeight="440"
-    KeyDown="Account_KeyDown"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.BindingGroup>
