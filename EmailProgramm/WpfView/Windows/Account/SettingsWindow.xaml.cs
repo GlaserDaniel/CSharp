@@ -23,8 +23,8 @@ namespace WpfView
         {
             InitializeComponent();
             DataContext = dataContext;
-            Show();
             BindingGroup.BeginEdit();
+            ShowDialog();
         }
 
         private void LoadData()

@@ -208,20 +208,20 @@ namespace WpfView
                 }
                 catch (TimeoutException)
                 {
-                    ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.";
+                    ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! \nVielleicht keine Internetverbindung.";
                 }
                 catch (UriFormatException)
                 {
-                    ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal";
+                    ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. \nBitte prüfen Sie sie noch einmal";
                 }
                 catch (SocketException)
                 {
-                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar oder nicht für Email gedacht.";
+                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex);
-                    ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex;
+                    ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
                 }
             }
             else
@@ -253,20 +253,20 @@ namespace WpfView
                 }
                 catch (TimeoutException)
                 {
-                    ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.";
+                    ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! \nVielleicht keine Internetverbindung.";
                 }
                 catch (UriFormatException)
                 {
-                    ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal";
+                    ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. \nBitte prüfen Sie sie noch einmal";
                 }
                 catch (SocketException)
                 {
-                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar oder nicht für Email gedacht.";
+                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex);
-                    ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex;
+                    ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
                 }
             }
         }
@@ -303,20 +303,20 @@ namespace WpfView
             }
             catch (TimeoutException)
             {
-                ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! Vielleicht keine Internetverbindung.";
+                ErrorLabel.Content = "Der Server antwortet nicht in einer gewissen Zeit! \nVielleicht keine Internetverbindung.";
             }
             catch (UriFormatException)
             {
-                ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. Bitte prüfen Sie sie noch einmal";
+                ErrorLabel.Content = "Die Server Adresse ist keine gültige Internet-Adresse. \nBitte prüfen Sie sie noch einmal";
             }
             catch (SocketException)
             {
-                ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar oder nicht für Email gedacht.";
+                ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception: " + ex);
-                ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. Fehler für Entwickler: " + ex;
+                ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
             }
         }
 

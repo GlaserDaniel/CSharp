@@ -74,8 +74,8 @@
                                     <GridView.Columns>
                                         <GridViewColumn DisplayMemberBinding="{Binding Showname}" Header="Anzeigename" />
                                         <GridViewColumn DisplayMemberBinding="{Binding Email}" Header="Email" />
-                                        <GridViewColumn DisplayMemberBinding="{Binding Username}" Header="Benutzername" />
-                                        <GridViewColumn DisplayMemberBinding="{Binding IsRead}" Header="Standard" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding User}" Header="Benutzername" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding }" Header="Standard" />
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>

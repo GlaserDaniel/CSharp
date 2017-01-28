@@ -29,6 +29,7 @@ namespace WpfView
         {
             InitializeComponent();
             loadData();
+            generateAccountFoldersButton();
         }
 
         private void loadData()
@@ -37,23 +38,27 @@ namespace WpfView
 
             DataContext = settingsViewModel;
 
-            // Da es im XAML Code so nicht mehr funktioniert
-            //ItemsSource = "{Binding Accounts[selectedAccountIndex].Emails}"
-            if (((AccountListViewModel)DataContext).SelectedAccountIndex != -1)
+            ObservableCollection<EmailViewModel> emails = new ObservableCollection<EmailViewModel>();
+            foreach (AccountViewModel account in AccountListViewModel.Instance.Accounts)
             {
-                EmailsListView.ItemsSource = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
-
-                // TODO Versuch die Zeilen fett zu markieren in dehnen die Mails ungelesen sind.
-                //ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
-
-                //for (int i = 0; i < emails.Count; i++)
-                //{
-                //    if (!emails[i].IsRead)
-                //    {
-                //        ((ListViewItem)EmailsListView.Items[i]).FontWeight = FontWeights.Bold; 
-                //    }
-                //}
+                foreach (EmailViewModel email in account.Emails)
+                {
+                    emails.Add(email);
+                }
             }
+            EmailsListView.ItemsSource = emails;
+            CompleteInboxButton.Background = Brushes.LightBlue;
+
+            // TODO Versuch die Zeilen fett zu markieren in dehnen die Mails ungelesen sind.
+            //ObservableCollection<EmailViewModel> emails = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex].Emails;
+
+            //for (int i = 0; i < emails.Count; i++)
+            //{
+            //    if (!emails[i].IsRead)
+            //    {
+            //        ((ListViewItem)EmailsListView.Items[i]).FontWeight = FontWeights.Bold; 
+            //    }
+            //}
         }
 
         // TODO anderst lösen! Wegen dem das wenn man den selectedAccount umgestellt hat es nicht die richtige Emails anzeigt.
@@ -61,6 +66,43 @@ namespace WpfView
         {
             //Console.WriteLine("MainWindow activated");
             //loadData();
+            //generateAccountFoldersButton();
+        }
+
+        private void generateAccountFoldersButton()
+        {
+            foreach (AccountViewModel account in AccountListViewModel.Instance.Accounts)
+            {
+                bool contains = false;
+                foreach (Button childenButton in AccountFoldersStackPanel.Children)
+                {
+                    if (childenButton.Content.Equals(account.Showname))
+                    {
+                        contains = true;
+                    }
+                }
+                if (!contains)
+                {
+                    Button button = new Button();
+                    button.Height = 23;
+                    button.Padding = new System.Windows.Thickness(5, 0, 5, 0);
+                    button.Background = Brushes.White;
+                    button.Content = account.Showname;
+                    button.Click += (source, e) =>
+                    {
+                        // alle Buttons wieder weiß färben
+                        foreach (Button childenButton in AccountFoldersStackPanel.Children)
+                        {
+                            childenButton.Background = Brushes.White;
+                        }
+
+                        EmailsListView.ItemsSource = account.Emails;
+                        button.Background = Brushes.LightBlue;
+                    };
+
+                    AccountFoldersStackPanel.Children.Add(button);
+                }
+            }
         }
 
         private void SendEmail_Click(object sender, RoutedEventArgs e)
@@ -84,6 +126,9 @@ namespace WpfView
         {
             Console.WriteLine("Optionen_Click");
             new SettingsWindow((AccountListViewModel)DataContext);
+
+            generateAccountFoldersButton();
+            Console.WriteLine("Nach Settings zurück");
         }
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
@@ -215,6 +260,27 @@ namespace WpfView
             Application.Current.Shutdown();
 
             base.OnClosing(e);
+        }
+
+        private void CompleteInboxButton_Click(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<EmailViewModel> emails = new ObservableCollection<EmailViewModel>();
+            foreach (AccountViewModel account in AccountListViewModel.Instance.Accounts)
+            {
+                foreach (EmailViewModel email in account.Emails)
+                {
+                    emails.Add(email);
+                }
+            }
+            EmailsListView.ItemsSource = emails;
+
+            // alle Buttons wieder weiß färben
+            foreach (Button childenButton in AccountFoldersStackPanel.Children)
+            {
+                childenButton.Background = Brushes.White;
+            }
+
+            ((Button)sender).Background = Brushes.LightBlue;
         }
     }
 }

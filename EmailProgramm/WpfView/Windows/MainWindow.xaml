@@ -92,13 +92,16 @@
                     Margin="10,5,20,10" />
             </StatusBarItem>
         </StatusBar>
-        <StackPanel Margin="10,5,10,10" DockPanel.Dock="Left">
+        <StackPanel
+            x:Name="AccountFoldersStackPanel"
+            Margin="10,5,10,10"
+            DockPanel.Dock="Left">
             <Button
-                x:Name="Posteingang"
+                x:Name="CompleteInboxButton"
                 Height="23"
-                MinWidth="7"
                 Padding="5,0,5,0"
                 Background="White"
+                Click="CompleteInboxButton_Click"
                 Content="Gemeinsamer Posteingang" />
         </StackPanel>
         <ListView
@@ -114,6 +117,7 @@
                         <GridViewColumn DisplayMemberBinding="{Binding DateTimeString}" Header="Zeit" />
                         <GridViewColumn DisplayMemberBinding="{Binding Sender}" Header="Sender" />
                         <GridViewColumn DisplayMemberBinding="{Binding Subject}" Header="Betreff" />
+                        <GridViewColumn DisplayMemberBinding="{Binding ReceiversString}" Header="Empfänger" />
                         <GridViewColumn DisplayMemberBinding="{Binding IsRead}" Header="Gelesen" />
                     </GridView.Columns>
                 </GridView>
