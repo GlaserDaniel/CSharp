@@ -28,6 +28,18 @@
                     VerticalAlignment="Top"
                     Content="Empfänger" />
                 <Label
+                    x:Name="CCLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Empfänger" />
+                <Label
+                    x:Name="BCCLabel"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="Empfänger" />
+                <Label
                     x:Name="subjectLabel"
                     Margin="10,5,0,0"
                     HorizontalAlignment="Left"
@@ -50,6 +62,20 @@
                     SelectedIndex="{Binding SelectedAccountIndex, Mode=OneTime}" />
                 <TextBox
                     x:Name="receiverTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    KeyboardNavigation.TabIndex="2"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="CCTextBox"
+                    Height="23"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Top"
+                    KeyboardNavigation.TabIndex="2"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="BCCTextBox"
                     Height="23"
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"

@@ -115,9 +115,11 @@ namespace WpfView
 
                 receiverString.Trim();
 
-                if(receiverString.Contains(',')) {
+                if (receiverString.Contains(','))
+                {
                     receivers = receiverString.Split(new string[] { ",", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                } else
+                }
+                else
                 {
                     receivers.Add(receiverString);
                 }

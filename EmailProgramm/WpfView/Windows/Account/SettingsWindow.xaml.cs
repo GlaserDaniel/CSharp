@@ -113,5 +113,17 @@ namespace WpfView
         {
             new AccountWindow((AccountViewModel)AccountsListView.SelectedItem);
         }
+
+        private void StandardAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AccountsListView.SelectedIndex != -1)
+            {
+                ((AccountListViewModel)DataContext).SelectedAccountIndex = AccountsListView.SelectedIndex;
+            }
+            else
+            {
+                MessageBox.Show("Kein Account ausgewählt.", "Kein Account ausgewählt", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

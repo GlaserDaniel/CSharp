@@ -8,9 +8,9 @@
     x:Name="Account"
     Title="Account"
     Width="750"
-    Height="450"
+    Height="460"
     MinWidth="650"
-    MinHeight="440"
+    MinHeight="460"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.BindingGroup>

@@ -256,7 +256,7 @@ namespace WpfView
 
             // speichern
             AccountListViewModel.Instance.saveAsync();
-            
+
             Application.Current.Shutdown();
 
             base.OnClosing(e);
