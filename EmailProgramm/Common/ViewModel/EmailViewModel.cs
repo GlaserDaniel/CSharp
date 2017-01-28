@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections;
+using MimeKit;
 
 namespace Common.ViewModel
 {
@@ -19,7 +20,7 @@ namespace Common.ViewModel
         private DateTime _dateTime;
         private bool _isRead;
         private bool _isHtml;
-        private string _fileURI;
+        private List<string> _attachments;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -37,19 +38,20 @@ namespace Common.ViewModel
         public EmailViewModel()
         {
             Receivers = new List<string>();
+            Attachments = new List<string>();
         }
 
         public EmailViewModel(Email email)
         {
-            this.Id = email.Id;
-            this.Sender = email.Sender;
-            this.Receivers = email.Receiver;
-            this.Subject = email.Subject;
-            this.Message = email.Message;
-            this.DateTime = email.DateTime;
-            this.IsRead = email.IsRead;
-            this.IsHtml = email.IsHtml;
-            this.FileURI = email.FileURI;
+            Id = email.Id;
+            Sender = email.Sender;
+            Receivers = email.Receiver;
+            Subject = email.Subject;
+            Message = email.Message;
+            DateTime = email.DateTime;
+            IsRead = email.IsRead;
+            IsHtml = email.IsHtml;
+            Attachments = email.Attachments;
         }
 
         public int Id
@@ -150,16 +152,16 @@ namespace Common.ViewModel
             }
         }
 
-        public string FileURI
+        public List<string> Attachments
         {
             get
             {
-                return _fileURI;
+                return _attachments;
             }
             set
             {
-                if (_fileURI == value) return;
-                _fileURI = value;
+                if (_attachments == value) return;
+                _attachments = value;
                 OnPropertyChanged();
             }
         }

@@ -37,7 +37,7 @@ namespace Common.Services
                 using (ImapClient imapClient = new ImapClient())
                 {
                     imapClient.Timeout = 1000;
-                    
+
                     await imapClient.ConnectAsync(imapServer, imapPort, true);
 
                     if (imapClient.IsConnected)
@@ -156,7 +156,7 @@ namespace Common.Services
         // Snippet von www.code-bude.net
         // https://code-bude.net/2011/06/14/emails-versenden-in-csharp/
         // und http://www.mimekit.net/docs/html/T_MailKit_Net_Smtp_SmtpClient.htm kombiniert und abgeändert
-        public void sendEmail(AccountViewModel senderAccount, List<string> receivers, string subject, string message)
+        public async void sendEmailAsync(AccountViewModel senderAccount, List<string> receivers, List<string> ccs, List<string> bccs, string subject, string message, List<string> attachments)
         {
             MailMessage mailMessage = new MailMessage();
 
@@ -169,11 +169,29 @@ namespace Common.Services
                 mailMessage.To.Add(new MailAddress(receiver.Trim()));
             }
 
+            // CC setzen
+            foreach (var cc in ccs)
+            {
+                mailMessage.CC.Add(new MailAddress(cc.Trim()));
+            }
+
+            // BCC setzen
+            foreach (var bcc in bccs)
+            {
+                mailMessage.Bcc.Add(new MailAddress(bcc.Trim()));
+            }
+
             //Betreff einrichten
             mailMessage.Subject = subject;
 
             //Hinzufügen der eigentlichen Nachricht
             mailMessage.Body = message;
+
+            // Anhang hinzufügen
+            foreach (string attachment in attachments)
+            {
+                mailMessage.Attachments.Add(new Attachment(attachment));
+            }
 
             //Ausgangsserver initialisieren
             System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient(senderAccount.SmtpServer, senderAccount.SmtpPort);
@@ -181,6 +199,7 @@ namespace Common.Services
             // SSL aktivieren
             // Scheint unnötig da es sowieso gesetzt wird (funktioniert auch ohne)
             smtpClient.EnableSsl = true;
+
 
             if (senderAccount.User.Length > 0 && senderAccount.User != string.Empty)
             {
@@ -194,7 +213,7 @@ namespace Common.Services
             //Email absenden
             try
             {
-                smtpClient.SendMailAsync(mailMessage);
+                await smtpClient.SendMailAsync(mailMessage);
                 Console.WriteLine("Email gesendet!");
             }
             catch (SmtpException e)
@@ -288,7 +307,7 @@ namespace Common.Services
                                         // Nachricht holen
                                         MimeMessage message = imapClient.Inbox.GetMessage(uid);
 
-                                        Console.WriteLine("MessageID: " + message.MessageId);
+                                        //Console.WriteLine("MessageID: " + message.MessageId);
 
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", uid));
@@ -344,8 +363,8 @@ namespace Common.Services
 
                                     foreach (var header in list)
                                     {
-                                        Console.WriteLine("headerID: " + header.Id);
-                                        Console.WriteLine("header Value: " + header.Value);
+                                        //Console.WriteLine("headerID: " + header.Id);
+                                        //Console.WriteLine("header Value: " + header.Value);
                                     }
 
                                     if (!account.doEmailsContainsId(id))
@@ -353,7 +372,7 @@ namespace Common.Services
                                         // Nachricht holen
                                         var message = client.GetMessage(id);
 
-                                        Console.WriteLine("MessageID: " + message.MessageId);
+                                        //Console.WriteLine("MessageID: " + message.MessageId);
 
                                         // write the message to a file
                                         //message.WriteTo(string.Format("{0}.msg", i));
@@ -451,6 +470,25 @@ namespace Common.Services
 
             // TODO
             //email.IsRead = message.
+
+            List<MimeEntity> test = message.Attachments.ToList();
+
+            foreach (MimeEntity attachment in message.Attachments)
+            {
+                if (attachment.IsAttachment)
+                {
+                    if (attachment is MessagePart)
+                    {
+                        // nichts tun
+                    }
+                    else
+                    {
+                        var part = (MimePart)attachment;
+
+                        email.Attachments.Add(part.FileName);
+                    }
+                }
+            }
 
             var currentAccount = account;
             var currentEmail = email;

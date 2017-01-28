@@ -1,6 +1,9 @@
 ﻿using Common.ViewModel;
 using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WpfView
 {
@@ -41,40 +44,48 @@ namespace WpfView
                 messageWebBrowser.NavigateToString(message);
             }
 
-            // TODO HTML Text richtig darstellen
+            if (email.Attachments.Count > 0)
+            {
+                attachmentsStackPanel.Visibility = Visibility.Visible;
 
-            //Windows.Data.Html.HtmlUtilities.ConvertToText();
+                foreach (var attachment in email.Attachments)
+                {
+                    Button button = new Button();
+                    button.Height = 23;
+                    button.Padding = new System.Windows.Thickness(5, 0, 5, 0);
+                    button.Background = Brushes.White;
+                    button.Content = attachment;
+                    button.Click += (source, e) =>
+                    {
+                        // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs
+                        // Configure save file dialog box
+                        Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                        dlg.FileName = attachment; // Default file name
+                        dlg.DefaultExt = ""; // Default file extension
+                        dlg.Filter = "All Files|*.*"; // Filter files by extension
 
-            // TODO wenn HTML
-            //// xaml Code: <TextBox x:Name="messageTextBox" Text="{Binding message}" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
-            //TextBox messageTextBox = new TextBox();
-            ////messageTextBox.Text = "{Binding message}";
-            //messageTextBox.Set = DataContext;
-            //messageTextBox.Margin = new System.Windows.Thickness(10);
-            //messageTextBox.AcceptsReturn = true;
-            //messageTextBox.TextWrapping = TextWrapping.Wrap;
-            //messageTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-            //messageTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                        // Show save file dialog box
+                        Nullable<bool> result = dlg.ShowDialog();
 
-            //MainDockPanel.Children.Add(messageTextBox);
+                        // Process save file dialog box results
+                        if (result == true)
+                        {
+                            // Save document
+                            string filename = dlg.FileName;
 
-            // oder so 
-            //MainDockPanel.Children.Remove(messageTextBox);
+                            using (var stream = File.Create(filename))
+                            {
+                                // TODO speichern der Datei
+                                // Attachment muss noch was anderes sein. Im Moment nur der Dateiname.
 
-            /*
-            < Grid >
-              < WebBrowser Name = "wb1" />
- 
-              </ Grid >
-             </ Window >
-             Der CodeBehind dazu:
+                                MessageBox.Show("Speichern geht noch nicht!");
+                            }
+                        }
+                    };
 
-            Class MainWindow
-
-             Private Sub MainWindow_Loaded(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs) Handles Me.Loaded
-              Me.wb1.NavigateToString("<html>Die <i>Erde</i> ist <b>rund</b></html>")
-             End Sub
-             */
+                    attachmentsStackPanel.Children.Add(button);
+                }
+            }
         }
 
         private void replyButton_Click(object sender, RoutedEventArgs e)

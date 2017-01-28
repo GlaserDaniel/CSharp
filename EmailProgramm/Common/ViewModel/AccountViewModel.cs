@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Net.Mail;
 
 namespace Common.ViewModel
 {
@@ -41,7 +42,7 @@ namespace Common.ViewModel
         public AccountViewModel()
         {
             UseImap = true;
-            this.Emails = new ObservableCollection<EmailViewModel>();
+            Emails = new ObservableCollection<EmailViewModel>();
         }
 
         public AccountViewModel(Account account)
@@ -159,7 +160,7 @@ namespace Common.ViewModel
                     _user = value;
                     OnPropertyChanged();
                 }
-               
+
             }
         }
 
@@ -196,6 +197,15 @@ namespace Common.ViewModel
         {
             var error = "Bitte geben Sie eine Email-Adresse ein.";
             if (String.IsNullOrEmpty(email))
+            {
+                AddError(nameof(Email), error, false);
+                return false;
+            }
+            try
+            {
+                new MailAddress(email);
+            }
+            catch (FormatException)
             {
                 AddError(nameof(Email), error, false);
                 return false;
@@ -320,9 +330,15 @@ namespace Common.ViewModel
         public bool doEmailsContainsId(int id)
         {
             bool result = false;
-            foreach (var email in _emails) // TODO kann hier abstürzen wegen InvalidOperationException (Die Auflistung wurde geändert. Der Enumerationsvorgang kann möglicherweise nicht ausgeführt werden.)
+
+            List<int> ids = new List<int>();
+
+            // Eine neue Liste machen da es hier sonst abstürtz
+            ids = new List<int>(_emails.Select(email => email.Id).ToList());            
+            
+            foreach (var _id in ids)
             {
-                if (email.Id == id)
+                if (_id == id)
                 {
                     result = true;
                 }

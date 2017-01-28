@@ -107,6 +107,12 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
             DockPanel.Dock="Top" />
+        <StackPanel
+            x:Name="attachmentsStackPanel"
+            DockPanel.Dock="Bottom"
+            Visibility="Collapsed">
+            <Label x:Name="attachmentsLabel" Content="Anhänge: " />
+        </StackPanel>
         <WebBrowser x:Name="messageWebBrowser" />
     </DockPanel>
 </Window>

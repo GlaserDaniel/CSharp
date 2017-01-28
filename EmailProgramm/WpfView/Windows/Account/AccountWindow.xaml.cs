@@ -319,24 +319,5 @@ namespace WpfView
                 ErrorLabel.Content = "Es ist ein unerwarterter Fehler aufgetreten. \nFehler für Entwickler: \n" + ex;
             }
         }
-
-        private int ConvertPort(String port)
-        {
-            if (String.IsNullOrEmpty(port))
-            {
-                throw new ArgumentNullException();
-            }
-            else
-            {
-                try
-                {
-                    return int.Parse(port);
-                }
-                catch (FormatException)
-                {
-                    throw new FormatException();
-                }
-            }
-        }
     }
 }

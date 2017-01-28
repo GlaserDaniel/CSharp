@@ -25,6 +25,8 @@ namespace WpfView
     /// </summary>
     public partial class MainWindow : Window
     {
+        int selectedAccountIndex = -1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -90,6 +92,8 @@ namespace WpfView
                     button.Content = account.Showname;
                     button.Click += (source, e) =>
                     {
+                        selectedAccountIndex = AccountListViewModel.Instance.Accounts.IndexOf(account);
+
                         // alle Buttons wieder weiß färben
                         foreach (Button childenButton in AccountFoldersStackPanel.Children)
                         {
@@ -127,6 +131,10 @@ namespace WpfView
             Console.WriteLine("Optionen_Click");
             new SettingsWindow((AccountListViewModel)DataContext);
 
+            // Alle Account Buttons löschen
+            AccountFoldersStackPanel.Children.RemoveRange(1, AccountFoldersStackPanel.Children.Count - 1);
+            selectedAccountIndex = -1;
+            CompleteInboxButton.Background = Brushes.LightBlue;
             generateAccountFoldersButton();
             Console.WriteLine("Nach Settings zurück");
         }
@@ -137,28 +145,51 @@ namespace WpfView
             {
                 loadData();
             }
-            if (DataContext != null && ((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
+            if (DataContext != null)
             {
-                AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
-
-                var progressHandler = new Progress<double>(value =>
+                if (selectedAccountIndex >= 0)
                 {
-                    ProgressBar.Value = value;
-                });
+                    // Für ausgewählten Account Emails abholen
+                    AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[selectedAccountIndex];
 
-                Task t = new EmailService().receiveEmails(account, progressHandler, Dispatcher);
-
-                Task.Run(() =>
-                {
-                    t.Wait();
-                    Dispatcher.BeginInvoke((Action)(() =>
+                    var progressHandler = new Progress<double>(value =>
                     {
-                        ((AccountListViewModel)DataContext).saveAsync();
-                    }));
-                });
+                        ProgressBar.Value = value;
+                    });
 
-                //Console.WriteLine("Task Status: " + t.Status.ToString());
-                //loadData();
+                    Task t = new EmailService().receiveEmails(account, progressHandler, Dispatcher);
+
+                    Task.Run(() =>
+                    {
+                        t.Wait();
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            ((AccountListViewModel)DataContext).saveAsync();
+                        }));
+                    });
+                }
+                else
+                {
+                    // für alle Accounts Emails abholen
+                    foreach (AccountViewModel account in ((AccountListViewModel)DataContext).Accounts)
+                    {
+                        var progressHandler = new Progress<double>(value =>
+                        {
+                            ProgressBar.Value = value;
+                        }); // TODO ProgressBar könnte flackern
+
+                        Task t = new EmailService().receiveEmails(account, progressHandler, Dispatcher);
+
+                        Task.Run(() =>
+                        {
+                            t.Wait();
+                            Dispatcher.BeginInvoke((Action)(() =>
+                            {
+                                ((AccountListViewModel)DataContext).saveAsync();
+                            }));
+                        });
+                    }
+                }
             }
             else
             {
@@ -264,6 +295,8 @@ namespace WpfView
 
         private void CompleteInboxButton_Click(object sender, RoutedEventArgs e)
         {
+            selectedAccountIndex = -1;
+
             ObservableCollection<EmailViewModel> emails = new ObservableCollection<EmailViewModel>();
             foreach (AccountViewModel account in AccountListViewModel.Instance.Accounts)
             {

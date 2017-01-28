@@ -1,6 +1,8 @@
 ﻿using Common.ViewModel;
+using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,36 +20,37 @@ namespace Common.Model
         public DateTime DateTime { get; set; }
         public bool IsRead { get; set; }
         public bool IsHtml { get; set; }
-        public string FileURI { get; set; }
+        public List<string> Attachments { get; set; }
 
         public Email()
         {
             Receiver = new List<string>();
+            Attachments = new List<string>();
         }
 
         public Email(EmailViewModel email)
         {
-            this.Id = email.Id;
-            this.Sender = email.Sender;
-            this.Receiver = email.Receivers;
-            this.Subject = email.Subject;
-            this.Message = email.Message;
-            this.DateTime = email.DateTime;
-            this.IsRead = email.IsRead;
-            this.IsHtml = email.IsHtml;
-            this.FileURI = email.FileURI;
+            Id = email.Id;
+            Sender = email.Sender;
+            Receiver = email.Receivers;
+            Subject = email.Subject;
+            Message = email.Message;
+            DateTime = email.DateTime;
+            IsRead = email.IsRead;
+            IsHtml = email.IsHtml;
+            Attachments = email.Attachments;
         }
 
-        public Email(int id, string sender, List<string> receiver, string subject, string message, DateTime dateTime, bool isRead, string fileURI)
+        public Email(int id, string sender, List<string> receiver, string subject, string message, DateTime dateTime, bool isRead, List<string> attachments)
         {
-            this.Id = id;
-            this.Sender = sender;
-            this.Receiver = receiver;
-            this.Subject = subject;
-            this.Message = message;
-            this.DateTime = dateTime;
-            this.IsRead = isRead;
-            this.FileURI = fileURI;
+            Id = id;
+            Sender = sender;
+            Receiver = receiver;
+            Subject = subject;
+            Message = message;
+            DateTime = dateTime;
+            IsRead = isRead;
+            Attachments = attachments;
         }
 
         public override string ToString()
@@ -59,7 +62,7 @@ namespace Common.Model
                 ",\n dateTime: " + DateTime.ToString() +
                 ",\n isRead: " + IsRead +
                 ",\n isHtml: " + IsHtml +
-                ",\n fileURI: " + FileURI +
+                ",\n attachments: " + Attachments +
                 //",\n message: " + message +
                 "";
         }
