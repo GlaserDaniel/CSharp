@@ -8,7 +8,7 @@
     Title="Email"
     Width="1000"
     Height="600"
-    MinWidth="400"
+    MinWidth="700"
     MinHeight="300"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
