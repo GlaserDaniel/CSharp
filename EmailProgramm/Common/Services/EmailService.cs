@@ -130,6 +130,12 @@ namespace Common.Services
                 {
                     smtpClient.Timeout = 1000;
 
+                    // Das Testen des SMTP Server funktioniert noch nicht ganz so wie gewollt.
+                    // Es wird im Moment getestet ob eine TLS Verschlüsselung verfügbar ist. 
+                    // Falls aber ein Email Anbieter auch nur SSL genügt, würde er bei diesem auch auf den Schluss kommen 
+                    // es würde nicht gehen. Wenn wiederrum auch SSL beim Testen ermöglicht wird kommen bei den Anbietern 
+                    // wo TLS Pflicht ist eine Meldung es würde gehen obwohl es dann nicht funktionieren würde. 
+                    // Da aber so gut wie alle Anbieter mittlerweile auf TLS setzen habe ich mich dafür entschieden.
                     await smtpClient.ConnectAsync(smtpServer, smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
 
                     if (smtpClient.IsConnected)
@@ -316,6 +322,8 @@ namespace Common.Services
         /// <param name="progressHandler"></param>
         /// <param name="dispatcher"></param>
         /// <returns></returns>
+        /// von http://www.mimekit.net/docs/html/T_MailKit_Net_Imap_ImapClient.htm
+        /// und http://www.mimekit.net/docs/html/T_MailKit_Net_Pop3_Pop3Client.htm erweitert und kombiniert
         public Task receiveEmails(AccountViewModel account, Progress<double> progressHandler, Dispatcher dispatcher)
         {
             try
@@ -558,6 +566,8 @@ namespace Common.Services
                 }
             }
 
+            // von Herr Rill
+            // {
             var currentAccount = account;
             var currentEmail = email;
 
@@ -565,6 +575,7 @@ namespace Common.Services
             {
                 currentAccount.Emails.Add(currentEmail);
             }));
+            // }
         }
 
         /// <summary>
@@ -590,6 +601,7 @@ namespace Common.Services
 
                             // zum Löschen markieren
                             // TODO funktioniert noch nicht
+                            // Es wird zwar der Flag gesetzt zum Löschen aber die E-Mail bleibt trotzdem auf dem Server vorhanden.
                             imapClient.Inbox.AddFlags(email.Id, MessageFlags.Deleted, false);
 
                             Console.WriteLine("Sollte Email auf Server löschen! Funktioniert aber nicht.");

@@ -12,7 +12,7 @@ namespace Common.Services
     /// <summary>
     /// Klasse für das speichern und laden
     /// </summary>
-    /// Code von Herr Rill genommen und angepasst
+    /// Code von Herr Rill aus Beispiele\DataBindingAndMVVM\11 MVVMContactManager genommen und angepasst
     public static class DataService
     {
         private static readonly string ACCOUNTS_FILE_NAME = "Accounts.xml";
