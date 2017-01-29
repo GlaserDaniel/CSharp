@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,13 @@ namespace WpfView
                 }
             }
             EmailsListView.ItemsSource = emails;
+
+            // von http://www.wpf-tutorial.com/listview-control/listview-sorting/
+            // {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(EmailsListView.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("DateTimeString", ListSortDirection.Descending));
+            //}
+
             CompleteInboxButton.Background = Brushes.LightBlue;
 
             // TODO Versuch die Zeilen fett zu markieren in dehnen die Mails ungelesen sind.
