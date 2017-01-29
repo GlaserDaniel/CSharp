@@ -93,8 +93,7 @@ namespace WpfView
             EmailViewModel replyEmail = new EmailViewModel();
 
             replyEmail.Sender = ((EmailViewModel)DataContext).Sender;
-            replyEmail.Receivers = (((EmailViewModel)DataContext).Receivers);
-            replyEmail.Subject = "Re: " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Re:
+            replyEmail.Subject = "Re: " + ((EmailViewModel)DataContext).Subject;
             replyEmail.Message = "\n\n" + ((EmailViewModel)DataContext).Sender + "\nschrieb am " + ((EmailViewModel)DataContext).DateTime + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
 
             new SendEmailWindow(replyEmail);
@@ -104,8 +103,7 @@ namespace WpfView
         {
             EmailViewModel forwardEmail = new EmailViewModel();
 
-            //forwardEmail.Sender = ((EmailViewModel)DataContext).Sender;
-            forwardEmail.Subject = "Fwd: " + ((EmailViewModel)DataContext).Subject; // TODO könnte auch Fwd:
+            forwardEmail.Subject = "Fwd: " + ((EmailViewModel)DataContext).Subject;
             forwardEmail.Message = "\n\nWeitergeleitete Email\nVon: " + ((EmailViewModel)DataContext).Sender + "\nDatum: " + ((EmailViewModel)DataContext).DateTime + "\nBetreff: " + ((EmailViewModel)DataContext).Subject + "\nEmpfänger: " + ((EmailViewModel)DataContext).ReceiversString + " \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
 
             new SendEmailWindow(forwardEmail);
@@ -113,17 +111,31 @@ namespace WpfView
 
         private void replyAllButton_Click(object sender, RoutedEventArgs e)
         {
+            EmailViewModel replyAllEmail = new EmailViewModel();
 
+            replyAllEmail.Sender = ((EmailViewModel)DataContext).Sender;
+            replyAllEmail.Receivers = (((EmailViewModel)DataContext).Receivers);
+            // Die eigene Email Adresse raus löschen
+            replyAllEmail.Receivers.Remove(AccountListViewModel.Instance.Accounts[((EmailViewModel)DataContext).AccountIndex].Email);
+            replyAllEmail.Subject = "Re: " + ((EmailViewModel)DataContext).Subject;
+            replyAllEmail.Message = "\n\n" + ((EmailViewModel)DataContext).Sender + "\nschrieb am " + ((EmailViewModel)DataContext).DateTime + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
+
+            new SendEmailWindow(replyAllEmail);
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("Willst du die Email wirklich löschen?", "Email löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Close();
+                AccountListViewModel.Instance.Accounts[((EmailViewModel)DataContext).AccountIndex].DeleteSelectedCommandExecute((EmailViewModel)DataContext);
+            }
         }
 
         private void unreadButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ((EmailViewModel)DataContext).IsRead = false;
         }
     }
 }

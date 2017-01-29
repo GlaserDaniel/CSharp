@@ -209,6 +209,7 @@ namespace WpfView
             }
             else
             {
+                // Ab und zu kommt da anscheind was anderes als ein EmailViewModel, deswegen abgefangen
                 Console.WriteLine("selected Item by DoubleClick was no EmailViewModel");
             }
         }

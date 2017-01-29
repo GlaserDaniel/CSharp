@@ -372,7 +372,7 @@ namespace Common.ViewModel
         public void DeleteSelectedCommandExecute(EmailViewModel emailToDelete)
         {
             // Email auf Server löschen
-            new EmailService().deleteMessage(emailToDelete, AccountListViewModel.Instance.Accounts[AccountListViewModel.Instance.SelectedAccountIndex]);
+            new EmailService().deleteMessageAsync(emailToDelete, AccountListViewModel.Instance.Accounts[AccountListViewModel.Instance.SelectedAccountIndex]);
 
             // Email aus Emails löschen
             Emails.Remove(emailToDelete);

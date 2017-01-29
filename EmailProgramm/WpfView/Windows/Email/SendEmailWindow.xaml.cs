@@ -34,6 +34,11 @@ namespace WpfView
                 // Anwortmail
                 receiverTextBox.Text = email.Sender;
             }
+            if (email.Receivers.Count > 0)
+            {
+                // alle Antworten
+                receiverTextBox.Text += ", " + email.ReceiversString;
+            }
             subjectTextBox.Text = email.Subject;
             messageTextBox.Text = email.Message;
 

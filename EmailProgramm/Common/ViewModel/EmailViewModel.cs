@@ -13,6 +13,7 @@ namespace Common.ViewModel
         private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
 
         private int _id;
+        private int _accountIndex;
         private string _sender;
         private List<string> _receiver;
         private string _subject;
@@ -44,6 +45,7 @@ namespace Common.ViewModel
         public EmailViewModel(Email email)
         {
             Id = email.Id;
+            AccountIndex = email.AccountIndex;
             Sender = email.Sender;
             Receivers = email.Receiver;
             Subject = email.Subject;
@@ -64,6 +66,20 @@ namespace Common.ViewModel
             {
                 if (_id == value) return;
                 _id = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int AccountIndex
+        {
+            get
+            {
+                return _accountIndex;
+            }
+            set
+            {
+                if (_accountIndex == value) return;
+                _accountIndex = value;
                 OnPropertyChanged();
             }
         }

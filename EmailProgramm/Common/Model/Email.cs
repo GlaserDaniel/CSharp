@@ -21,6 +21,7 @@ namespace Common.Model
         public bool IsRead { get; set; }
         public bool IsHtml { get; set; }
         public List<string> Attachments { get; set; }
+        public int AccountIndex { get; set; }
 
         public Email()
         {
@@ -31,6 +32,7 @@ namespace Common.Model
         public Email(EmailViewModel email)
         {
             Id = email.Id;
+            AccountIndex = email.AccountIndex;
             Sender = email.Sender;
             Receiver = email.Receivers;
             Subject = email.Subject;
@@ -41,9 +43,10 @@ namespace Common.Model
             Attachments = email.Attachments;
         }
 
-        public Email(int id, string sender, List<string> receiver, string subject, string message, DateTime dateTime, bool isRead, List<string> attachments)
+        public Email(int id, int accountIndex, string sender, List<string> receiver, string subject, string message, DateTime dateTime, bool isRead, List<string> attachments)
         {
             Id = id;
+            AccountIndex = accountIndex;
             Sender = sender;
             Receiver = receiver;
             Subject = subject;

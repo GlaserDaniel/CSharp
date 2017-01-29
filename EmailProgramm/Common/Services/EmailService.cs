@@ -471,6 +471,8 @@ namespace Common.Services
             // TODO
             //email.IsRead = message.
 
+            email.AccountIndex = AccountListViewModel.Instance.Accounts.IndexOf(account);
+
             List<MimeEntity> test = message.Attachments.ToList();
 
             foreach (MimeEntity attachment in message.Attachments)
@@ -499,7 +501,7 @@ namespace Common.Services
             }));
         }
 
-        public void deleteMessage(EmailViewModel email, AccountViewModel account)
+        public async void deleteMessageAsync(EmailViewModel email, AccountViewModel account)
         {
             if (account != null)
             {
@@ -509,7 +511,7 @@ namespace Common.Services
                     {
                         using (ImapClient imapClient = new ImapClient())
                         {
-                            imapClient.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
+                            await imapClient.ConnectAsync(account.ImapPop3Server, account.ImapPop3Port, true);
 
                             imapClient.Authenticate(account.User, account.Password);
 
@@ -518,6 +520,8 @@ namespace Common.Services
                             // zum Löschen markieren
                             // TODO funktioniert noch nicht
                             imapClient.Inbox.AddFlags(email.Id, MessageFlags.Deleted, false);
+
+                            Console.WriteLine("Sollte Email auf Server löschen! Funktioniert aber nicht.");
 
                             imapClient.Disconnect(true);
                         }
