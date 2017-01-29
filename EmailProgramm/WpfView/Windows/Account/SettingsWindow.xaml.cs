@@ -10,64 +10,24 @@ namespace WpfView
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        /// <summary>
+        /// Standard Konstruktor. Öffnet das SettingsWindow und läd die Daten aus der Instance.
+        /// </summary>
         public SettingsWindow()
         {
             InitializeComponent();
             LoadData();
             Show();
             BindingGroup.BeginEdit();
-            //Console.WriteLine("selectedAccount: " + ((SettingsViewModel)DataContext).selectedAccount.email);
-        }
-
-        public SettingsWindow(AccountListViewModel dataContext)
-        {
-            InitializeComponent();
-            DataContext = dataContext;
-            BindingGroup.BeginEdit();
-            ShowDialog();
         }
 
         private void LoadData()
         {
             DataContext = AccountListViewModel.Instance;
-
-            if (AccountListViewModel.Instance.SelectedAccountIndex != -1)
-            {
-                // Standard Account auswählen
-                AccountsListView.SelectedIndex = AccountListViewModel.Instance.SelectedAccountIndex;
-            }
-
-            //if (((AccountListViewModel)DataContext).SelectedAccountIndex >= 0)
-            //{
-            //    AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[((AccountListViewModel)DataContext).SelectedAccountIndex];
-            //}
-        }
-
-        public void Refresh()
-        {
-            LoadData();
-        }
-
-        // TODO entfernen falls unnötig
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            Console.WriteLine("OptionWindow gotFocus");
-            LoadData();
-        }
-
-        void window_Activated(object sender, EventArgs e)
-        {
-            Console.WriteLine("OptionWindow activated");
-            //if (((AccountListViewModel)DataContext).SelectedAccountIndex == -1 && ((AccountListViewModel)DataContext).Accounts.Count >= 1)
-            //{
-            //    AccountsComboBox.SelectedItem = ((AccountListViewModel)DataContext).Accounts[0];
-            //}
         }
 
         private void CloseSettings_Click(object sender, RoutedEventArgs e)
         {
-            //((SettingsViewModel)DataContext).selectedAccount = (Account)AccountsComboBox.SelectedItem;
-            //((AccountListViewModel)DataContext).SelectedAccountIndex = AccountsComboBox.SelectedIndex;
             BindingGroup.CommitEdit();
             ((AccountListViewModel)DataContext).saveAsync();
             Close();
@@ -81,7 +41,6 @@ namespace WpfView
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Add Account Click, DataContext: " + (AccountListViewModel)DataContext);
             new AccountWindow((AccountListViewModel)DataContext);
         }
 
@@ -100,18 +59,6 @@ namespace WpfView
                 Console.WriteLine("Ausgewählter Account zum löschen: " + accountToRemove.ToString());
 
                 ((AccountListViewModel)DataContext).removeAccount(accountToRemove);
-
-                //LoadData();
-
-                //AccountsComboBox.Items.Remove(AccountsComboBox.SelectedItem);
-
-                //if (AccountsComboBox.SelectedItem == null)
-                //{
-                //    if (AccountsComboBox.Items.Count > 0)
-                //    {
-                //        AccountsComboBox.SelectedItem = AccountsComboBox.Items.GetItemAt(0);
-                //    }
-                //}
             }
         }
 

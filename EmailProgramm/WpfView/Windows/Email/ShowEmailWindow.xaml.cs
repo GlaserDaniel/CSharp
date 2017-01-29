@@ -13,22 +13,16 @@ namespace WpfView
     public partial class ShowEmailWindow : Window
     {
         /// <summary>
-        /// Standard Konstruktor der nur das Fenster zum Anzeigen einer Email öffnet
-        /// </summary>
-        public ShowEmailWindow()
-        {
-            InitializeComponent();
-            Show();
-        }
-
-        /// <summary>
-        /// Konstruktor dem eine Email übergeben wird und die Daten dieser im Fenster setzt
+        /// Konstruktor dem eine E-Mail übergeben wird und die Daten dieser im Fenster setzt
         /// </summary>
         /// <param name="email"></param>
-        public ShowEmailWindow(EmailViewModel email) : this()
+        public ShowEmailWindow(EmailViewModel email)
         {
+            InitializeComponent();
             email.IsRead = true;
             DataContext = email;
+
+            Title = email.Subject;
 
             String message = email.Message;
 
@@ -60,7 +54,7 @@ namespace WpfView
                     button.Click += (source, e) =>
                     {
                         // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs und angepasst
-                        // {
+                        // [
                         // Configure save file dialog box
                         Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
                         dlg.FileName = attachment; // Default file name
@@ -84,12 +78,13 @@ namespace WpfView
                                 MessageBox.Show("Speichern geht noch nicht!");
                             }
                         }
-                        // }
+                        // ]
                     };
 
                     attachmentsStackPanel.Children.Add(button);
                 }
             }
+            Show();
         }
 
         private void replyButton_Click(object sender, RoutedEventArgs e)
@@ -108,7 +103,7 @@ namespace WpfView
             EmailViewModel forwardEmail = new EmailViewModel();
 
             forwardEmail.Subject = "Fwd: " + ((EmailViewModel)DataContext).Subject;
-            forwardEmail.Message = "\n\nWeitergeleitete Email\nVon: " + ((EmailViewModel)DataContext).Sender + "\nDatum: " + ((EmailViewModel)DataContext).DateTime + "\nBetreff: " + ((EmailViewModel)DataContext).Subject + "\nEmpfänger: " + ((EmailViewModel)DataContext).ReceiversString + " \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
+            forwardEmail.Message = "\n\nWeitergeleitete E-Mail\nVon: " + ((EmailViewModel)DataContext).Sender + "\nDatum: " + ((EmailViewModel)DataContext).DateTime + "\nBetreff: " + ((EmailViewModel)DataContext).Subject + "\nEmpfänger: " + ((EmailViewModel)DataContext).ReceiversString + " \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
 
             new SendEmailWindow(forwardEmail);
         }
@@ -119,7 +114,7 @@ namespace WpfView
 
             replyAllEmail.Sender = ((EmailViewModel)DataContext).Sender;
             replyAllEmail.Receivers = (((EmailViewModel)DataContext).Receivers);
-            // Die eigene Email Adresse raus löschen
+            // Die eigene E-Mail Adresse raus löschen
             replyAllEmail.Receivers.Remove(AccountListViewModel.Instance.Accounts[((EmailViewModel)DataContext).AccountIndex].Email);
             replyAllEmail.Subject = "Re: " + ((EmailViewModel)DataContext).Subject;
             replyAllEmail.Message = "\n\n" + ((EmailViewModel)DataContext).Sender + "\nschrieb am " + ((EmailViewModel)DataContext).DateTime + ": \n{\n" + ((EmailViewModel)DataContext).Message + "\n}"; // TODO jede Zeile ein >
@@ -129,7 +124,7 @@ namespace WpfView
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Willst du die Email wirklich löschen?", "Email löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Willst du die E-Mail wirklich löschen?", "E-Mail löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 Close();

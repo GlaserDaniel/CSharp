@@ -313,7 +313,7 @@ namespace Common.Services
                                         {
                                             progress.Report((uids.IndexOf(uid) * 100) / uids.Count);
                                         }
-
+                                        
                                         if (!account.doEmailsContainsId((int)uid.Id))
                                         {
                                             // Nachricht holen
@@ -353,20 +353,7 @@ namespace Common.Services
 
                                     client.Authenticate(account.User, account.Password);
 
-                                    //var uids = client.GetMessageUids();
-
-                                    //foreach (var uid in uids)
-                                    //{
-                                    //    client.GetMessage(uid);
-                                    //}
-
                                     int count = client.Count;
-
-                                    // TODO Erstmal nur 50 Emails abholen
-                                    //if (client.Count > 50)
-                                    //{
-                                    //    count = 50;
-                                    //}
 
                                     for (int id = 0; id < count; id++)
                                     {
@@ -375,13 +362,14 @@ namespace Common.Services
                                             progress.Report((id * 100) / count);
                                         }
 
-                                        HeaderList list = client.GetMessageHeaders(id);
-
-                                        foreach (var header in list)
-                                        {
-                                            //Console.WriteLine("headerID: " + header.Id);
-                                            //Console.WriteLine("header Value: " + header.Value);
-                                        }
+                                        // TODO Header abholen und schauen ob Email schon vorhanden und 
+                                        // nur dann ganze Email holen wenn noch nicht vorhanden.
+                                        //HeaderList list = client.GetMessageHeaders(id);
+                                        //foreach (var header in list)
+                                        //{
+                                        //    //Console.WriteLine("headerID: " + header.Id);
+                                        //    //Console.WriteLine("header Value: " + header.Value);
+                                        //}
 
                                         if (!account.doEmailsContainsId(id))
                                         {
@@ -420,27 +408,16 @@ namespace Common.Services
 
                         // Damit weil gespeichert wird und im Hintergrund die ProgressBar zurückgestzt wird.
                         Task.Run(() =>
+                        {
+                            // Warte 2 Sekunden
+                            Thread.Sleep(2000);
+
+                            // Und setze die ProgressBar wieder auf 0
+                            if (progress != null)
                             {
-                                // Warte 2 Sekunden
-                                Thread.Sleep(2000);
-
-                                // Und setze die ProgressBar wieder auf 0
-                                if (progress != null)
-                                {
-                                    progress.Report(0);
-                                }
-                            });
-
-                        // TODO Testausgabe
-                        //Console.WriteLine("Emails ausgeben: ");
-                        //foreach (Account account in settingsViewModel.Accounts)
-                        //{
-                        //    Console.WriteLine("Account: " + account);
-                        //    foreach (Email email in account.Emails)
-                        //    {
-                        //        Console.WriteLine(email);
-                        //    }
-                        //}
+                                progress.Report(0);
+                            }
+                        });
                     }
                 });
             }
@@ -500,7 +477,9 @@ namespace Common.Services
 
             email.Id = id;
 
-            // TODO
+            // TODO Email beim abholen setzen darauf ob sie gelesen ist oder nicht
+            // bei message gibt es so was wie IsRead leider nicht. 
+            // Müssten die Flags ausgelesen werden, die aber auch nicht in einer MimeMessage sind
             //email.IsRead = message.
 
             email.AccountIndex = AccountListViewModel.Instance.Accounts.IndexOf(account);
@@ -590,6 +569,7 @@ namespace Common.Services
                             client.Authenticate(account.User, account.Password);
 
                             // zum Löschen markieren
+                            // TODO scheint auch noch nicht zu funktionieren
                             client.DeleteMessage(email.Id);
 
                             client.Disconnect(true);

@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfView"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Email schreiben"
+    Title="E-Mail schreiben"
     Width="1000"
     Height="600"
     MinWidth="400"
@@ -90,10 +90,12 @@
                     x:Name="receiverTextBox"
                     Grid.Row="1"
                     Grid.Column="1"
+                    Height="22"
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     KeyboardNavigation.TabIndex="2"
-                    TextWrapping="Wrap" Height="22" VerticalContentAlignment="Center" />
+                    TextWrapping="Wrap" />
                 <TextBox
                     x:Name="CCTextBox"
                     Grid.Row="2"
@@ -101,8 +103,9 @@
                     Height="23"
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     KeyboardNavigation.TabIndex="2"
-                    TextWrapping="Wrap" VerticalContentAlignment="Center" />
+                    TextWrapping="Wrap" />
                 <TextBox
                     x:Name="BCCTextBox"
                     Grid.Row="3"
@@ -110,8 +113,9 @@
                     Height="23"
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     KeyboardNavigation.TabIndex="2"
-                    TextWrapping="Wrap" VerticalContentAlignment="Center" />
+                    TextWrapping="Wrap" />
                 <TextBox
                     x:Name="subjectTextBox"
                     Grid.Row="4"
@@ -119,8 +123,9 @@
                     Height="23"
                     Margin="10,5,10,5"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     KeyboardNavigation.TabIndex="3"
-                    TextWrapping="Wrap" VerticalContentAlignment="Center" />
+                    TextWrapping="Wrap" />
                 <Grid Grid.Row="5" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

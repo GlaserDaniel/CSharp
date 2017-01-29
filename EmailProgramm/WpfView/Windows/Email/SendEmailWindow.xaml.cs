@@ -15,7 +15,7 @@ namespace WpfView
         AccountListViewModel settingsViewModel { get; set; }
         List<string> attachments = new List<string>();
         /// <summary>
-        /// Standard Konstruktor der nur das Fenster öffnet.
+        /// Standard Konstruktor der nur das Fenster öffnet. Zum Senden einer neuen E-Mail
         /// </summary>
         public SendEmailWindow()
         {
@@ -25,7 +25,7 @@ namespace WpfView
         }
 
         /// <summary>
-        /// Konstruktor der eine Email mit annimmt um die Daten dieser im Fenster zu setzen.
+        /// Konstruktor der eine E-Mail mit annimmt um die Daten dieser im Fenster zu setzen.
         /// Wird für Antworten und Weiterleiten genutzt.
         /// </summary>
         /// <param name="email"></param>
@@ -66,7 +66,7 @@ namespace WpfView
         }
 
         /// <summary>
-        /// Konstruktor der eine AccountListViewModel als DataContext setzt und eine Email
+        /// Konstruktor der eine AccountListViewModel als DataContext setzt und eine E-Mail
         /// mit annimmt um die Daten dieser im Fenster zu setzen.
         /// </summary>
         /// <param name="dataContext"></param>
@@ -205,16 +205,16 @@ namespace WpfView
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Eine E-Mail Adresse ist nicht im richtigen Format.", "Nicht Email-Adressen Format", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Eine E-Mail Adresse ist nicht im richtigen Format.", "Nicht E-Mail-Adressen Format", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (ArgumentException)
                 {
-                    MessageBox.Show("Eine E-Mail Adresse ist nicht im richtigen Format.", "Nicht Email-Adressen Format", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Eine E-Mail Adresse ist nicht im richtigen Format.", "Nicht E-Mail-Adressen Format", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception beim Versand: " + ex);
-                    MessageBox.Show("Es ist ein Fehler beim Email Versand aufgetreten. Bitte versuchen Sie es erneut.", "Email nicht gesendet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Es ist ein Fehler beim E-Mail Versand aufgetreten. Bitte versuchen Sie es erneut.", "E-Mail nicht gesendet", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -227,7 +227,7 @@ namespace WpfView
         private void chooseFilesButton_Click(object sender, RoutedEventArgs e)
         {
             // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs und angepasst
-            // {
+            // [
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = ""; // Default file name
             dlg.DefaultExt = ""; // Default file extension
@@ -255,7 +255,7 @@ namespace WpfView
 
                 choosenFilesLabel.Content = "Ausgewählte Dateien: " + attachmentsString;
             }
-            // }
+            // ]
         }
     }
 }

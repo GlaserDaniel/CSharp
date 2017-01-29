@@ -19,6 +19,9 @@ namespace WpfView
     {
         int selectedAccountIndex = -1;
 
+        /// <summary>
+        /// Standard Konstruktor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -28,9 +31,7 @@ namespace WpfView
 
         private void loadData()
         {
-            AccountListViewModel settingsViewModel = AccountListViewModel.Instance;
-
-            DataContext = settingsViewModel;
+            DataContext = AccountListViewModel.Instance;
 
             ObservableCollection<EmailViewModel> emails = new ObservableCollection<EmailViewModel>();
             foreach (AccountViewModel account in AccountListViewModel.Instance.Accounts)
@@ -61,18 +62,10 @@ namespace WpfView
         private void sortEmailListView()
         {
             // von http://www.wpf-tutorial.com/listview-control/listview-sorting/
-            // {
+            // [
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(EmailsListView.ItemsSource);
             view.SortDescriptions.Add(new SortDescription("DateTimeString", ListSortDirection.Descending));
-            //}
-        }
-
-        // TODO anderst lösen! Wegen dem das wenn man den selectedAccount umgestellt hat es nicht die richtige Emails anzeigt.
-        void window_Activated(object sender, EventArgs e)
-        {
-            //Console.WriteLine("MainWindow activated");
-            //loadData();
-            //generateAccountFoldersButton();
+            // ]
         }
 
         private void generateAccountFoldersButton()
@@ -134,14 +127,14 @@ namespace WpfView
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Optionen_Click");
-            new SettingsWindow((AccountListViewModel)DataContext);
+            new SettingsWindow();
 
             // Alle Account Buttons löschen
             AccountFoldersStackPanel.Children.RemoveRange(1, AccountFoldersStackPanel.Children.Count - 1);
             selectedAccountIndex = -1;
             CompleteInboxButton.Background = Brushes.LightBlue;
+            // Account Buttons neu anlegen
             generateAccountFoldersButton();
-            Console.WriteLine("Nach Settings zurück");
         }
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
@@ -156,7 +149,7 @@ namespace WpfView
                 {
                     if (selectedAccountIndex >= 0)
                     {
-                        // Für ausgewählten Account Emails abholen
+                        // Für ausgewählten Account E-Mails abholen
                         AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[selectedAccountIndex];
 
                         statusBar.Visibility = Visibility.Visible;
@@ -180,7 +173,7 @@ namespace WpfView
                     }
                     else
                     {
-                        // für alle Accounts Emails abholen
+                        // für alle Accounts E-Mails abholen
                         foreach (AccountViewModel account in ((AccountListViewModel)DataContext).Accounts)
                         {
                             var progressHandler = new Progress<double>(value =>
@@ -206,9 +199,10 @@ namespace WpfView
                 {
                     MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            } catch (Exception)
+            }
+            catch (Exception)
             {
-                MessageBox.Show("Beim Abholen der Emails ist es schief gelaufen.", "Emails abholen fehlgeschlagen", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Beim Abholen der E-Mails ist es schief gelaufen.", "E-Mails abholen fehlgeschlagen", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -228,7 +222,7 @@ namespace WpfView
 
         private void DeleteEmails_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult closingResult = MessageBox.Show("Möchten Sie die Email wirklich löschen?", "Email löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult closingResult = MessageBox.Show("Möchten Sie die E-Mail wirklich löschen?", "E-Mail löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (closingResult == MessageBoxResult.Yes)
             {
@@ -256,7 +250,7 @@ namespace WpfView
         {
             if (e.Key == Key.Delete)
             {
-                MessageBoxResult closingResult = MessageBox.Show("Möchten Sie die Email wirklich löschen?", "Email löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult closingResult = MessageBox.Show("Möchten Sie die E-Mail wirklich löschen?", "E-Mail löschen", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (closingResult == MessageBoxResult.Yes)
                 {

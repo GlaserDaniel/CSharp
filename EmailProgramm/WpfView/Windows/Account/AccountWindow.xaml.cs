@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using Common.ViewModel;
 using Common.Exceptions;
@@ -23,15 +16,19 @@ namespace WpfView
     /// </summary>
     public partial class AccountWindow : Window
     {
-        private AccountListViewModel settingsViewModel;
+        private AccountListViewModel accountListViewModel;
         //private SettingsWindow settingsWindow;
 
-        public AccountWindow(AccountListViewModel settingsViewModel)
+        /// <summary>
+        /// Konstruktor für Account hinzufügen. Nimmt ein AccountListViewModel an.
+        /// </summary>
+        /// <param name="accountListViewModel"></param>
+        public AccountWindow(AccountListViewModel accountListViewModel)
         {
             InitializeComponent();
 
             Console.WriteLine("Account hinzufügen");
-            this.settingsViewModel = settingsViewModel;
+            this.accountListViewModel = accountListViewModel;
             //this.settingsWindow = settingsWindow;
             Title = "Account hinzufügen";
 
@@ -44,6 +41,10 @@ namespace WpfView
             ShowDialog();
         }
 
+        /// <summary>
+        /// Konstruktor zum bearbeiten eines Accounts. Nimmt ein AccountViewModel an. Da er es zum braucht.
+        /// </summary>
+        /// <param name="selectedAccountToEdit"></param>
         public AccountWindow(AccountViewModel selectedAccountToEdit)
         {
             InitializeComponent();
@@ -79,7 +80,7 @@ namespace WpfView
 
             ErrorLabel.Content = "";
 
-            if (settingsViewModel != null)
+            if (accountListViewModel != null)
             {
                 //Account hinzufügen
                 try
@@ -88,7 +89,7 @@ namespace WpfView
                     if (!BindingGroup.HasValidationError)
                     {
                         //settingsViewModel.addAccount((AccountViewModel)DataContext);
-                        settingsViewModel.addAccount(shownameTextBox.Text, userTextBox.Text, emailTextBox.Text,
+                        accountListViewModel.addAccount(shownameTextBox.Text, userTextBox.Text, emailTextBox.Text,
                             passwordBox.Password, (bool)imapRadioButton.IsChecked, imapPop3ServerTextBox.Text,
                             imapPop3PortTextBox.Text, smtpServerTextBox.Text, smtpPortTextBox.Text, signatureTextBox.Text);
 
@@ -108,7 +109,7 @@ namespace WpfView
                 catch (EmailEmptyException)
                 {
                     emailTextBox.BorderBrush = Brushes.Red;
-                    ErrorLabel.Content = "Die Email ist leer!";
+                    ErrorLabel.Content = "Die E-Mail ist leer!";
                 }
                 catch (PasswordEmptyException)
                 {
@@ -221,7 +222,7 @@ namespace WpfView
                 }
                 catch (SocketException)
                 {
-                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
+                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für E-Mail gedacht.";
                     testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (Exception ex)
@@ -273,7 +274,7 @@ namespace WpfView
                 }
                 catch (SocketException)
                 {
-                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
+                    ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für E-Mail gedacht.";
                     testImapPop3ServerButton.Background = Brushes.Red;
                 }
                 catch (Exception ex)
@@ -330,7 +331,7 @@ namespace WpfView
             }
             catch (SocketException)
             {
-                ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für Email gedacht.";
+                ErrorLabel.Content = "Der Port ist bei diesem Server entweder nicht verfügbar \noder nicht für E-Mail gedacht.";
                 testSmtpServerButton.Background = Brushes.Red;
             }
             catch (Exception ex)

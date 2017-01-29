@@ -78,10 +78,11 @@
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding Path=Showname, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Name der für dieses Konto angezeigt wird" VerticalContentAlignment="Center" />
+                    ToolTip="Der Name der für dieses Konto angezeigt wird" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -104,10 +105,11 @@
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding Path=User, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Benutzername oder die Email-Adresse des Kontos" VerticalContentAlignment="Center" />
+                    ToolTip="Der Benutzername oder die Email-Adresse des Kontos" />
             </Grid>
             <Grid
                 Grid.Row="2"
@@ -124,16 +126,17 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="Email" />
+                    Content="E-Mail" />
                 <TextBox
                     x:Name="emailTextBox"
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding Email, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Die Email-Adresse des Kontos" VerticalContentAlignment="Center" />
+                    ToolTip="Die Email-Adresse des Kontos" />
             </Grid>
             <Grid
                 Grid.Row="3"
@@ -157,7 +160,8 @@
                     Height="26"
                     Margin="10"
                     VerticalAlignment="Top"
-                    ToolTip="Das Passwort des Kontos" VerticalContentAlignment="Center" />
+                    VerticalContentAlignment="Center"
+                    ToolTip="Das Passwort des Kontos" />
                 <!--  TODO Validation scheint da anderst  -->
             </Grid>
 
@@ -182,10 +186,11 @@
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding ImapPop3Server, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Die Adresse des IMAP oder POP3-Server" VerticalContentAlignment="Center" />
+                    ToolTip="Die Adresse des IMAP oder POP3-Server" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -208,11 +213,12 @@
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     PreviewTextInput="imapPop3PortTextBox_PreviewTextInput"
                     Text="{Binding Path=ImapPop3Port, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des IMAP oder POP3-Servers" VerticalContentAlignment="Center">
+                    ToolTip="Der Port des IMAP oder POP3-Servers">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <StackPanel>
@@ -284,10 +290,11 @@
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     Text="{Binding SmtpServer, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Die Adresse des SMTP-Servers" VerticalContentAlignment="Center" />
+                    ToolTip="Die Adresse des SMTP-Servers" />
             </Grid>
             <Grid
                 Grid.Row="4"
@@ -311,11 +318,12 @@
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
                     Style="{StaticResource ShowErrorTexts}"
                     PreviewTextInput="smtpPortTextBox_PreviewTextInput"
                     Text="{Binding SmtpPort, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     TextWrapping="Wrap"
-                    ToolTip="Der Port des SMTP-Servers" VerticalContentAlignment="Center">
+                    ToolTip="Der Port des SMTP-Servers">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <StackPanel>

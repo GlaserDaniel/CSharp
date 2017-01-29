@@ -1,11 +1,6 @@
 ﻿using Common.ViewModel;
-using MimeKit;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.Model
 {
@@ -36,7 +31,7 @@ namespace Common.Model
         }
 
         /// <summary>
-        /// Konstruktor der aus ein EmailViewModel annimmt
+        /// Konstruktor der ein EmailViewModel annimmt
         /// </summary>
         /// <param name="email"></param>
         public Email(EmailViewModel email)

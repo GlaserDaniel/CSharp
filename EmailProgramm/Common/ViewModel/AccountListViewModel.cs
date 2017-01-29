@@ -28,7 +28,7 @@ namespace Common.ViewModel
         private int _selectedAccountIndex;
 
         /// <summary>
-        /// Der Index des ausgewählten Accounts. Falls keine ausgewählt ist, ist er -1.
+        /// Der Index des ausgewählten Accounts. Falls keiner ausgewählt ist, ist er -1.
         /// </summary>
         public int SelectedAccountIndex {
             get
