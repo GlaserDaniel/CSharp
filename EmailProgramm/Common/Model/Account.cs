@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Common.Model
 {
+    /// <summary>
+    /// Stellt einen E-Email Account dar
+    /// </summary>
     [Serializable]
     public class Account
     {
@@ -40,19 +43,6 @@ namespace Common.Model
         public override string ToString()
         {
             return Showname.ToString();
-        }
-
-        public bool doEmailsContainsId(int id)
-        {
-            bool result = false;
-            foreach (Email email in Emails)
-            {
-                if (email.Id == id)
-                {
-                    result = true;
-                }
-            }
-            return result;
         }
     }
 }

@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Imap;
 using MailKit;
 using MailKit.Search;
 using System.IO;
 using MailKit.Net.Pop3;
-using MailKit.Net.Smtp;
 using System.Net.Sockets;
 using System.Windows.Threading;
 using System.Threading;
 using MimeKit;
-using System.ComponentModel;
-using System.Collections;
 using Common.ViewModel;
 using System.Net.Mail;
 
 namespace Common.Services
 {
     /// <summary>
-    /// Klasse um alles mit Emails machen zu können.
+    /// Klasse mit der alles rund um E-Mails gehandhabt wird.
+    /// E-Mails schicken, E-Mails abholen, löschen usw.
     /// </summary>
     public class EmailService
     {
@@ -30,6 +27,12 @@ namespace Common.Services
 
         }
 
+        /// <summary>
+        /// Zum testen des IMAP-Servers.
+        /// </summary>
+        /// <param name="imapServer"></param>
+        /// <param name="imapPort"></param>
+        /// <returns></returns>
         public async Task<bool> TestImapServerAsync(string imapServer, int imapPort)
         {
             try
@@ -69,6 +72,12 @@ namespace Common.Services
             }
         }
 
+        /// <summary>
+        /// Zum testen des POP3-Servers
+        /// </summary>
+        /// <param name="pop3Server"></param>
+        /// <param name="pop3Port"></param>
+        /// <returns></returns>
         public async Task<bool> TestPop3ServerAsync(string pop3Server, int pop3Port)
         {
             try
@@ -107,6 +116,12 @@ namespace Common.Services
             }
         }
 
+        /// <summary>
+        /// Zum testen des SMTP-Servers
+        /// </summary>
+        /// <param name="smtpServer"></param>
+        /// <param name="smtpPort"></param>
+        /// <returns></returns>
         public async Task<bool> TestSmtpServerAsync(string smtpServer, int smtpPort)
         {
             try
@@ -147,7 +162,7 @@ namespace Common.Services
         }
 
         /// <summary>
-        /// Email senden
+        /// Zum Senden einer E-Mail. (Die Uhrzeit passt noch nicht wann sie gesendet wurde.)
         /// </summary>
         /// <param name="senderAccount"></param>
         /// <param name="receiver"></param>
@@ -161,24 +176,52 @@ namespace Common.Services
             MailMessage mailMessage = new MailMessage();
 
             //Absender konfigurieren
-            mailMessage.From = new MailAddress(senderAccount.Email);
+            try
+            {
+                mailMessage.From = new MailAddress(senderAccount.Email);
+            }
+            catch (FormatException)
+            {
+                throw new FormatException();
+            }
 
             //Empfänger konfigurieren
-            foreach (var receiver in receivers)
+            try
+            { 
+                foreach (var receiver in receivers)
+                {
+                    mailMessage.To.Add(new MailAddress(receiver.Trim()));
+                }
+            }
+            catch (FormatException)
             {
-                mailMessage.To.Add(new MailAddress(receiver.Trim()));
+                throw new FormatException();
             }
 
             // CC setzen
-            foreach (var cc in ccs)
+            try
             {
-                mailMessage.CC.Add(new MailAddress(cc.Trim()));
+                foreach (var cc in ccs)
+                {
+                    mailMessage.CC.Add(new MailAddress(cc.Trim()));
+                }
+            }
+            catch (FormatException)
+            {
+                throw new FormatException();
             }
 
             // BCC setzen
-            foreach (var bcc in bccs)
+            try
             {
-                mailMessage.Bcc.Add(new MailAddress(bcc.Trim()));
+                foreach (var bcc in bccs)
+                {
+                    mailMessage.Bcc.Add(new MailAddress(bcc.Trim()));
+                }
+            }
+            catch (FormatException)
+            {
+                throw new FormatException();
             }
 
             //Betreff einrichten
@@ -220,9 +263,10 @@ namespace Common.Services
             {
                 // TODO Benachrichtigung das es nicht funktioniert hat!
                 Console.WriteLine("SMTP Exception: " + e);
+                throw new Exception();
             }
 
-            //MailKit SMTPClient hat noch nicht geklappt
+            // TODO MailKit SMTPClient hat noch nicht geklappt
             //MimeMessage mailMessage = new MimeMessage();
 
             ////Absender konfigurieren
@@ -266,7 +310,7 @@ namespace Common.Services
         }
 
         /// <summary>
-        /// Emails abholen
+        /// Zum Abholen von E-Mails vom übergebenen Account. Speichert die E-Mails in dem übergebenen Account.
         /// </summary>
         /// <param name="account"></param>
         /// <param name="progressHandler"></param>
@@ -274,157 +318,179 @@ namespace Common.Services
         /// <returns></returns>
         public Task receiveEmails(AccountViewModel account, Progress<double> progressHandler, Dispatcher dispatcher)
         {
-            return Task.Run(() =>
+            try
             {
-                var progress = progressHandler as IProgress<double>;
-
-                if (account != null)
+                return Task.Run(() =>
                 {
-                    if (account.UseImap)
+                    var progress = progressHandler as IProgress<double>;
+
+                    if (account != null)
                     {
-                        try
+                        if (account.UseImap)
                         {
-                            using (ImapClient imapClient = new ImapClient())
+                            try
                             {
-                                imapClient.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
-
-                                imapClient.Authenticate(account.User, account.Password);
-
-                                imapClient.Inbox.Open(FolderAccess.ReadOnly);
-
-                                var uids = imapClient.Inbox.Search(SearchQuery.All);
-
-                                foreach (UniqueId uid in uids)
+                                using (ImapClient imapClient = new ImapClient())
                                 {
-                                    Console.WriteLine("uid: " + uid.Id);
-                                    if (progress != null)
+                                    imapClient.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
+
+                                    imapClient.Authenticate(account.User, account.Password);
+
+                                    imapClient.Inbox.Open(FolderAccess.ReadOnly);
+
+                                    var uids = imapClient.Inbox.Search(SearchQuery.All);
+
+                                    foreach (UniqueId uid in uids)
                                     {
-                                        progress.Report((uids.IndexOf(uid) * 100) / uids.Count);
+                                        Console.WriteLine("uid: " + uid.Id);
+                                        if (progress != null)
+                                        {
+                                            progress.Report((uids.IndexOf(uid) * 100) / uids.Count);
+                                        }
+
+                                        if (!account.doEmailsContainsId((int)uid.Id))
+                                        {
+                                            // Nachricht holen
+                                            MimeMessage message = imapClient.Inbox.GetMessage(uid);
+
+                                            //Console.WriteLine("MessageID: " + message.MessageId);
+
+                                            // write the message to a file
+                                            //message.WriteTo(string.Format("{0}.msg", uid));
+
+                                            convertMessageToEmail(message, (int)uid.Id, account, dispatcher);
+                                        }
                                     }
-
-                                    if (!account.doEmailsContainsId((int)uid.Id))
-                                    {
-                                        // Nachricht holen
-                                        MimeMessage message = imapClient.Inbox.GetMessage(uid);
-
-                                        //Console.WriteLine("MessageID: " + message.MessageId);
-
-                                        // write the message to a file
-                                        //message.WriteTo(string.Format("{0}.msg", uid));
-
-                                        convertMessageToEmail(message, (int)uid.Id, account, dispatcher);
-                                    }
+                                    imapClient.Disconnect(true);
                                 }
-                                imapClient.Disconnect(true);
+                            }
+                            catch (IOException e)
+                            {
+                                Console.WriteLine("IOException: " + e);
+                            }
+                            catch (SocketException se)
+                            {
+                                Console.WriteLine("SocketException: " + se);
+                            }
+                            catch (ImapProtocolException ipe)
+                            {
+                                Console.WriteLine("ImapProtocolException: " + ipe);
                             }
                         }
-                        catch (IOException e)
+                        else
                         {
-                            Console.WriteLine("IOException: " + e);
-                        }
-                        catch (SocketException se)
-                        {
-                            Console.WriteLine("SocketException: " + se);
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            using (var client = new Pop3Client())
+                            try
                             {
-                                client.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
-
-                                client.Authenticate(account.User, account.Password);
-
-                                //var uids = client.GetMessageUids();
-
-                                //foreach (var uid in uids)
-                                //{
-                                //    client.GetMessage(uid);
-                                //}
-
-                                int count = client.Count;
-
-                                // TODO Erstmal nur 50 Emails abholen
-                                //if (client.Count > 50)
-                                //{
-                                //    count = 50;
-                                //}
-
-                                for (int id = 0; id < count; id++)
+                                using (var client = new Pop3Client())
                                 {
-                                    if (progress != null)
+                                    client.Connect(account.ImapPop3Server, account.ImapPop3Port, true);
+
+                                    client.Authenticate(account.User, account.Password);
+
+                                    //var uids = client.GetMessageUids();
+
+                                    //foreach (var uid in uids)
+                                    //{
+                                    //    client.GetMessage(uid);
+                                    //}
+
+                                    int count = client.Count;
+
+                                    // TODO Erstmal nur 50 Emails abholen
+                                    //if (client.Count > 50)
+                                    //{
+                                    //    count = 50;
+                                    //}
+
+                                    for (int id = 0; id < count; id++)
                                     {
-                                        progress.Report((id * 100) / count);
+                                        if (progress != null)
+                                        {
+                                            progress.Report((id * 100) / count);
+                                        }
+
+                                        HeaderList list = client.GetMessageHeaders(id);
+
+                                        foreach (var header in list)
+                                        {
+                                            //Console.WriteLine("headerID: " + header.Id);
+                                            //Console.WriteLine("header Value: " + header.Value);
+                                        }
+
+                                        if (!account.doEmailsContainsId(id))
+                                        {
+                                            // Nachricht holen
+                                            var message = client.GetMessage(id);
+
+                                            //Console.WriteLine("MessageID: " + message.MessageId);
+
+                                            // write the message to a file
+                                            //message.WriteTo(string.Format("{0}.msg", i));
+
+                                            convertMessageToEmail(message, id, account, dispatcher);
+                                        }
                                     }
-
-                                    HeaderList list = client.GetMessageHeaders(id);
-
-                                    foreach (var header in list)
-                                    {
-                                        //Console.WriteLine("headerID: " + header.Id);
-                                        //Console.WriteLine("header Value: " + header.Value);
-                                    }
-
-                                    if (!account.doEmailsContainsId(id))
-                                    {
-                                        // Nachricht holen
-                                        var message = client.GetMessage(id);
-
-                                        //Console.WriteLine("MessageID: " + message.MessageId);
-
-                                        // write the message to a file
-                                        //message.WriteTo(string.Format("{0}.msg", i));
-
-                                        convertMessageToEmail(message, id, account, dispatcher);
-                                    }
+                                    client.Disconnect(true);
                                 }
-                                client.Disconnect(true);
+                            }
+                            catch (IOException e)
+                            {
+                                Console.WriteLine("IOException: " + e);
+                            }
+                            catch (SocketException se)
+                            {
+                                Console.WriteLine("SocketException: " + se);
+                            }
+                            catch (Pop3ProtocolException ppe)
+                            {
+                                Console.WriteLine("Pop3ProtocolException: " + ppe);
                             }
                         }
-                        catch (IOException e)
-                        {
-                            Console.WriteLine("IOException: " + e);
-                        }
-                        catch (SocketException se)
-                        {
-                            Console.WriteLine("SocketException: " + se);
-                        }
-                    }
 
-                    if (progress != null)
-                    {
-                        progress.Report(100);
-                    }
-
-                    // Damit weil gespeichert wird und im Hintergrund die ProgressBar zurückgestzt wird.
-                    Task.Run(() =>
-                    {
-                        // Warte 2 Sekunden
-                        Thread.Sleep(2000);
-
-                        // Und setze die ProgressBar wieder auf 0
                         if (progress != null)
                         {
-                            progress.Report(0);
+                            progress.Report(100);
                         }
-                    });
 
-                    // TODO Testausgabe
-                    //Console.WriteLine("Emails ausgeben: ");
-                    //foreach (Account account in settingsViewModel.Accounts)
-                    //{
-                    //    Console.WriteLine("Account: " + account);
-                    //    foreach (Email email in account.Emails)
-                    //    {
-                    //        Console.WriteLine(email);
-                    //    }
-                    //}
-                }
-            });
+                        // Damit weil gespeichert wird und im Hintergrund die ProgressBar zurückgestzt wird.
+                        Task.Run(() =>
+                            {
+                            // Warte 2 Sekunden
+                            Thread.Sleep(2000);
+
+                            // Und setze die ProgressBar wieder auf 0
+                            if (progress != null)
+                                {
+                                    progress.Report(0);
+                                }
+                            });
+
+                        // TODO Testausgabe
+                        //Console.WriteLine("Emails ausgeben: ");
+                        //foreach (Account account in settingsViewModel.Accounts)
+                        //{
+                        //    Console.WriteLine("Account: " + account);
+                        //    foreach (Email email in account.Emails)
+                        //    {
+                        //        Console.WriteLine(email);
+                        //    }
+                        //}
+                    }
+                });
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
+        /// <summary>
+        /// Wandelt eine MimeMessage in eine Email um und speichert sie im übergebenen Account
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="id"></param>
+        /// <param name="account"></param>
+        /// <param name="dispatcher"></param>
         private void convertMessageToEmail(MimeMessage message, int id, AccountViewModel account, Dispatcher dispatcher)
         {
             EmailViewModel email = new EmailViewModel();
@@ -501,6 +567,11 @@ namespace Common.Services
             }));
         }
 
+        /// <summary>
+        /// Löscht eine Email des übergebenen Accounts auf dem Server. (Funktioniert noch nicht)
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="account"></param>
         public async void deleteMessageAsync(EmailViewModel email, AccountViewModel account)
         {
             if (account != null)

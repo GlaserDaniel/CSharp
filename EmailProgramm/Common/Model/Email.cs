@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Common.Model
 {
+    /// <summary>
+    /// Stellt eine E-Mail dar
+    /// </summary>
     [Serializable]
     public class Email
     {

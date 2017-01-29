@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Common.ViewModel;
-using Common.Services;
+using System.Net.Mail;
 
 namespace WpfView
 {
@@ -13,7 +13,7 @@ namespace WpfView
     public partial class SendEmailWindow : Window
     {
         AccountListViewModel settingsViewModel { get; set; }
-        List<string> attachments;
+        List<string> attachments = new List<string>();
 
         public SendEmailWindow()
         {
@@ -87,6 +87,8 @@ namespace WpfView
             //string sender = senderComboBox.Text;
             AccountViewModel senderAccount = (AccountViewModel)senderComboBox.SelectedItem;
             string receiverString = receiverTextBox.Text;
+            string ccReceiversString = CCTextBox.Text;
+            string bccReceiversString = BCCTextBox.Text;
             string subject = subjectTextBox.Text;
             string message = messageTextBox.Text;
 
@@ -94,9 +96,9 @@ namespace WpfView
             MessageBoxResult subjectResult = MessageBoxResult.Yes;
             MessageBoxResult messageResult = MessageBoxResult.Yes;
 
-            if (String.IsNullOrEmpty(receiverString))
+            if (String.IsNullOrEmpty(receiverString) && String.IsNullOrEmpty(ccReceiversString) && String.IsNullOrEmpty(bccReceiversString))
             {
-                MessageBox.Show("Der Empfänger ist leer!", "Empfänger fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es wurde kein Empfänger eingegeben", "Empfänger fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 receiverResult = false;
             }
             if (String.IsNullOrEmpty(subject) && receiverResult)
@@ -110,28 +112,27 @@ namespace WpfView
 
             if (receiverResult && subjectResult == MessageBoxResult.Yes && messageResult == MessageBoxResult.Yes)
             {
-                EmailService emailService = new EmailService();
-
                 // Empfänger zu List machen
                 List<string> receivers = new List<string>();
 
-                receiverString.Trim();
-
-                if (receiverString.Contains(','))
+                if (!String.IsNullOrEmpty(receiverString))
                 {
-                    receivers = receiverString.Split(new string[] { ",", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                }
-                else
-                {
-                    receivers.Add(receiverString);
-                }
+                    receiverString.Trim();
 
-                Console.WriteLine("receivers: " + receivers.ToString());
+                    if (receiverString.Contains(','))
+                    {
+                        receivers = receiverString.Split(new string[] { ",", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    }
+                    else
+                    {
+                        receivers.Add(receiverString);
+                    }
+
+                    Console.WriteLine("receivers: " + receivers.ToString());
+                }
 
                 // CCs zu List machen
                 List<string> ccReceivers = new List<string>();
-
-                string ccReceiversString = CCTextBox.Text;
 
                 if (!String.IsNullOrEmpty(ccReceiversString))
                 {
@@ -151,7 +152,6 @@ namespace WpfView
                 // BCCs zu List machen
                 List<string> bccReceivers = new List<string>();
 
-                string bccReceiversString = BCCTextBox.Text;
                 if (!String.IsNullOrEmpty(bccReceiversString))
                 {
                     bccReceiversString.Trim();
@@ -167,18 +167,43 @@ namespace WpfView
                 }
 
                 // Signature ans Ende hinzufügen
-                message += senderAccount.Signature;
+                message += "\n" + senderAccount.Signature;
 
                 try
                 {
-                    emailService.sendEmailAsync(senderAccount, receivers, ccReceivers, bccReceivers, subject, message, attachments);
+                    // TODO bessere Lösung: eigenes ViewModel machen
+                    foreach (var receiver in receivers)
+                    {
+                        new MailAddress(receiver.Trim());
+                    }
+
+                    foreach (var ccreceiver in ccReceivers)
+                    {
+                        new MailAddress(ccreceiver.Trim());
+                    }
+
+                    foreach (var bccreceiver in bccReceivers)
+                    {
+                        new MailAddress(bccreceiver.Trim());
+                    }
+
+                    AccountListViewModel.Instance.sendEmailAsync(senderAccount, receivers, ccReceivers, bccReceivers, subject, message, attachments);
+
+                    Close();
                 }
                 catch (FormatException)
                 {
                     MessageBox.Show("Eine E-Mail Adresse ist nicht im richtigen Format.", "Nicht Email-Adressen Format", MessageBoxButton.OK, MessageBoxImage.Error);
-                } // TODO genauere Fehlermeldung mit selbst gemachten Exceptions
-
-                Close();
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Eine E-Mail Adresse ist nicht im richtigen Format.", "Nicht Email-Adressen Format", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception beim Versand: " + ex);
+                    MessageBox.Show("Es ist ein Fehler beim Email Versand aufgetreten. Bitte versuchen Sie es erneut.", "Email nicht gesendet", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 

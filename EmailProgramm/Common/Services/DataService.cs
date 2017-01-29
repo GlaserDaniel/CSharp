@@ -19,6 +19,10 @@ namespace Common.Services
 
         private static readonly string SELECTED_ACCOUNT_INDEX_FILE_NAME = "SelectedAccountIndex.xml";
 
+        /// <summary>
+        /// Accounts laden
+        /// </summary>
+        /// <returns></returns>
         public static async Task<List<Account>> LoadAccountsAsync()
         {
             await Task.Delay(0);
@@ -33,8 +37,8 @@ namespace Common.Services
             catch (Exception e)
             {
                 Console.Out.WriteLine($"Fehler beim Laden von Accounts: {e.Message}");
-                Console.Out.WriteLine(e.StackTrace); // TODO Error Message Box für Nutzer das Beispiel Daten geladen wurden.
-                return LoadSampleAccounts();
+                Console.Out.WriteLine(e.StackTrace);
+                return LoadSampleAccounts(); // TODO Beispiel Daten laden kann dann weg wenn es veröffentlicht würde
             }
         }
 
@@ -59,6 +63,11 @@ namespace Common.Services
                 };
         }
 
+        /// <summary>
+        /// Accounts speichern
+        /// </summary>
+        /// <param name="viewModels"></param>
+        /// <returns></returns>
         public static async Task SaveAccountsAsync(List<AccountViewModel> viewModels)
         {
             await Task.Delay(0);
@@ -103,6 +112,10 @@ namespace Common.Services
             }
         }
 
+        /// <summary>
+        /// Den Index des ausgewählten Accounts laden
+        /// </summary>
+        /// <returns></returns>
         public static async Task<int> LoadSelectedAccountIndexAsync()
         {
             await Task.Delay(0);
@@ -118,10 +131,15 @@ namespace Common.Services
             {
                 Console.Out.WriteLine($"Fehler beim Laden von SelectedAccountIndex: {e.Message}");
                 Console.Out.WriteLine(e.StackTrace);
-                return 0; // Weil Beispiel Daten geladen werden, damit wird dieser ausgwählt wird. Sonst eigentlich -1
+                return 0; // TODO Weil Beispiel Daten geladen werden, damit wird dieser ausgwählt wird. Sonst eigentlich -1
             }
         }
 
+        /// <summary>
+        /// Den Index des ausgewählten Accounts speichern
+        /// </summary>
+        /// <param name="selectedAccountIndex"></param>
+        /// <returns></returns>
         public static async Task SaveSelectedAccountIndexAsync(int selectedAccountIndex)
         {
             await Task.Delay(0);

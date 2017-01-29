@@ -15,6 +15,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Common.ViewModel
 {
@@ -468,6 +469,34 @@ namespace Common.ViewModel
             //    Console.WriteLine("SerializationException: " + se);
             //    selectedAccountIndex = -1;
             //}
+        }
+
+        public Task receiveEmails(AccountViewModel account, Progress<Double> progressHandler, Dispatcher dispatcher)
+        {
+            try
+            {
+                return new EmailService().receiveEmails(account, progressHandler, dispatcher);
+            } catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+
+        public async void sendEmailAsync(AccountViewModel senderAccount, List<string> receivers, List<string> ccs, List<string> bccs, string subject, string message, List<string> attachments)
+        {
+            await Task.Delay(0);
+            try
+            {
+                new EmailService().sendEmailAsync(senderAccount, receivers, ccs, bccs, subject, message, attachments);
+            }
+            catch (FormatException)
+            {
+                throw new FormatException();
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
         public bool HasErrors

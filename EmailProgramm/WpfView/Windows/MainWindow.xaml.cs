@@ -1,23 +1,14 @@
-﻿using Common.Services;
-using Common.ViewModel;
+﻿using Common.ViewModel;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfView
 {
@@ -51,11 +42,7 @@ namespace WpfView
             }
             EmailsListView.ItemsSource = emails;
 
-            // von http://www.wpf-tutorial.com/listview-control/listview-sorting/
-            // {
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(EmailsListView.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("DateTimeString", ListSortDirection.Descending));
-            //}
+            sortEmailListView();
 
             CompleteInboxButton.Background = Brushes.LightBlue;
 
@@ -68,6 +55,15 @@ namespace WpfView
             //    {
             //        ((ListViewItem)EmailsListView.Items[i]).FontWeight = FontWeights.Bold; 
             //    }
+            //}
+        }
+
+        private void sortEmailListView()
+        {
+            // von http://www.wpf-tutorial.com/listview-control/listview-sorting/
+            // {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(EmailsListView.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("DateTimeString", ListSortDirection.Descending));
             //}
         }
 
@@ -110,6 +106,7 @@ namespace WpfView
 
                         EmailsListView.ItemsSource = account.Emails;
                         button.Background = Brushes.LightBlue;
+                        sortEmailListView();
                     };
 
                     AccountFoldersStackPanel.Children.Add(button);
@@ -149,47 +146,27 @@ namespace WpfView
 
         private void ReceiveEmails_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext == null)
+            try
             {
-                loadData();
-            }
-            if (DataContext != null)
-            {
-                if (selectedAccountIndex >= 0)
+                if (DataContext == null)
                 {
-                    // Für ausgewählten Account Emails abholen
-                    AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[selectedAccountIndex];
-
-                    statusBar.Visibility = Visibility.Visible;
-
-                    var progressHandler = new Progress<double>(value =>
-                    {
-                        ProgressBar.Value = value;
-                    });
-
-                    Task t = new EmailService().receiveEmails(account, progressHandler, Dispatcher);
-
-                    Task.Run(() =>
-                    {
-                        t.Wait();
-                        Dispatcher.BeginInvoke((Action)(() =>
-                        {
-                            ((AccountListViewModel)DataContext).saveAsync();
-                            statusBar.Visibility = Visibility.Collapsed;
-                        }));
-                    });
+                    loadData();
                 }
-                else
+                if (DataContext != null)
                 {
-                    // für alle Accounts Emails abholen
-                    foreach (AccountViewModel account in ((AccountListViewModel)DataContext).Accounts)
+                    if (selectedAccountIndex >= 0)
                     {
+                        // Für ausgewählten Account Emails abholen
+                        AccountViewModel account = ((AccountListViewModel)DataContext).Accounts[selectedAccountIndex];
+
+                        statusBar.Visibility = Visibility.Visible;
+
                         var progressHandler = new Progress<double>(value =>
                         {
                             ProgressBar.Value = value;
-                        }); // TODO ProgressBar könnte flackern
+                        });
 
-                        Task t = new EmailService().receiveEmails(account, progressHandler, Dispatcher);
+                        Task t = AccountListViewModel.Instance.receiveEmails(account, progressHandler, Dispatcher);
 
                         Task.Run(() =>
                         {
@@ -197,14 +174,41 @@ namespace WpfView
                             Dispatcher.BeginInvoke((Action)(() =>
                             {
                                 ((AccountListViewModel)DataContext).saveAsync();
+                                statusBar.Visibility = Visibility.Collapsed;
                             }));
                         });
                     }
+                    else
+                    {
+                        // für alle Accounts Emails abholen
+                        foreach (AccountViewModel account in ((AccountListViewModel)DataContext).Accounts)
+                        {
+                            var progressHandler = new Progress<double>(value =>
+                            {
+                                ProgressBar.Value = value;
+                            });
+
+                            Task t = AccountListViewModel.Instance.receiveEmails(account, progressHandler, Dispatcher);
+
+                            Task.Run(() =>
+                            {
+                                t.Wait();
+                                Dispatcher.BeginInvoke((Action)(() =>
+                                {
+                                    ((AccountListViewModel)DataContext).saveAsync();
+                                }));
+                            });
+                        }
+                    }
+                    sortEmailListView();
                 }
-            }
-            else
+                else
+                {
+                    MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            } catch (Exception)
             {
-                MessageBox.Show("Kein Account angelegt oder ausgewählt.", "Kein Account", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Beim Abholen der Emails ist es schief gelaufen.", "Emails abholen fehlgeschlagen", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -326,6 +330,8 @@ namespace WpfView
             }
 
             ((Button)sender).Background = Brushes.LightBlue;
+
+            sortEmailListView();
         }
     }
 }
