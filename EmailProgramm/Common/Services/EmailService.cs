@@ -271,48 +271,6 @@ namespace Common.Services
                 Console.WriteLine("SMTP Exception: " + e);
                 throw new Exception();
             }
-
-            // TODO MailKit SMTPClient hat noch nicht geklappt
-            //MimeMessage mailMessage = new MimeMessage();
-
-            ////Absender konfigurieren
-            //mailMessage.Sender = new MailboxAddress(senderAccount.Email.ToString());
-
-            ////Empfänger konfigurieren
-            //foreach (var receiver in receivers)
-            //{
-            //    mailMessage.To.Add(new MailboxAddress(receiver.Trim())); // Das scheint nicht zu funktionieren
-            //}
-
-            ////Betreff einrichten
-            //mailMessage.Subject = subject;
-
-            ////Hinzufügen der eigentlichen Nachricht
-            //mailMessage.Body = new TextPart(message);
-
-            ////Ausgangsserver initialisieren
-            //MailKit.Net.Smtp.SmtpClient smtpClient = new MailKit.Net.Smtp.SmtpClient();
-            //smtpClient.Connect(senderAccount.SmtpServer, senderAccount.SmtpPort);
-
-            //if (senderAccount.User.Length > 0 && senderAccount.User != string.Empty)
-            //{
-            //    //Login konfigurieren
-            //    smtpClient.Authenticate(senderAccount.User, senderAccount.Password);
-            //}
-
-            //Console.WriteLine(mailMessage.To);
-
-            ////Email absenden
-            //try
-            //{
-            //    smtpClient.SendAsync(mailMessage);
-            //    Console.WriteLine("Email gesendet!");
-            //}
-            //catch (Exception e)
-            //{
-            //    // TODO Benachrichtigung das es nicht funktioniert hat!
-            //    Console.WriteLine("SMTP Exception: " + e);
-            //}
         }
 
         /// <summary>
