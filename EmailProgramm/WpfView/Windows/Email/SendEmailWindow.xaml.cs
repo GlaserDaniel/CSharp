@@ -14,7 +14,9 @@ namespace WpfView
     {
         AccountListViewModel settingsViewModel { get; set; }
         List<string> attachments = new List<string>();
-
+        /// <summary>
+        /// Standard Konstruktor der nur das Fenster öffnet.
+        /// </summary>
         public SendEmailWindow()
         {
             InitializeComponent();
@@ -52,6 +54,10 @@ namespace WpfView
             }
         }
 
+        /// <summary>
+        /// Konstruktor der auch eine AccountListViewModel als DataContext setzt
+        /// </summary>
+        /// <param name="dataContext"></param>
         public SendEmailWindow(AccountListViewModel dataContext)
         {
             InitializeComponent();
@@ -59,6 +65,12 @@ namespace WpfView
             Show();
         }
 
+        /// <summary>
+        /// Konstruktor der eine AccountListViewModel als DataContext setzt und eine Email
+        /// mit annimmt um die Daten dieser im Fenster zu setzen.
+        /// </summary>
+        /// <param name="dataContext"></param>
+        /// <param name="email"></param>
         public SendEmailWindow(AccountListViewModel dataContext, EmailViewModel email)
         {
             InitializeComponent();
@@ -214,7 +226,8 @@ namespace WpfView
 
         private void chooseFilesButton_Click(object sender, RoutedEventArgs e)
         {
-            // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs
+            // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs und angepasst
+            // {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = ""; // Default file name
             dlg.DefaultExt = ""; // Default file extension
@@ -242,6 +255,7 @@ namespace WpfView
 
                 choosenFilesLabel.Content = "Ausgewählte Dateien: " + attachmentsString;
             }
+            // }
         }
     }
 }

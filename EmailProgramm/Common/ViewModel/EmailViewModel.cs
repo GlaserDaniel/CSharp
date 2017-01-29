@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections;
-using MimeKit;
 
 namespace Common.ViewModel
 {

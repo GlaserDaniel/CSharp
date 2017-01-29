@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Common.Model
 {
     /// <summary>
-    /// Stellt einen E-Email Account dar
+    /// Stellt einen E-Email-Account dar
     /// </summary>
     [Serializable]
     public class Account
@@ -21,11 +21,27 @@ namespace Common.Model
         public List<Email> Emails { get; set; }
         public string Signature { get; set; }
 
+        /// <summary>
+        /// Standard Konstruktor für einen Account
+        /// </summary>
         public Account()
         {
             Emails = new List<Email>();
         }
 
+        /// <summary>
+        /// Konstruktor für einen Account dem alles gesetzt werden kann.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="useImap"></param>
+        /// <param name="imapPop3Server"></param>
+        /// <param name="imapPop3Port"></param>
+        /// <param name="smtpServer"></param>
+        /// <param name="smtpPort"></param>
+        /// <param name="emails"></param>
+        /// <param name="signature"></param>
         public Account(string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort, List<Email> emails, string signature)
         {
             User = user;

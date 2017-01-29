@@ -1,5 +1,8 @@
 ﻿using System;
 
+/// <summary>
+/// Namespace für selbst erstelte Exceptions
+/// </summary>
 namespace Common.Exceptions
 {
     [Serializable]

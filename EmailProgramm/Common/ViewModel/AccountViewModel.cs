@@ -1,5 +1,4 @@
-﻿using Common.Exceptions;
-using Common.Model;
+﻿using Common.Model;
 using Common.Services;
 using System;
 using System.Collections.Generic;
@@ -7,12 +6,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Collections;
 using System.Net.Mail;
 
 namespace Common.ViewModel
 {
+    /// <summary>
+    /// Stellt das ViewModel für einen Account dar
+    /// </summary>
     public class AccountViewModel : INotifyPropertyChanged, INotifyDataErrorInfo, IEditableObject
     {
         private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
@@ -39,12 +40,19 @@ namespace Common.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Standard Konstruktor
+        /// </summary>
         public AccountViewModel()
         {
             UseImap = true;
             Emails = new ObservableCollection<EmailViewModel>();
         }
 
+        /// <summary>
+        /// Konstruktor der einen Account annimmt
+        /// </summary>
+        /// <param name="account"></param>
         public AccountViewModel(Account account)
         {
             Showname = account.Showname;
@@ -69,6 +77,20 @@ namespace Common.ViewModel
             Signature = account.Signature;
         }
 
+        /// <summary>
+        /// Konstruktor der alles setzt
+        /// </summary>
+        /// <param name="showname"></param>
+        /// <param name="user"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="useImap"></param>
+        /// <param name="imapPop3Server"></param>
+        /// <param name="imapPop3Port"></param>
+        /// <param name="smtpServer"></param>
+        /// <param name="smtpPort"></param>
+        /// <param name="emails"></param>
+        /// <param name="signature"></param>
         public AccountViewModel(string showname, string user, string email, string password, bool useImap, string imapPop3Server, int imapPop3Port, string smtpServer, int smtpPort, ObservableCollection<EmailViewModel> emails, string signature)
         {
             Showname = showname;
@@ -106,6 +128,8 @@ namespace Common.ViewModel
             }
         }
 
+        // Idee von Herr, wird aber noch nicht verwendet
+        // [
         //public ObservableCollection<EmailViewModel> SelectedEmailsToDelete
         //{
         //    get { return _selectedEmailsToDelete; }
@@ -116,6 +140,7 @@ namespace Common.ViewModel
         //        OnPropertyChanged();
         //    }
         //}
+        //]
 
         public string Showname
         {
@@ -341,6 +366,7 @@ namespace Common.ViewModel
             try
             {
                 // Eine neue Liste erstellen da es hier sonst abstürtz
+                // Idee dazu von Herr Rill
                 ids = new List<int>(_emails.Select(email => email.Id).ToList());
             }
             catch (InvalidOperationException)

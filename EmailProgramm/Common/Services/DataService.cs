@@ -42,6 +42,10 @@ namespace Common.Services
             }
         }
 
+        /// <summary>
+        /// Beispiel Daten laden. Einen TestAccount der dafür angelegt wurde
+        /// </summary>
+        /// <returns></returns>
         public static List<Account> LoadSampleAccounts()
         {
             return new List<Account>

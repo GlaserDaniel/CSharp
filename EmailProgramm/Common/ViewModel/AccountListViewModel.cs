@@ -1,19 +1,14 @@
 ﻿using Common.Exceptions;
 using Common.Model;
 using Common.Services;
-using Common.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -30,10 +25,23 @@ namespace Common.ViewModel
 
         private ObservableCollection<AccountViewModel> _accounts;
 
+        private int _selectedAccountIndex;
+
         /// <summary>
         /// Der Index des ausgewählten Accounts. Falls keine ausgewählt ist, ist er -1.
         /// </summary>
-        public int SelectedAccountIndex { get; set; }
+        public int SelectedAccountIndex {
+            get
+            {
+                return _selectedAccountIndex;
+            }
+            set
+            {
+                if (_selectedAccountIndex == value) return;
+                _selectedAccountIndex = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -46,6 +54,9 @@ namespace Common.ViewModel
             loadAsync();
         }
 
+        /// <summary>
+        /// Eine Instance für das AccountListViewModel
+        /// </summary>
         public static AccountListViewModel Instance
         {
             get
@@ -68,7 +79,7 @@ namespace Common.ViewModel
             {
                 if (_accounts == value) return;
                 _accounts = value;
-                OnPropertyChanged("Accounts");
+                OnPropertyChanged();
             }
         }
 
@@ -304,7 +315,7 @@ namespace Common.ViewModel
 
             Accounts.Add(account);
 
-            if (SelectedAccountIndex == -1) //selectedAccount == null || 
+            if (SelectedAccountIndex == -1) 
             {
                 SelectedAccountIndex = Accounts.IndexOf(account);
             }
@@ -519,6 +530,8 @@ namespace Common.ViewModel
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
 
+        // von Herr Rill aus DataBindingAndMVVM\11 MVVMContactManager aus ContactViewModel.cs
+        // [
         public void AddError(string propertyName, string error, bool isWarning)
         {
             if (!_errors.ContainsKey(propertyName))
@@ -542,18 +555,6 @@ namespace Common.ViewModel
                 RaiseErrorsChanged(propertyName);
             }
         }
-
-
-        //private bool IsImapPop3PortNotEmpty(String imapPop3Port)
-        //{
-        //    var error = "Bitte geben Sie einen Namen ein.";
-        //    if (String.IsNullOrEmpty(imapPop3Port))
-        //    {
-        //        AddError(nameof(ImapPop3Port), error, false);
-        //        return false;
-        //    }
-        //    RemoveError(nameof(ImapPop3Port), error);
-        //    return true;
-        //}
+        // ]
     }
 }

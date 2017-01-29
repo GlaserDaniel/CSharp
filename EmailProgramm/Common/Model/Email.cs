@@ -26,12 +26,19 @@ namespace Common.Model
         public List<string> Attachments { get; set; }
         public int AccountIndex { get; set; }
 
+        /// <summary>
+        /// Standard Konstruktor für eine Email
+        /// </summary>
         public Email()
         {
             Receiver = new List<string>();
             Attachments = new List<string>();
         }
 
+        /// <summary>
+        /// Konstruktor der aus ein EmailViewModel annimmt
+        /// </summary>
+        /// <param name="email"></param>
         public Email(EmailViewModel email)
         {
             Id = email.Id;
@@ -46,6 +53,18 @@ namespace Common.Model
             Attachments = email.Attachments;
         }
 
+        /// <summary>
+        /// Konstruktor mit dem alles gesetzt werden kann
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountIndex"></param>
+        /// <param name="sender"></param>
+        /// <param name="receiver"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="isRead"></param>
+        /// <param name="attachments"></param>
         public Email(int id, int accountIndex, string sender, List<string> receiver, string subject, string message, DateTime dateTime, bool isRead, List<string> attachments)
         {
             Id = id;

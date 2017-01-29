@@ -193,7 +193,7 @@ namespace Common.Services
 
             //Empfänger konfigurieren
             try
-            { 
+            {
                 foreach (var receiver in receivers)
                 {
                     mailMessage.To.Add(new MailAddress(receiver.Trim()));
@@ -463,11 +463,11 @@ namespace Common.Services
                         // Damit weil gespeichert wird und im Hintergrund die ProgressBar zurückgestzt wird.
                         Task.Run(() =>
                             {
-                            // Warte 2 Sekunden
-                            Thread.Sleep(2000);
+                                // Warte 2 Sekunden
+                                Thread.Sleep(2000);
 
-                            // Und setze die ProgressBar wieder auf 0
-                            if (progress != null)
+                                // Und setze die ProgressBar wieder auf 0
+                                if (progress != null)
                                 {
                                     progress.Report(0);
                                 }
@@ -549,6 +549,8 @@ namespace Common.Services
 
             List<MimeEntity> test = message.Attachments.ToList();
 
+            // von http://stackoverflow.com/questions/36227622/mailkit-save-attachments und abgeändert
+            // [
             foreach (MimeEntity attachment in message.Attachments)
             {
                 if (attachment.IsAttachment)
@@ -565,9 +567,10 @@ namespace Common.Services
                     }
                 }
             }
+            // ]
 
             // von Herr Rill
-            // {
+            // [
             var currentAccount = account;
             var currentEmail = email;
 
@@ -575,7 +578,7 @@ namespace Common.Services
             {
                 currentAccount.Emails.Add(currentEmail);
             }));
-            // }
+            // ]
         }
 
         /// <summary>

@@ -12,12 +12,19 @@ namespace WpfView
     /// </summary>
     public partial class ShowEmailWindow : Window
     {
+        /// <summary>
+        /// Standard Konstruktor der nur das Fenster zum Anzeigen einer Email öffnet
+        /// </summary>
         public ShowEmailWindow()
         {
             InitializeComponent();
             Show();
         }
 
+        /// <summary>
+        /// Konstruktor dem eine Email übergeben wird und die Daten dieser im Fenster setzt
+        /// </summary>
+        /// <param name="email"></param>
         public ShowEmailWindow(EmailViewModel email) : this()
         {
             email.IsRead = true;
@@ -31,11 +38,6 @@ namespace WpfView
             message = "<!DOCTYPE html>\r<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=UTF-8\" />" + message;
 
             message = message.Replace("\n", "<br>");
-
-            //if (!email.IsHtml)
-            //{
-            //    message = "<pre style=\"font - family: Georgia, 'Times New Roman', serif; \">" + message + "</pre>";
-            //}
 
             Console.WriteLine("Message: " + message);
 
@@ -57,7 +59,8 @@ namespace WpfView
                     button.Content = attachment;
                     button.Click += (source, e) =>
                     {
-                        // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs
+                        // von https://msdn.microsoft.com/en-us/library/aa969773.aspx#Common_Dialogs und angepasst
+                        // {
                         // Configure save file dialog box
                         Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
                         dlg.FileName = attachment; // Default file name
@@ -81,6 +84,7 @@ namespace WpfView
                                 MessageBox.Show("Speichern geht noch nicht!");
                             }
                         }
+                        // }
                     };
 
                     attachmentsStackPanel.Children.Add(button);
